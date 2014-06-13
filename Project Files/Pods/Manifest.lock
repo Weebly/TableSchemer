@@ -1,0 +1,13 @@
+PODS:
+  - OCHamcrest (3.0.1)
+  - OCMock (2.2.4)
+
+DEPENDENCIES:
+  - OCHamcrest (~> 3.0.0)
+  - OCMock (~> 2.2)
+
+SPEC CHECKSUMS:
+  OCHamcrest: 207233b7d7a44dadd66aca398947cc7e029c9be5
+  OCMock: 6db79185520e24f9f299548f2b8b07e41d881bd5
+
+COCOAPODS: 0.32.1
