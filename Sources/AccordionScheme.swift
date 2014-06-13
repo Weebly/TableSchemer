@@ -12,14 +12,38 @@ class AccordionScheme: BasicScheme {
     typealias AccordionConfigurationHandler = (cell: UITableViewCell, index: Int) -> Void
     typealias AccordionSelectionHandler = (cell: UITableViewCell, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
+    /** The reuse identifiers used by the accordion cells. */
     var accordionReuseIdentifiers: String[]?
+    
+    /** The height used for each accordion cell if asked. */
     var accordionHeights: RowHeight[]?
+    
+    /** The currently selected index. */
     var selectedIndex = 0
+    
+    /** The closure called to handle accordion cells when the accordion is expanded. */
     var accordionConfigurationHandler: AccordionConfigurationHandler?
+    
+    /** The closure called when an accordion cell is selected.
+     *
+     *  NOTE: This is only called if the TableScheme is asked to handle selection
+     *  by the table view delegate.
+     */
     var accordionSelectionHandler: AccordionSelectionHandler?
+    
+    /** Whether the accordion is expanded or not. */
     var expanded = false
     
-    func numberOfItems() -> Int {
+    @required init() {
+        super.init()
+    }
+    
+    // MARK: Property Overrides
+    override var numberOfCells: Int {
+        return expanded ? numberOfItems : 1
+    }
+    
+    var numberOfItems: Int {
         return countElements(accordionReuseIdentifiers!)
     }
     
@@ -50,7 +74,7 @@ class AccordionScheme: BasicScheme {
                 prependedIndexPaths.append(ip)
             }
             
-            for i in (relativeIndex + 1)..numberOfItems() {
+            for i in (relativeIndex + 1)..numberOfItems {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 appendedIndexPaths.append(ip)
             }
@@ -70,7 +94,7 @@ class AccordionScheme: BasicScheme {
                 prependedIndexPaths.append(ip)
             }
             
-            for i in (relativeIndex + 1)..numberOfItems() {
+            for i in (selectedIndex + 1)..numberOfItems {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 appendedIndexPaths.append(ip)
             }
@@ -92,10 +116,6 @@ class AccordionScheme: BasicScheme {
         tableView.endUpdates()
     }
     
-    override func numberOfCells() -> Int  {
-        return expanded ? numberOfItems() : 1
-    }
-    
     override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
         if expanded {
             return accordionReuseIdentifiers![relativeIndex]
@@ -104,11 +124,39 @@ class AccordionScheme: BasicScheme {
         }
     }
     
-    override func validate() -> Bool {
+    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+        if expanded {
+            if accordionHeights != nil && countElements(accordionHeights!) > relativeIndex {
+                return accordionHeights![relativeIndex]
+            } else {
+                return .UseTable
+            }
+        } else {
+            return super.heightForRelativeIndex(relativeIndex)
+        }
+    }
+    
+    override func isValid() -> Bool {
         assert(accordionReuseIdentifiers != nil)
         assert(countElements(accordionReuseIdentifiers!) > 0)
         assert(accordionConfigurationHandler != nil)
         
-        return super.validate() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
+        return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
     }
+}
+
+func ==(lhs: AccordionScheme, rhs: AccordionScheme) -> Bool {
+    let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
+    let heightsEqual = lhs.height == rhs.height
+    let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
+    var expandedEqual = lhs.expanded == rhs.expanded
+    var accordionReuseIdentifiersEqual = false
+    
+    if let larh = lhs.accordionReuseIdentifiers {
+        if let rarh = rhs.accordionReuseIdentifiers {
+            accordionReuseIdentifiersEqual = larh == rarh
+        }
+    }
+
+    return reuseIdentifiersEqual && heightsEqual && selectedIndexesEqual && expandedEqual && accordionReuseIdentifiersEqual
 }
