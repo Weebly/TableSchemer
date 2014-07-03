@@ -41,11 +41,11 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        return tableScheme!.heightInTableView(tableView, forIndexPath: indexPath)
+        return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
     }
     
     override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        tableScheme!.handleSelectionInTableView(tableView, forIndexPath: indexPath)
+        tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
