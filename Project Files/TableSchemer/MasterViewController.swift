@@ -68,7 +68,7 @@ class MasterViewController: UITableViewController {
                 
                 builder.buildScheme { (scheme: AccordionScheme) in
                     scheme.reuseIdentifier = self.ReuseIdentifier
-                    scheme.accordionReuseIdentifiers = String[](count: 3, repeatedValue: self.ReuseIdentifier)
+                    scheme.accordionReuseIdentifiers = [String](count: 3, repeatedValue: self.ReuseIdentifier)
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
                     scheme.configurationHandler = { [weak self] (cell) in // Be sure to use unowned references for the config/selection handlers
                         cell.textLabel.text = "Selected Index: \(self!.accordionSelection)"
@@ -102,7 +102,7 @@ class MasterViewController: UITableViewController {
                     
                     scheme.heightHandler = { (object) in
                         let rect = object.bridgeToObjectiveC().boundingRectWithSize(CGSize(width: 300, height: CGFLOAT_MAX), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
-                        let height = ceilf(rect.size.height) + 28.0
+                        let height = CGFloat(ceilf(Float(rect.size.height)) + 28.0)
                         return .Custom(height)
                     }
                     

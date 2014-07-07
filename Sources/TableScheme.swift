@@ -17,9 +17,9 @@ import UIKit
  */
 class TableScheme: NSObject, UITableViewDataSource {
     typealias BuildHandler = (builder: TableSchemeBuilder) -> Void
-    let schemeSets: SchemeSet[]
+    let schemeSets: [SchemeSet]
     
-    init(schemeSets: SchemeSet[]) {
+    init(schemeSets: [SchemeSet]) {
         self.schemeSets = schemeSets
     }
     
@@ -97,7 +97,7 @@ class TableScheme: NSObject, UITableViewDataSource {
             case .UseTable:
                 return tableView.rowHeight
             case .Custom(let h):
-                return h
+                return CGFloat(h)
         }
     }
     
@@ -157,7 +157,7 @@ class TableScheme: NSObject, UITableViewDataSource {
             }
         }
         
-        assert(foundSet != nil)
+        assert(foundSet)
         
         return foundSet!
     }

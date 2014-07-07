@@ -13,10 +13,10 @@ class AccordionScheme: BasicScheme {
     typealias AccordionSelectionHandler = (cell: UITableViewCell, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
     /** The reuse identifiers used by the accordion cells. */
-    var accordionReuseIdentifiers: String[]?
+    var accordionReuseIdentifiers: [String]?
     
     /** The height used for each accordion cell if asked. */
-    var accordionHeights: RowHeight[]?
+    var accordionHeights: [RowHeight]?
     
     /** The currently selected index. */
     var selectedIndex = 0
@@ -69,12 +69,12 @@ class AccordionScheme: BasicScheme {
             
             selectedIndex = relativeIndex
             
-            for i in 0..relativeIndex {
+            for i in 0..<relativeIndex {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 prependedIndexPaths.append(ip)
             }
             
-            for i in (relativeIndex + 1)..numberOfItems {
+            for i in (relativeIndex + 1)..<numberOfItems {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 appendedIndexPaths.append(ip)
             }
@@ -89,12 +89,12 @@ class AccordionScheme: BasicScheme {
         } else {
             super.selectCell(cell, inTableView: tableView, inSection: section, havingRowsBeforeScheme: rowsBeforeScheme, withRelativeIndex: relativeIndex)
             
-            for i in 0..selectedIndex {
+            for i in 0..<selectedIndex {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 prependedIndexPaths.append(ip)
             }
             
-            for i in (selectedIndex + 1)..numberOfItems {
+            for i in (selectedIndex + 1)..<numberOfItems {
                 let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
                 appendedIndexPaths.append(ip)
             }
@@ -126,7 +126,7 @@ class AccordionScheme: BasicScheme {
     
     override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if expanded {
-            if accordionHeights != nil && countElements(accordionHeights!) > relativeIndex {
+            if accordionHeights && countElements(accordionHeights!) > relativeIndex {
                 return accordionHeights![relativeIndex]
             } else {
                 return .UseTable
@@ -137,11 +137,11 @@ class AccordionScheme: BasicScheme {
     }
     
     override func isValid() -> Bool {
-        assert(accordionReuseIdentifiers != nil)
+        assert(accordionReuseIdentifiers)
         assert(countElements(accordionReuseIdentifiers!) > 0)
-        assert(accordionConfigurationHandler != nil)
+        assert(accordionConfigurationHandler)
         
-        return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
+        return super.isValid() && accordionReuseIdentifiers && accordionConfigurationHandler
     }
 }
 

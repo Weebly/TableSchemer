@@ -32,7 +32,7 @@ class ArrayScheme<T: Equatable>: Scheme {
     var reuseIdentifier: String?
     
     /** The objects this scheme is representing */
-    var objects: T[]?
+    var objects: [T]?
     
     /** The closure called to determine the height of this cell.
      *
@@ -89,10 +89,10 @@ class ArrayScheme<T: Equatable>: Scheme {
     }
     
     override func isValid() -> Bool {
-        assert(reuseIdentifier != nil)
-        assert(objects != nil)
-        assert(configurationHandler != nil)
-        return reuseIdentifier != nil && objects != nil && configurationHandler != nil
+        assert(reuseIdentifier)
+        assert(objects)
+        assert(configurationHandler)
+        return reuseIdentifier && objects && configurationHandler
     }
 }
 

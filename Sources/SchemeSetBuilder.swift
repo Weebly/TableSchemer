@@ -18,7 +18,7 @@ class SchemeSetBuilder {
     var name: String?
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
-    var schemes = Scheme[]()
+    var schemes = [Scheme]()
     
     init() { } // Compiler won't compile without this. Not sure why.
     

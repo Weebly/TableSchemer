@@ -29,10 +29,10 @@ class RadioScheme: Scheme {
     var selectedIndex = 0
     
     /** The reuse identifiers that each cell will use. */
-    var reuseIdentifiers: String[]?
+    var reuseIdentifiers: [String]?
     
     /** The heights that the cells should have if asked. */
-    var heights: RowHeight[]?
+    var heights: [RowHeight]?
     
     /** The closure called for configuring the cell the scheme is representing. */
     var configurationHandler: ConfigurationHandler?
@@ -55,7 +55,7 @@ class RadioScheme: Scheme {
     
     // MARK: Public Instance Methods
     func useReuseIdentifier(reuseIdentifier: String, withNumberOfOptions numberOfOptions: Int) {
-        reuseIdentifiers = String[](count: numberOfOptions, repeatedValue: reuseIdentifier)
+        reuseIdentifiers = [String](count: numberOfOptions, repeatedValue: reuseIdentifier)
     }
     
     // MARK: Abstract Method Overrides
@@ -106,10 +106,10 @@ class RadioScheme: Scheme {
     }
     
     override func isValid() -> Bool {
-        assert(reuseIdentifiers != nil)
-        assert(configurationHandler != nil)
+        assert(reuseIdentifiers? != nil)
+        assert(configurationHandler?)
 
-        return reuseIdentifiers != nil && configurationHandler != nil
+        return reuseIdentifiers? != nil && configurationHandler?
     }
 }
 

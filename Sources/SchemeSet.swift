@@ -19,18 +19,18 @@ class SchemeSet {
     let name: String?
     
     /** The schemes contained in the SchemeSet */
-    let schemes: Scheme[]
+    let schemes: [Scheme]
     
     /** The number of schemes within the SchemeSet */
     var count: Int {
         return countElements(schemes)
     }
     
-    init(schemes: Scheme[]) {
+    init(schemes: [Scheme]) {
         self.schemes = schemes
     }
     
-    init(name: String?, withSchemes schemes: Scheme[]) {
+    init(name: String?, withSchemes schemes: [Scheme]) {
         self.name = name
         self.schemes = schemes
     }

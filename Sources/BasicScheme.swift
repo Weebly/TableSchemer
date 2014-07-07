@@ -60,9 +60,9 @@ class BasicScheme: Scheme {
     }
     
     override func isValid() -> Bool  {
-        assert(reuseIdentifier)
-        assert(configurationHandler)
-        return reuseIdentifier != nil && configurationHandler != nil
+        assert(reuseIdentifier?)
+        assert(configurationHandler?)
+        return reuseIdentifier? && configurationHandler?
     }
 }
 
