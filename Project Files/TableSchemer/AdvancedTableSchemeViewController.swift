@@ -57,26 +57,26 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [weak self] (cell) in
+                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.textLabel.text = "First Switch"
                         cell.selectionStyle = .None
-                        self!.firstSwitch = UISwitch()
-                        self!.firstSwitch.on = self!.wifiEnabled
-                        self!.firstSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
-                        cell.accessoryView = self!.firstSwitch
+                        self.firstSwitch = UISwitch()
+                        self.firstSwitch.on = self.wifiEnabled
+                        self.firstSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
+                        cell.accessoryView = self.firstSwitch
                     }
                 }
                 
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [weak self] (cell) in
+                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.textLabel.text = "Second Switch"
                         cell.selectionStyle = .None
-                        self!.secondSwitch = UISwitch()
-                        self!.secondSwitch.on = self!.bluetoothEnabled
-                        self!.secondSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged)
-                        cell.accessoryView = self!.secondSwitch
+                        self.secondSwitch = UISwitch()
+                        self.secondSwitch.on = self.bluetoothEnabled
+                        self.secondSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged)
+                        cell.accessoryView = self.secondSwitch
                     }
                 }
                 
@@ -87,30 +87,30 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [weak self] (uncastedCell) in // I feel like this is an incorrect compiler warning. We should be able to cast it in the closure :/
+                    scheme.configurationHandler = { [unowned(unsafe) self] (uncastedCell) in // I feel like this is an incorrect compiler warning. We should be able to cast it in the closure :/
                         let cell = uncastedCell as InputFieldCell
                         cell.selectionStyle = .None
                         cell.label.text = "First Input:"
-                        cell.input.text = self!.firstFieldValue
+                        cell.input.text = self.firstFieldValue
                         cell.input.keyboardType = .Default // Since the other input cell changes this value, this cell must define what it wants to avoid reuse issues.
-                        cell.input.addTarget(self!, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self!, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
-                        self!.firstField = cell.input
+                        cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
+                        cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
+                        self.firstField = cell.input
                     }
                 }
                 
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [weak self] (uncastedCell) in
+                    scheme.configurationHandler = { [unowned(unsafe) self] (uncastedCell) in
                         let cell = uncastedCell as InputFieldCell
                         cell.selectionStyle = .None
                         cell.label.text = "Email:"
-                        cell.input.text = self!.secondFieldValue
+                        cell.input.text = self.secondFieldValue
                         cell.input.keyboardType = .EmailAddress
-                        cell.input.addTarget(self!, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self!, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
-                        self!.secondField = cell.input
+                        cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
+                        cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
+                        self.secondField = cell.input
                     }
                 }
             }
