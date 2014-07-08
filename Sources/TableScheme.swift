@@ -102,6 +102,28 @@ class TableScheme: NSObject, UITableViewDataSource {
     }
     
     /**
+     *    Returns a UILabel view containing the SchemeSet's footer text, if it exists.
+     *
+     *    @param tableView The table view asking for the view.
+     *    @param indexPath The index path of the cell.
+     *
+     *    @return A UILabel containing the SchemeSet's footer text or nil
+     */
+    func tableView(tableView: UITableView!, viewForFooterInSection section: Int) -> UIView! {
+        let schemeSet = schemeSets[section]
+        
+        if !schemeSet.footerText {
+            return nil
+        }
+        
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(12)
+        label.text = schemeSet.footerText
+        
+        return label
+    }
+    
+    /**
      *    This method returns the scheme at a given index path. Use this method
      *    in table view delegate methods to find the scheme the cell belongs to.
      *

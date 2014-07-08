@@ -18,6 +18,9 @@ class SchemeSet {
     /** This property is the title for the table view section */
     let name: String?
     
+    /** The text for the UILabel in tableView:viewForFooterInSection */
+    let footerText: String?
+    
     /** The schemes contained in the SchemeSet */
     let schemes: [Scheme]
     
@@ -30,8 +33,9 @@ class SchemeSet {
         self.schemes = schemes
     }
     
-    init(name: String?, withSchemes schemes: [Scheme]) {
+    init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
         self.name = name
+        self.footerText = footerText
         self.schemes = schemes
     }
     

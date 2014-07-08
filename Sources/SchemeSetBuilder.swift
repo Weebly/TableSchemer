@@ -17,6 +17,9 @@ class SchemeSetBuilder {
     /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
     var name: String?
     
+    /** This will be used as the SchemeSet's footer text. If left nil, it will not have a footer label */
+    var footerText: String?
+    
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
     var schemes = [Scheme]()
     
@@ -48,6 +51,6 @@ class SchemeSetBuilder {
     
     /** Create the SchemeSet with the currently added Schemes. This method should not be called except from TableSchemeBuilder */
     func createSchemeSet() -> SchemeSet {
-        return SchemeSet(name: name, withSchemes: schemes)
+        return SchemeSet(name: name, footerText: footerText, withSchemes: schemes)
     }
 }
