@@ -290,12 +290,12 @@ class AccordionScheme_Tests: XCTestCase {
     func testHeightForRelativeIndex_usesDefinedHeight() {
         configureSubjectWithConfigurationHandler()
         subject.height = .Custom(83.0)
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(83.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(83.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .UseTable)
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
     }
     
     func testHeightForRelativeIndex_whenExpanded_equalsAccordionHeights() {
@@ -307,9 +307,9 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(25.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), .Custom(29.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(2), .UseTable)
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(25.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(29.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(2), RowHeight.UseTable)
     }
     
     // MARK: Test Configuration

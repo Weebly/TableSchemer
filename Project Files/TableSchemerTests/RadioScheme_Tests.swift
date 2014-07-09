@@ -52,7 +52,7 @@ class RadioScheme_Tests: XCTestCase {
         let cell = UITableViewCell()
         subject.configureCell(cell, withRelativeIndex: 1)
         
-        XCTAssertEqual(cell.accessoryType, .Checkmark)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.Checkmark)
     }
     
     func testConfigureCell_whenNotSelected_setsAccessoryToNone() {
@@ -63,7 +63,7 @@ class RadioScheme_Tests: XCTestCase {
         cell.accessoryType = .Checkmark
         subject.configureCell(cell, withRelativeIndex: 0)
         
-        XCTAssertEqual(cell.accessoryType, .None)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.None)
     }
     
     // MARK: Selecing Cell
@@ -114,8 +114,8 @@ class RadioScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: mockTableView as UITableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
         
-        XCTAssertEqual(oldCell.accessoryType, .None)
-        XCTAssertEqual(cell.accessoryType, .Checkmark)
+        XCTAssertEqual(oldCell.accessoryType, UITableViewCellAccessoryType.None)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.Checkmark)
     }
     
     // MARK: Number of Cells
@@ -138,14 +138,14 @@ class RadioScheme_Tests: XCTestCase {
         configureSubjectWithConfigurationHandler()
         subject.heights = [.Custom(22.0), .Custom(44.0)]
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(22.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), .Custom(44.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(22.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(44.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithConfigurationHandler()
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .UseTable)
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
     }
     
     func testUsingReuseIdentifierWithNumberOfOptions_setsReuseIdentifiersToSameReuseIdentifierXTimes() {

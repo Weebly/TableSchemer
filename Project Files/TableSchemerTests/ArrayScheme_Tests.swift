@@ -98,12 +98,12 @@ class ArrayScheme_Tests: XCTestCase {
             return .UseTable
         }
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(44))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), .Custom(80.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(44))
+        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(80.0))
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithObjects(_ objects: String[] = [], configurationHandler: ArrayScheme<String>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String>.SelectionHandler = {(cell, scheme, object) in})  {
+    func configureSubjectWithObjects(_ objects: [String] = [], configurationHandler: ArrayScheme<String>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String>.SelectionHandler = {(cell, scheme, object) in})  {
         subject = ArrayScheme<String>()
         subject.reuseIdentifier = ReuseIdentifier
         subject.objects = objects
