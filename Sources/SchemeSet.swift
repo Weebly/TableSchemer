@@ -21,7 +21,7 @@ class SchemeSet {
     let name: String?
     
     /** The view returned for tableView:viewForFooterInSection */
-    let footerView: UIView?
+    let footerText: String?
     
     /** The schemes contained in the SchemeSet */
     let schemes: [Scheme]
@@ -35,9 +35,9 @@ class SchemeSet {
         self.schemes = schemes
     }
     
-    init(name: String?, footerView: UIView?, withSchemes schemes: [Scheme]) {
+    init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
         self.name = name
-        self.footerView = footerView
+        self.footerText = footerText
         self.schemes = schemes
     }
     

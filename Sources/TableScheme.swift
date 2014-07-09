@@ -102,21 +102,21 @@ class TableScheme: NSObject, UITableViewDataSource {
     }
     
     /**
-     *    Returns a UILabel view containing the SchemeSet's footer text, if it exists.
+     *    Returns a string containing the SchemeSet's footer text, if it exists.
      *
      *    @param tableView The table view asking for the view.
      *    @param indexPath The index path of the cell.
      *
-     *    @return A UILabel containing the SchemeSet's footer text or nil
+     *    @return A strin containing the SchemeSet's footer text or nil
      */
-    func tableView(tableView: UITableView!, viewForFooterInSection section: Int) -> UIView! {
+    func tableView(tableView: UITableView!, titleForFooterInSection section: Int) -> String! {
         let schemeSet = schemeSets[section]
         
-        if !schemeSet.footerView {
+        if !schemeSet.footerText {
             return nil
         }
         
-        return schemeSet.footerView
+        return schemeSet.footerText
     }
     
     /**
