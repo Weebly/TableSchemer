@@ -96,7 +96,7 @@ class MasterViewController: UITableViewController {
             builder.buildSchemeSet { (builder) in
                 builder.name = "Array Sample"
                 
-                builder.buildScheme { (scheme: ArrayScheme<String>) in
+                builder.buildScheme { (scheme: ArrayScheme<String, UITableViewCell>) in
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     scheme.objects = self.arrayObjects
                     

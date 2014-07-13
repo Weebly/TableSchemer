@@ -17,9 +17,9 @@ import UIKit
  *  SchemeSetBuilder.buildScheme(handler:) method generate them
  *  for you.
  */
-class ArrayScheme<T: Equatable>: Scheme {
-    typealias ConfigurationHandler = (cell: UITableViewCell, object: T) -> Void
-    typealias SelectionHandler = (cell: UITableViewCell, scheme: ArrayScheme<T>, object: T) -> Void
+class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
+    typealias ConfigurationHandler = (cell: U, object: T) -> Void
+    typealias SelectionHandler = (cell: U, scheme: ArrayScheme<T, U>, object: T) -> Void
     typealias HeightHandler = (object: T) -> RowHeight
     
     /** The reuseIdentifier for this scheme. 
@@ -67,12 +67,12 @@ class ArrayScheme<T: Equatable>: Scheme {
     
     // MARK: Abstract Method Overrides
     override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler!(cell: cell, object: objects![relativeIndex])
+        configurationHandler!(cell: cell as U, object: objects![relativeIndex])
     }
     
     override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell, scheme: self, object: objects![relativeIndex])
+            sh(cell: cell as U, scheme: self, object: objects![relativeIndex])
         }
     }
     
@@ -96,7 +96,7 @@ class ArrayScheme<T: Equatable>: Scheme {
     }
 }
 
-func ==<T>(lhs: ArrayScheme<T>, rhs: ArrayScheme<T>) -> Bool {
+func ==<T, U: UITableViewCell>(lhs: ArrayScheme<T, U>, rhs: ArrayScheme<T, U>) -> Bool {
     let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
     var objectsEqual = false
     

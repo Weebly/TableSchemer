@@ -15,7 +15,7 @@ class AccordionScheme_Tests: XCTestCase {
     let ReuseIdentifier1 = "ReuseIdentifier1"
     let ReuseIdentifier2 = "ReuseIdentifier2"
     let ReuseIdentifier3 = "ReuseIdentifier3"
-    var subject: AccordionScheme!
+    var subject: AccordionScheme<UITableViewCell, UITableViewCell>!
     
     // MARK: Setup and Teardown
     override func tearDown() {
@@ -83,7 +83,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Select Cell
     func testSelectCell_whenUnexpanded_callsSelectBlock() {
         var passedCell: UITableViewCell?
-        var passedScheme: AccordionScheme?
+        var passedScheme: AccordionScheme<UITableViewCell, UITableViewCell>?
         
         configureSubjectWithConfigurationHandler()
         subject.selectionHandler = {(cell, scheme) in
@@ -102,7 +102,7 @@ class AccordionScheme_Tests: XCTestCase {
     
     func testSelectCell_whenExpanded_callsAccordionSelectBlock() {
         var passedCell: UITableViewCell?
-        var passedScheme: AccordionScheme?
+        var passedScheme: AccordionScheme<UITableViewCell, UITableViewCell>?
         var passedIndex: Int?
         
         configureSubjectWithConfigurationHandler()
@@ -313,7 +313,7 @@ class AccordionScheme_Tests: XCTestCase {
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme.AccordionConfigurationHandler = {(cell, index) in }) {
+    func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
         subject = AccordionScheme()
         subject.reuseIdentifier = ReuseIdentifier0
         subject.accordionReuseIdentifiers = [ReuseIdentifier1, ReuseIdentifier2, ReuseIdentifier3]

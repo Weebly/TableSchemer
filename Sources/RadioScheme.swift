@@ -21,9 +21,9 @@ import UIKit
  *    SchemeSetBuilder.buildScheme(handler:) method generate them
  *    for you.
  */
-class RadioScheme: Scheme {
-    typealias ConfigurationHandler = (cell: UITableViewCell, index: Int) -> Void
-    typealias SelectionHandler = (cell: UITableViewCell, scheme: RadioScheme, index: Int) -> Void
+class RadioScheme<T: UITableViewCell>: Scheme {
+    typealias ConfigurationHandler = (cell: T, index: Int) -> Void
+    typealias SelectionHandler = (cell: T, scheme: RadioScheme, index: Int) -> Void
     
     /** The currently selected index. */
     var selectedIndex = 0
@@ -60,7 +60,7 @@ class RadioScheme: Scheme {
     
     // MARK: Abstract Method Overrides
     override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
-        configurationHandler!(cell: cell, index: relativeIndex)
+        configurationHandler!(cell: cell as T, index: relativeIndex)
         
         if selectedIndex == relativeIndex {
             cell.accessoryType = .Checkmark
@@ -71,7 +71,7 @@ class RadioScheme: Scheme {
     
     override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell, scheme: self, index: relativeIndex)
+            sh(cell: cell as T, scheme: self, index: relativeIndex)
         }
         
         let oldSelectedIndex = selectedIndex
@@ -113,7 +113,7 @@ class RadioScheme: Scheme {
     }
 }
 
-func ==(lhs: RadioScheme, rhs: RadioScheme) -> Bool {
+func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
     var reuseIdentifiersEqual = false
     var heightsEqual = false

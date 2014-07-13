@@ -13,7 +13,7 @@ import TableSchemer
 class RadioScheme_Tests: XCTestCase {
     let ReuseIdentifier1 = "ReuseIdentifier1"
     let ReuseIdentifier2 = "ReuseIdentifier2"
-    var subject: RadioScheme!
+    var subject: RadioScheme<UITableViewCell>!
 
     // MARK: Setup and Teardown
     override func tearDown() {
@@ -80,7 +80,7 @@ class RadioScheme_Tests: XCTestCase {
     
     func testSelectCell_callsSelectionHandler() {
         var passedCell: UITableViewCell?
-        var passedScheme: RadioScheme?
+        var passedScheme: RadioScheme<UITableViewCell>?
         var passedIndex: Int?
         var selectedIndexAtCalling: Int?
         
@@ -160,7 +160,7 @@ class RadioScheme_Tests: XCTestCase {
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithConfigurationHandler(configurationHandler: RadioScheme.ConfigurationHandler = {(cell, index) in }, selectionHandler: RadioScheme.SelectionHandler = {(cell, scheme, index) in}) {
+    func configureSubjectWithConfigurationHandler(configurationHandler: RadioScheme<UITableViewCell>.ConfigurationHandler = {(cell, index) in }, selectionHandler: RadioScheme<UITableViewCell>.SelectionHandler = {(cell, scheme, index) in}) {
         subject = RadioScheme()
         subject.reuseIdentifiers = [ReuseIdentifier1, ReuseIdentifier2]
         subject.configurationHandler = configurationHandler

@@ -12,7 +12,7 @@ import TableSchemer
 
 class BasicScheme_Tests: XCTestCase {
     let ReuseIdentifier = "ReuseIdentifier"
-    var subject: BasicScheme!
+    var subject: BasicScheme<UITableViewCell>!
     
     // MARK: Setup and Teardown
     override func tearDown() {
@@ -47,7 +47,7 @@ class BasicScheme_Tests: XCTestCase {
     func testSelectCell_callsSelectBlockWithCellAndSelf() {
         configureSubjectWithHandler()
         var passedCell: UITableViewCell?
-        var passedScheme: BasicScheme?
+        var passedScheme: BasicScheme<UITableViewCell>?
         subject.selectionHandler = {(cell, scheme) in
             passedCell = cell
             passedScheme = scheme
@@ -79,7 +79,7 @@ class BasicScheme_Tests: XCTestCase {
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithHandler(handler: BasicScheme.ConfigurationHandler = {(cell) in }) {
+    func configureSubjectWithHandler(handler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }) {
         subject = BasicScheme()
         subject.reuseIdentifier = ReuseIdentifier
         subject.configurationHandler = handler
