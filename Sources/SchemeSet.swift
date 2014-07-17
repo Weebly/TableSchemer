@@ -33,14 +33,18 @@ class SchemeSet {
         self.schemes = schemes
     }
     
-    init(name: String?, withSchemes schemes: [Scheme]) {
+    init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
         self.name = name
+        self.footerText = footerText
         self.schemes = schemes
     }
     
-    convenience init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
-        self.init(name: name, withSchemes: schemes)
-        self.footerText = footerText
+    convenience init(name: String?, withSchemes schemes: [Scheme]) {
+        self.init(name: name, footerText: nil, withSchemes: schemes)
+    }
+    
+    convenience init(footerText: String?, withSchemes schemes: [Scheme]) {
+        self.init(name: nil, footerText: footerText, withSchemes: schemes)
     }
     
     subscript(index: Int) -> Scheme {
