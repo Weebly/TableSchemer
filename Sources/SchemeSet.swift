@@ -14,14 +14,12 @@
  *    have more than a single row), and the name property is used for the
  *    section name.
  */
-import UIKit
-
 class SchemeSet {
     /** This property is the title for the table view section */
     let name: String?
     
-    /** The view returned for tableView:viewForFooterInSection */
-    let footerText: String?
+    /** The string returned for tableView:viewForFooterInSection */
+    var footerText: String?
     
     /** The schemes contained in the SchemeSet */
     let schemes: [Scheme]
@@ -35,10 +33,14 @@ class SchemeSet {
         self.schemes = schemes
     }
     
-    init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
+    init(name: String?, withSchemes schemes: [Scheme]) {
         self.name = name
-        self.footerText = footerText
         self.schemes = schemes
+    }
+    
+    convenience init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
+        self.init(name: name, withSchemes: schemes)
+        self.footerText = footerText
     }
     
     subscript(index: Int) -> Scheme {
