@@ -33,7 +33,7 @@ class TableScheme_Tests: XCTestCase {
         schemeSet2Scheme1.definedNumberOfCells = 5
         schemeSet3Scheme1 = TestableScheme()
         
-        schemeSet1 = SchemeSet(name: "Test Scheme Set", withSchemes: [schemeSet1Scheme1, schemeSet1Scheme2])
+        schemeSet1 = SchemeSet(name: "Test Scheme Set", footerText: nil, withSchemes: [schemeSet1Scheme1, schemeSet1Scheme2])
         schemeSet2 = SchemeSet(schemes: [schemeSet2Scheme1])
         schemeSet3 = SchemeSet(schemes: [schemeSet3Scheme1])
         

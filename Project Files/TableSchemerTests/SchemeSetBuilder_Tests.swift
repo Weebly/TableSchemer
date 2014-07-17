@@ -33,4 +33,17 @@ class SchemeSetBuilder_Tests: XCTestCase {
         let schemeSet = subject.createSchemeSet()
         XCTAssert(schemeSet.schemes == [scheme1, scheme2])
     }
+    
+    func testCreateSchemeSet_setsFooterText() {
+        let subject = SchemeSetBuilder()
+        let scheme1 = subject.buildScheme {(scheme: BasicScheme) in
+            scheme.reuseIdentifier = "Foo"
+            scheme.configurationHandler = {(cell: UITableViewCell) in}
+        }
+        
+        subject.footerText = "Foo bar"
+        
+        let schemeSet = subject.createSchemeSet()
+        XCTAssert(schemeSet.footerText == "Foo bar")
+    }
 }
