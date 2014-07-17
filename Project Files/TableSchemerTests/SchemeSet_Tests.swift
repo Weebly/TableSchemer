@@ -11,9 +11,9 @@ import TableSchemer
 
 class SchemeSet_Tests: XCTestCase {
     // MARK: Initializers
-    func testInitWithNameFooterTextAndSchemes_setsSchemes() {
+    func testInitWithNameAndSchemes_setsSchemes() {
         let schemes = [Scheme()]
-        let subject = SchemeSet(name: "Foo Bar", footerText: nil, withSchemes: schemes)
+        let subject = SchemeSet(name: "Foo Bar", withSchemes: schemes)
         XCTAssert(subject.schemes == schemes)
     }
 
@@ -23,8 +23,8 @@ class SchemeSet_Tests: XCTestCase {
         XCTAssert(subject.schemes == schemes)
     }
 
-    func testInitWithNameFooterTextAndSchemes_setsName() {
-        let subject: SchemeSet = SchemeSet(name: "Foo Bar", footerText: nil, withSchemes: [Scheme()])
+    func testInitWithNameAndSchemes_setsName() {
+        let subject: SchemeSet = SchemeSet(name: "Foo Bar", withSchemes: [Scheme()])
         XCTAssert(subject.name == "Foo Bar")
     }
     
