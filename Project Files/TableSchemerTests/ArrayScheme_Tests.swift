@@ -12,7 +12,7 @@ import TableSchemer
 
 class ArrayScheme_Tests: XCTestCase {
     let ReuseIdentifier = "ReuseIdentifier"
-    var subject: ArrayScheme<String>!
+    var subject: ArrayScheme<String, UITableViewCell>!
     
     // MARK: Setup and Teardown
     override func tearDown() {
@@ -51,7 +51,7 @@ class ArrayScheme_Tests: XCTestCase {
     
     func testSelectCell_callsSelectBlockWithCellAndSelfAndObject() {
         var passedCell: UITableViewCell?
-        var passedScheme: ArrayScheme<String>?
+        var passedScheme: ArrayScheme<String, UITableViewCell>?
         var passedObject: String?
         
         let string1 = "One"
@@ -98,13 +98,13 @@ class ArrayScheme_Tests: XCTestCase {
             return .UseTable
         }
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(44))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), .Custom(80.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(44))
+        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(80.0))
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithObjects(_ objects: String[] = [], configurationHandler: ArrayScheme<String>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String>.SelectionHandler = {(cell, scheme, object) in})  {
-        subject = ArrayScheme<String>()
+    func configureSubjectWithObjects(_ objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
+        subject = ArrayScheme<String, UITableViewCell>()
         subject.reuseIdentifier = ReuseIdentifier
         subject.objects = objects
         subject.configurationHandler = configurationHandler

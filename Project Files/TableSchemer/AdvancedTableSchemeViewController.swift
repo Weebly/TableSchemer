@@ -85,11 +85,11 @@ class AdvancedTableSchemeViewController: UITableViewController {
             builder.buildSchemeSet { (builder) in
                 builder.name = "Text Input"
                 builder.footerText = "Section footer text"
-                builder.buildScheme { (scheme: BasicScheme) in
+                
+                builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (uncastedCell) in // I feel like this is an incorrect compiler warning. We should be able to cast it in the closure :/
-                        let cell = uncastedCell as InputFieldCell
+                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.selectionStyle = .None
                         cell.label.text = "First Input:"
                         cell.input.text = self.firstFieldValue
@@ -100,11 +100,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
                 
-                builder.buildScheme { (scheme: BasicScheme) in
+                builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (uncastedCell) in
-                        let cell = uncastedCell as InputFieldCell
+                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.selectionStyle = .None
                         cell.label.text = "Email:"
                         cell.input.text = self.secondFieldValue

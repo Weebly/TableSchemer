@@ -8,9 +8,9 @@
 
 import UIKit
 
-class AccordionScheme: BasicScheme {
-    typealias AccordionConfigurationHandler = (cell: UITableViewCell, index: Int) -> Void
-    typealias AccordionSelectionHandler = (cell: UITableViewCell, scheme: AccordionScheme, selectedIndex: Int) -> Void
+class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
+    typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
+    typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
     /** The reuse identifiers used by the accordion cells. */
     var accordionReuseIdentifiers: [String]?
@@ -50,7 +50,7 @@ class AccordionScheme: BasicScheme {
     // MARK: Abstract Overrides
     override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if (expanded) {
-            accordionConfigurationHandler!(cell: cell, index: relativeIndex)
+            accordionConfigurationHandler!(cell: cell as U, index: relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
         }
@@ -64,7 +64,7 @@ class AccordionScheme: BasicScheme {
         
         if (expanded) {
             if let ash = accordionSelectionHandler {
-                ash(cell: cell, scheme: self, selectedIndex: relativeIndex)
+                ash(cell: cell as U, scheme: self, selectedIndex: relativeIndex)
             }
             
             selectedIndex = relativeIndex
@@ -145,7 +145,7 @@ class AccordionScheme: BasicScheme {
     }
 }
 
-func ==(lhs: AccordionScheme, rhs: AccordionScheme) -> Bool {
+func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U>, rhs: AccordionScheme<T, U>) -> Bool {
     let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
     let heightsEqual = lhs.height == rhs.height
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex

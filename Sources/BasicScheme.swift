@@ -16,9 +16,9 @@ import UIKit
  *  SchemeSetBuilder.buildScheme(handler:) method generate them
  *  for you.
  */
-class BasicScheme: Scheme {
-    typealias ConfigurationHandler = (cell: UITableViewCell) -> Void
-    typealias SelectionHandler = (cell: UITableViewCell, scheme: BasicScheme) -> Void
+class BasicScheme<T: UITableViewCell>: Scheme {
+    typealias ConfigurationHandler = (cell: T) -> Void
+    typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
     
     /** The reuseIdentifier for this scheme. */
     var reuseIdentifier: String?
@@ -42,12 +42,12 @@ class BasicScheme: Scheme {
     
     // MARK: Abstract method overrides
     override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler!(cell: cell)
+        configurationHandler!(cell: cell as T)
     }
     
     override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
-            sh(cell: cell, scheme: self)
+            sh(cell: cell as T, scheme: self)
         }
     }
     
@@ -66,6 +66,6 @@ class BasicScheme: Scheme {
     }
 }
 
-func ==(lhs: BasicScheme, rhs: BasicScheme) -> Bool {
+func ==<T: UITableViewCell>(lhs: BasicScheme<T>, rhs: BasicScheme<T>) -> Bool {
     return lhs.reuseIdentifier == rhs.reuseIdentifier && lhs.height == rhs.height
 }

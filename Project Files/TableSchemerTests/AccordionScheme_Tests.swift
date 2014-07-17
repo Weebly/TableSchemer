@@ -15,7 +15,7 @@ class AccordionScheme_Tests: XCTestCase {
     let ReuseIdentifier1 = "ReuseIdentifier1"
     let ReuseIdentifier2 = "ReuseIdentifier2"
     let ReuseIdentifier3 = "ReuseIdentifier3"
-    var subject: AccordionScheme!
+    var subject: AccordionScheme<UITableViewCell, UITableViewCell>!
     
     // MARK: Setup and Teardown
     override func tearDown() {
@@ -83,7 +83,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Select Cell
     func testSelectCell_whenUnexpanded_callsSelectBlock() {
         var passedCell: UITableViewCell?
-        var passedScheme: AccordionScheme?
+        var passedScheme: AccordionScheme<UITableViewCell, UITableViewCell>?
         
         configureSubjectWithConfigurationHandler()
         subject.selectionHandler = {(cell, scheme) in
@@ -102,7 +102,7 @@ class AccordionScheme_Tests: XCTestCase {
     
     func testSelectCell_whenExpanded_callsAccordionSelectBlock() {
         var passedCell: UITableViewCell?
-        var passedScheme: AccordionScheme?
+        var passedScheme: AccordionScheme<UITableViewCell, UITableViewCell>?
         var passedIndex: Int?
         
         configureSubjectWithConfigurationHandler()
@@ -290,12 +290,12 @@ class AccordionScheme_Tests: XCTestCase {
     func testHeightForRelativeIndex_usesDefinedHeight() {
         configureSubjectWithConfigurationHandler()
         subject.height = .Custom(83.0)
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(83.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(83.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .UseTable)
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
     }
     
     func testHeightForRelativeIndex_whenExpanded_equalsAccordionHeights() {
@@ -307,13 +307,13 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), .Custom(25.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), .Custom(29.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(2), .UseTable)
+        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(25.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(29.0))
+        XCTAssertEqual(subject.heightForRelativeIndex(2), RowHeight.UseTable)
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme.AccordionConfigurationHandler = {(cell, index) in }) {
+    func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
         subject = AccordionScheme()
         subject.reuseIdentifier = ReuseIdentifier0
         subject.accordionReuseIdentifiers = [ReuseIdentifier1, ReuseIdentifier2, ReuseIdentifier3]
