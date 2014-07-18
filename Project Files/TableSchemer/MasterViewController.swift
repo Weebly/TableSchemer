@@ -70,8 +70,8 @@ class MasterViewController: UITableViewController {
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     scheme.accordionReuseIdentifiers = [String](count: 3, repeatedValue: self.ReuseIdentifier)
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
-                    scheme.configurationHandler = { [weak self] (cell) in // Be sure to use unowned references for the config/selection handlers
-                        cell.textLabel.text = "Selected Index: \(self!.accordionSelection)"
+                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned references for the config/selection handlers
+                        cell.textLabel.text = "Selected Index: \(self.accordionSelection)"
                     }
                     
                     scheme.selectionHandler = { (cell, scheme) in
