@@ -28,6 +28,16 @@ class SchemeSet_Tests: XCTestCase {
         XCTAssert(subject.name == "Foo Bar")
     }
     
+    func testInitWithNameFooterTextAndSchemes_setsFooterText() {
+        let subject: SchemeSet = SchemeSet(name: "Foo Bar", footerText: "Buzz", withSchemes: [Scheme()])
+        XCTAssert(subject.footerText == "Buzz")
+    }
+    
+    func testInitWithFooterTextAndSchemes_setsFooterText() {
+        let subject: SchemeSet = SchemeSet(footerText: "Buzz", withSchemes: [Scheme()])
+        XCTAssert(subject.footerText == "Buzz")
+    }
+    
     // MARK: Subscript Support
     func testSubscript_accessesSchemes() {
         let schemes = [Scheme()]

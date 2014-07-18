@@ -84,6 +84,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
             
             builder.buildSchemeSet { (builder) in
                 builder.name = "Text Input"
+                builder.footerText = "Section footer text"
+                
                 builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     

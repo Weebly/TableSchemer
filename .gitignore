@@ -1,3 +1,5 @@
 *.xcbkptlist
 *.xcuserstate
 Project Files/Pods
+.DS_Store
+*.xcuserdatad
