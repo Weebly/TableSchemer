@@ -8,47 +8,47 @@
 
 import UIKit
 
-class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
-    typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
-    typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
+public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
+    public typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
+    public typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
     /** The reuse identifiers used by the accordion cells. */
-    var accordionReuseIdentifiers: [String]?
+    public var accordionReuseIdentifiers: [String]?
     
     /** The height used for each accordion cell if asked. */
-    var accordionHeights: [RowHeight]?
+    public var accordionHeights: [RowHeight]?
     
     /** The currently selected index. */
-    var selectedIndex = 0
+    public var selectedIndex = 0
     
     /** The closure called to handle accordion cells when the accordion is expanded. */
-    var accordionConfigurationHandler: AccordionConfigurationHandler?
+    public var accordionConfigurationHandler: AccordionConfigurationHandler?
     
     /** The closure called when an accordion cell is selected.
      *
      *  NOTE: This is only called if the TableScheme is asked to handle selection
      *  by the table view delegate.
      */
-    var accordionSelectionHandler: AccordionSelectionHandler?
+    public var accordionSelectionHandler: AccordionSelectionHandler?
     
     /** Whether the accordion is expanded or not. */
-    var expanded = false
+    private var expanded = false
     
-    @required init() {
+    required public init() {
         super.init()
     }
     
     // MARK: Property Overrides
-    override var numberOfCells: Int {
+    override public var numberOfCells: Int {
         return expanded ? numberOfItems : 1
     }
     
-    var numberOfItems: Int {
+    public var numberOfItems: Int {
         return countElements(accordionReuseIdentifiers!)
     }
     
     // MARK: Abstract Overrides
-    override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
+    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if (expanded) {
             accordionConfigurationHandler!(cell: cell as U, index: relativeIndex)
         } else {
@@ -56,7 +56,7 @@ class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
         }
     }
     
-    override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         var prependedIndexPaths = Array<NSIndexPath>()
         var appendedIndexPaths = Array<NSIndexPath>()
         
@@ -116,7 +116,7 @@ class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
         tableView.endUpdates()
     }
     
-    override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
         if expanded {
             return accordionReuseIdentifiers![relativeIndex]
         } else {
@@ -124,7 +124,7 @@ class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
         }
     }
     
-    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if expanded {
             if accordionHeights && countElements(accordionHeights!) > relativeIndex {
                 return accordionHeights![relativeIndex]
@@ -136,7 +136,7 @@ class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
         }
     }
     
-    override func isValid() -> Bool {
+    override public func isValid() -> Bool {
         assert(accordionReuseIdentifiers)
         assert(countElements(accordionReuseIdentifiers!) > 0)
         assert(accordionConfigurationHandler)
@@ -145,7 +145,7 @@ class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
     }
 }
 
-func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U>, rhs: AccordionScheme<T, U>) -> Bool {
+public func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U>, rhs: AccordionScheme<T, U>) -> Bool {
     let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
     let heightsEqual = lhs.height == rhs.height
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex

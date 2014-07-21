@@ -17,10 +17,10 @@ import UIKit
  *  SchemeSetBuilder.buildScheme(handler:) method generate them
  *  for you.
  */
-class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
-    typealias ConfigurationHandler = (cell: U, object: T) -> Void
-    typealias SelectionHandler = (cell: U, scheme: ArrayScheme<T, U>, object: T) -> Void
-    typealias HeightHandler = (object: T) -> RowHeight
+public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
+    public typealias ConfigurationHandler = (cell: U, object: T) -> Void
+    public typealias SelectionHandler = (cell: U, scheme: ArrayScheme<T, U>, object: T) -> Void
+    public typealias HeightHandler = (object: T) -> RowHeight
     
     /** The reuseIdentifier for this scheme. 
      *
@@ -29,10 +29,10 @@ class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
      *  reuse identifier for all cells. This is because this scheme is
      *  meant to be used with closely related cells.
      */
-    var reuseIdentifier: String?
+    public var reuseIdentifier: String?
     
     /** The objects this scheme is representing */
-    var objects: [T]?
+    public var objects: [T]?
     
     /** The closure called to determine the height of this cell.
      *
@@ -44,43 +44,43 @@ class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
      *  This closure is only used if the table view delegate asks its 
      *  TableScheme for the height with heightInTableView(tableView:forIndexPath:)
      */
-    var heightHandler: HeightHandler?
+    public var heightHandler: HeightHandler?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler?
     
     /** The closure called when a cell representing this scheme is selected.
     *
     *  NOTE: This is only called if the TableScheme is asked to handle selection
     *  by the table view delegate.
     */
-    var selectionHandler: SelectionHandler?
+    public var selectionHandler: SelectionHandler?
     
     // MARK: Property Overrides
-    override var numberOfCells: Int {
+    override public var numberOfCells: Int {
         return countElements(objects!)
     }
     
-    @required init() {
+    required public init() {
         super.init()
     }
     
     // MARK: Abstract Method Overrides
-    override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
         configurationHandler!(cell: cell as U, object: objects![relativeIndex])
     }
     
-    override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
+    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
             sh(cell: cell as U, scheme: self, object: objects![relativeIndex])
         }
     }
     
-    override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
         return reuseIdentifier!
     }
     
-    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if let hh = heightHandler {
             return hh(object: objects![relativeIndex])
         } else {
@@ -88,7 +88,7 @@ class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
         }
     }
     
-    override func isValid() -> Bool {
+    override public func isValid() -> Bool {
         assert(reuseIdentifier)
         assert(objects)
         assert(configurationHandler)
@@ -96,7 +96,7 @@ class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     }
 }
 
-func ==<T, U: UITableViewCell>(lhs: ArrayScheme<T, U>, rhs: ArrayScheme<T, U>) -> Bool {
+public func ==<T, U: UITableViewCell>(lhs: ArrayScheme<T, U>, rhs: ArrayScheme<T, U>) -> Bool {
     let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
     var objectsEqual = false
     

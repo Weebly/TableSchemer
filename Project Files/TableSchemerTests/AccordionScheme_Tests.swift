@@ -131,7 +131,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssert(subject.expanded == true)
+        XCTAssertEqual(subject.numberOfCells, 3)
     }
     
     func testSelectCell_whenExpanded_unexpandsCell() {
@@ -143,7 +143,7 @@ class AccordionScheme_Tests: XCTestCase {
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssert(subject.expanded == false)
+        XCTAssertEqual(subject.numberOfCells, 1)
     }
     
     func testSelectCell_whenUnexpanded_whenFirstRowIsSelected_animatesNewCellsIn() {

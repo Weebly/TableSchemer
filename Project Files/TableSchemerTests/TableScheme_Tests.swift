@@ -215,27 +215,27 @@ class TestableScheme: Scheme {
     
     var definedNumberOfCells = 1
     
-    override var numberOfCells: Int {
+    override public var numberOfCells: Int {
         return definedNumberOfCells
     }
     
-    init() {
+    public init() {
         super.init()
     }
     
-    override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
+    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         lastConfigureCall = (cell: cell, relativeIndex: relativeIndex)
     }
     
-    override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         lastSelectCall = (cell: cell, tableView: tableView, section: section, rowsBeforeScheme: rowsBeforeScheme, relativeIndex: relativeIndex)
     }
     
-    override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
         return TableSchemeTestsReuseIdentifier
     }
     
-    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return .Custom(44)
     }
 }

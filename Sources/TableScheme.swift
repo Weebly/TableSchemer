@@ -15,26 +15,26 @@ import UIKit
  *    schemes provide varying functionlity and allow you to encapsulate all
  *    information about a particular cell, such as a configuration block or row height, in an object.
  */
-class TableScheme: NSObject, UITableViewDataSource {
-    typealias BuildHandler = (builder: TableSchemeBuilder) -> Void
-    let schemeSets: [SchemeSet]
+public class TableScheme: NSObject, UITableViewDataSource {
+    public typealias BuildHandler = (builder: TableSchemeBuilder) -> Void
+    public let schemeSets: [SchemeSet]
     
-    init(schemeSets: [SchemeSet]) {
+    public init(schemeSets: [SchemeSet]) {
         self.schemeSets = schemeSets
     }
     
-    convenience init(buildHandler: BuildHandler) {
+    public convenience init(buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder: builder)
         self.init(schemeSets: builder.schemeSets)
     }
     
     // MARK: UITableViewDataSource methods
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return countElements(schemeSets)
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
         let schemeSet = schemeSets[section]
         
         return schemeSet.schemes.reduce(0) { (memo: Int, scheme: Scheme) in
@@ -42,7 +42,7 @@ class TableScheme: NSObject, UITableViewDataSource {
         }
     }
     
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    public func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         let scheme = schemeAtIndexPath(indexPath)
         let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
         let reuseIdentifier = scheme.reuseIdentifierForRelativeIndex(configurationIndex)
@@ -57,7 +57,7 @@ class TableScheme: NSObject, UITableViewDataSource {
         return cell
     }
     
-    func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
+    public func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
         return schemeSets[section].name
     }
     
@@ -70,7 +70,7 @@ class TableScheme: NSObject, UITableViewDataSource {
      *    @param tableView The table view being selected.
      *    @param indexPath The index path that was selected.
      */
-    func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) {
+    public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) {
         let scheme = schemeAtIndexPath(indexPath)
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
@@ -88,7 +88,7 @@ class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return The height that the cell should be.
      */
-    func heightInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) -> CGFloat {
+    public func heightInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) -> CGFloat {
         let scheme = schemeAtIndexPath(indexPath)
         let relativeIndex = indexPath.row - rowsBeforeScheme(scheme)
         let rowHeight = scheme.heightForRelativeIndex(relativeIndex)
@@ -109,7 +109,7 @@ class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return A strin containing the SchemeSet's footer text or nil
      */
-    func tableView(tableView: UITableView!, titleForFooterInSection section: Int) -> String! {
+    public func tableView(tableView: UITableView!, titleForFooterInSection section: Int) -> String! {
         let schemeSet = schemeSets[section]
         
         if !schemeSet.footerText {
@@ -127,7 +127,7 @@ class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return The scheme at the index path.
      */
-    func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme {
+    public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme {
         let schemeSet = schemeSets[indexPath.section]
         let row = indexPath.row
         var offset = 0
@@ -147,8 +147,7 @@ class TableScheme: NSObject, UITableViewDataSource {
         return schemeSet[row - offset]
     }
     
-    // MARK: Private Methods
-    func rowsBeforeScheme(scheme: Scheme) -> Int {
+    private func rowsBeforeScheme(scheme: Scheme) -> Int {
         let schemeSet = schemeSetWithScheme(scheme)
         
         var count = 0
@@ -163,7 +162,7 @@ class TableScheme: NSObject, UITableViewDataSource {
         return count
     }
     
-    func schemeSetWithScheme(scheme: Scheme) -> SchemeSet {
+    private func schemeSetWithScheme(scheme: Scheme) -> SchemeSet {
         var foundSet: SchemeSet?
         
         for schemeSet in schemeSets {

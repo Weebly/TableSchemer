@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1A0482A8194E582D005EE547 /* SchemeSet_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */; };
-		1A0482AA194E5A96005EE547 /* SchemeSetBuilder_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
 		1AAF4721194D127700BC2F17 /* ArrayScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */; };
 		1AAF4723194D2CBB00BC2F17 /* RadioScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */; };
@@ -368,7 +367,6 @@
 			files = (
 				1AAF4723194D2CBB00BC2F17 /* RadioScheme_Tests.swift in Sources */,
 				1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */,
-				1A0482AA194E5A96005EE547 /* SchemeSetBuilder_Tests.swift in Sources */,
 				1AE0674C194BBA4E00873E8A /* BasicScheme_Tests.swift in Sources */,
 				1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */,
 				1AAF4721194D127700BC2F17 /* ArrayScheme_Tests.swift in Sources */,

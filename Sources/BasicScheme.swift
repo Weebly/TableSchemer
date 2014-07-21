@@ -16,56 +16,56 @@ import UIKit
  *  SchemeSetBuilder.buildScheme(handler:) method generate them
  *  for you.
  */
-class BasicScheme<T: UITableViewCell>: Scheme {
-    typealias ConfigurationHandler = (cell: T) -> Void
-    typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
+public class BasicScheme<T: UITableViewCell>: Scheme {
+    public typealias ConfigurationHandler = (cell: T) -> Void
+    public typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
     
     /** The reuseIdentifier for this scheme. */
-    var reuseIdentifier: String?
+    public var reuseIdentifier: String?
     
     /** The height the cell should be if asked. */
-    var height: RowHeight = .UseTable
+    public var height: RowHeight = .UseTable
     
     /** The closure called to configure the cell the scheme is representing. */
-    var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler?
     
     /** The closure called when the cell is selected. 
      *
      *  NOTE: This is only called if the TableScheme is asked to handle selection
      *  by the table view delegate.
      */
-    var selectionHandler: SelectionHandler?
+    public var selectionHandler: SelectionHandler?
     
-    @required init() {
+    required public init() {
         super.init()
     }
     
     // MARK: Abstract method overrides
-    override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
         configurationHandler!(cell: cell as T)
     }
     
-    override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
             sh(cell: cell as T, scheme: self)
         }
     }
     
-    override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
         return reuseIdentifier!
     }
     
-    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return height
     }
     
-    override func isValid() -> Bool  {
+    override public func isValid() -> Bool  {
         assert(reuseIdentifier?)
         assert(configurationHandler?)
         return reuseIdentifier? && configurationHandler?
     }
 }
 
-func ==<T: UITableViewCell>(lhs: BasicScheme<T>, rhs: BasicScheme<T>) -> Bool {
+public func ==<T: UITableViewCell>(lhs: BasicScheme<T>, rhs: BasicScheme<T>) -> Bool {
     return lhs.reuseIdentifier == rhs.reuseIdentifier && lhs.height == rhs.height
 }

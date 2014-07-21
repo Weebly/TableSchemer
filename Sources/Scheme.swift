@@ -8,12 +8,12 @@
 
 import UIKit
 
-enum RowHeight: Equatable {
+public enum RowHeight: Equatable {
     case UseTable
     case Custom(CGFloat)
 }
 
-func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
+public func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
     switch lhs {
         case .UseTable:
             switch rhs {
@@ -41,16 +41,16 @@ func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
  *
  *  This class is an abstract class, and can not be used. You must use a concret subclass for it.
  */
-class Scheme: Equatable {
+public class Scheme: Equatable {
     /** This property determines how many cells should be represented by this Scheme.
      *  
      *  This is used to determine the size of the table view.
      */
-    var numberOfCells: Int {
+    public var numberOfCells: Int {
         return 1
     }
     
-    @required init() { }
+    required public init() { }
     
     /** This method verifies that the Scheme has all the required properties to be used in a TableScheme
      *
@@ -58,7 +58,7 @@ class Scheme: Equatable {
      *
      *  @return true if the Scheme is configured with the minimally required properties, or false.
      */
-    func isValid() -> Bool {
+    public func isValid() -> Bool {
         return true
     }
     
@@ -72,7 +72,7 @@ class Scheme: Equatable {
      *    @param cell          The UITableViewCell being created.
      *    @param relativeIndex The cell index from the start of the scheme being configured.
      */
-    func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+    public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
         
     }
     
@@ -91,7 +91,7 @@ class Scheme: Equatable {
      *    @param rowsBeforeScheme The number of rows before the scheme's first cell.
      *    @param relativeIndex    The index of the row from the scheme's first cell.
      */
-    func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
+    public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         
     }
     
@@ -104,7 +104,7 @@ class Scheme: Equatable {
      *
      *    @return The reuse identifier to pass into the table views dequeue method.
      */
-    func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
+    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
         return nil
     }
     
@@ -119,11 +119,11 @@ class Scheme: Equatable {
      *            tableView's height, otherwise provide TableHeight.Custom(CGFloat) to use 
      *            a custom height
      */
-    func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return .UseTable
     }
 }
 
-func ==(lhs: Scheme, rhs: Scheme) -> Bool {
+public func ==(lhs: Scheme, rhs: Scheme) -> Bool {
     return true
 }

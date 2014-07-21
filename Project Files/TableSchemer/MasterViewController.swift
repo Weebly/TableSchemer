@@ -101,7 +101,7 @@ class MasterViewController: UITableViewController {
                     scheme.objects = self.arrayObjects
                     
                     scheme.heightHandler = { (object) in
-                        let rect = object.bridgeToObjectiveC().boundingRectWithSize(CGSize(width: 300, height: CGFLOAT_MAX), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
+                        let rect = object.bridgeToObjectiveC().boundingRectWithSize(CGSize(width: 300, height: CGFloat.max), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
                         let height = CGFloat(ceilf(Float(rect.size.height)) + 28.0)
                         return .Custom(height)
                     }

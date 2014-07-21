@@ -13,9 +13,9 @@ import UIKit
  * An instance of this object is passed into the build handler from TableScheme(buildHandler:).
  * It's used to create SchemeSet objects, which correspond directly to table view sections.
  */
-class TableSchemeBuilder {
+public class TableSchemeBuilder {
     /** The scheme sets that have been added to the builder. */
-    var schemeSets = [SchemeSet]();
+    public var schemeSets = [SchemeSet]();
     
     /** Builds a SchemeSet object with the configured builder passed into the handler.
      *
@@ -29,7 +29,7 @@ class TableSchemeBuilder {
      *  @param handler The block to configure the builder.
      *  @return The created SchemeSet object.
      */
-    func buildSchemeSet(handler: (builder: SchemeSetBuilder) -> Void) -> SchemeSet {
+    internal func buildSchemeSet(handler: (builder: SchemeSetBuilder) -> Void) -> SchemeSet {
         let builder = SchemeSetBuilder()
         handler(builder: builder)
         let schemeSet = builder.createSchemeSet()

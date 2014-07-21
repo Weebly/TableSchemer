@@ -13,17 +13,17 @@ import UIKit
  *  An instance of this object is passed into the build handler from WBLSchemeDataSourceBuilder.buildSchemeSet(handler:).
  *  It's used to set a section title and to add schemes to the scheme set.
  */
-class SchemeSetBuilder {
+public class SchemeSetBuilder {
     /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
-    var name: String?
+    public var name: String?
     
     /** This will be used as the SchemeSet's footer text. If left nil, it will not have a footer label */
-    var footerText: String?
+    public var footerText: String?
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
-    var schemes = [Scheme]()
+    public var schemes = [Scheme]()
     
-    init() { } // Compiler won't compile without this. Not sure why.
+    public init() { } // Compiler won't compile without this. Not sure why.
     
     /** Build a scheme within the closure.
      *
@@ -38,7 +38,7 @@ class SchemeSetBuilder {
      *  @param handler The closure to configure the scheme.
      *  @return The created Scheme instance
      */
-    func buildScheme<T: Scheme>(handler: (scheme: T) -> Void) -> T {
+    public func buildScheme<T: Scheme>(handler: (scheme: T) -> Void) -> T {
         let scheme = T()
         handler(scheme: scheme)
         
@@ -50,7 +50,7 @@ class SchemeSetBuilder {
     }
     
     /** Create the SchemeSet with the currently added Schemes. This method should not be called except from TableSchemeBuilder */
-    func createSchemeSet() -> SchemeSet {
+    internal func createSchemeSet() -> SchemeSet {
         return SchemeSet(name: name, footerText: footerText, withSchemes: schemes)
     }
 }

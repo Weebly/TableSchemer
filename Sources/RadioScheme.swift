@@ -21,45 +21,45 @@ import UIKit
  *    SchemeSetBuilder.buildScheme(handler:) method generate them
  *    for you.
  */
-class RadioScheme<T: UITableViewCell>: Scheme {
-    typealias ConfigurationHandler = (cell: T, index: Int) -> Void
-    typealias SelectionHandler = (cell: T, scheme: RadioScheme, index: Int) -> Void
+public class RadioScheme<T: UITableViewCell>: Scheme {
+    public typealias ConfigurationHandler = (cell: T, index: Int) -> Void
+    public typealias SelectionHandler = (cell: T, scheme: RadioScheme, index: Int) -> Void
     
     /** The currently selected index. */
-    var selectedIndex = 0
+    public var selectedIndex = 0
     
     /** The reuse identifiers that each cell will use. */
-    var reuseIdentifiers: [String]?
+    public var reuseIdentifiers: [String]?
     
     /** The heights that the cells should have if asked. */
-    var heights: [RowHeight]?
+    public var heights: [RowHeight]?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler?
     
     /** The closure called when the cell is selected.
     *
     *  NOTE: This is only called if the TableScheme is asked to handle selection
     *  by the table view delegate.
     */
-    var selectionHandler: SelectionHandler?
+    public var selectionHandler: SelectionHandler?
     
-    @required init() {
+    required public init() {
         super.init()
     }
     
     // MARK: Property Overrides
-    override var numberOfCells: Int {
+    override public var numberOfCells: Int {
         return countElements(reuseIdentifiers!)
     }
     
     // MARK: Public Instance Methods
-    func useReuseIdentifier(reuseIdentifier: String, withNumberOfOptions numberOfOptions: Int) {
+    public func useReuseIdentifier(reuseIdentifier: String, withNumberOfOptions numberOfOptions: Int) {
         reuseIdentifiers = [String](count: numberOfOptions, repeatedValue: reuseIdentifier)
     }
     
     // MARK: Abstract Method Overrides
-    override func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
+    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         configurationHandler!(cell: cell as T, index: relativeIndex)
         
         if selectedIndex == relativeIndex {
@@ -69,7 +69,7 @@ class RadioScheme<T: UITableViewCell>: Scheme {
         }
     }
     
-    override func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
+    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
             sh(cell: cell as T, scheme: self, index: relativeIndex)
         }
@@ -89,11 +89,11 @@ class RadioScheme<T: UITableViewCell>: Scheme {
         cell.accessoryType = .Checkmark
     }
     
-    override func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
         return reuseIdentifiers![relativeIndex]
     }
     
-    override func heightForRelativeIndex(relativeIndex: Int) -> RowHeight  {
+    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight  {
         var height = RowHeight.UseTable
         
         if let rowHeights = heights {
@@ -105,15 +105,15 @@ class RadioScheme<T: UITableViewCell>: Scheme {
         return height
     }
     
-    override func isValid() -> Bool {
-        assert(reuseIdentifiers? != nil)
-        assert(configurationHandler?)
+    override public func isValid() -> Bool {
+        assert(reuseIdentifiers)
+        assert(configurationHandler)
 
-        return reuseIdentifiers? != nil && configurationHandler?
+        return reuseIdentifiers && configurationHandler
     }
 }
 
-func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
+public func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
     var reuseIdentifiersEqual = false
     var heightsEqual = false

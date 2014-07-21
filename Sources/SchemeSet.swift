@@ -14,40 +14,40 @@
  *    have more than a single row), and the name property is used for the
  *    section name.
  */
-class SchemeSet {
+public class SchemeSet {
     /** This property is the title for the table view section */
-    let name: String?
+    public let name: String?
     
     /** The string returned for tableView:viewForFooterInSection */
-    var footerText: String?
+    public var footerText: String?
     
     /** The schemes contained in the SchemeSet */
-    let schemes: [Scheme]
+    public let schemes: [Scheme]
     
     /** The number of schemes within the SchemeSet */
-    var count: Int {
+    public var count: Int {
         return countElements(schemes)
     }
     
-    init(schemes: [Scheme]) {
+    public init(schemes: [Scheme]) {
         self.schemes = schemes
     }
     
-    init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
+    public init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {
         self.name = name
         self.footerText = footerText
         self.schemes = schemes
     }
     
-    convenience init(name: String?, withSchemes schemes: [Scheme]) {
+    public convenience init(name: String?, withSchemes schemes: [Scheme]) {
         self.init(name: name, footerText: nil, withSchemes: schemes)
     }
     
-    convenience init(footerText: String?, withSchemes schemes: [Scheme]) {
+    public convenience init(footerText: String?, withSchemes schemes: [Scheme]) {
         self.init(name: nil, footerText: footerText, withSchemes: schemes)
     }
     
-    subscript(index: Int) -> Scheme {
+    public subscript(index: Int) -> Scheme {
         return schemes[index]
     }
 }
