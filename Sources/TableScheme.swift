@@ -43,7 +43,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
-        let scheme = schemeAtIndexPath(indexPath)
+        let scheme = schemeAtIndexPath(indexPath)!
         let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
         let reuseIdentifier = scheme.reuseIdentifierForRelativeIndex(configurationIndex)
         let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
@@ -71,7 +71,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @param indexPath The index path that was selected.
      */
     public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) {
-        let scheme = schemeAtIndexPath(indexPath)
+        let scheme = schemeAtIndexPath(indexPath)!
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
         let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
@@ -89,7 +89,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @return The height that the cell should be.
      */
     public func heightInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) -> CGFloat {
-        let scheme = schemeAtIndexPath(indexPath)
+        let scheme = schemeAtIndexPath(indexPath)!
         let relativeIndex = indexPath.row - rowsBeforeScheme(scheme)
         let rowHeight = scheme.heightForRelativeIndex(relativeIndex)
         
@@ -127,7 +127,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return The scheme at the index path.
      */
-    public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme {
+    public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme? {
         let schemeSet = schemeSets[indexPath.section]
         let row = indexPath.row
         var offset = 0
@@ -145,6 +145,33 @@ public class TableScheme: NSObject, UITableViewDataSource {
         }
         
         return schemeSet[row - offset]
+    }
+    
+    /**
+     *      This method returns the scheme contained in a particular view. You would typical use
+     *      this method when you have a UIControl sending an action for a view and you need to 
+     *      determine the scheme that contains the control.
+     *
+     *      This view must be contained in the view hierarchey for the UITableView that this
+     *      TableScheme is backing.
+     *
+     *      @param view The view that is contained in the view.
+     *     
+     *      @return The Scheme that contains the view, or nil if the scheme view does not have a scheme.
+     */
+    public func schemeContainingView(view: UIView) -> Scheme? {
+        if let cell = view.TSR_containingTableViewCell() {
+            if let tableView = cell.TSR_containingTableView() {
+                assert(tableView.dataSource === self)
+                if let indexPath = tableView.indexPathForCell(cell) {
+                    if let scheme = schemeAtIndexPath(indexPath) {
+                        return scheme
+                    }
+                }
+            }
+        }
+        
+        return nil
     }
     
     private func rowsBeforeScheme(scheme: Scheme) -> Int {

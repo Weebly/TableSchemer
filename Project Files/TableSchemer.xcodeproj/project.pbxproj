@@ -14,7 +14,8 @@
 		1AB445B7194A66C4001BEDFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B6194A66C4001BEDFF /* AppDelegate.swift */; };
 		1AB445B9194A66C4001BEDFF /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B8194A66C4001BEDFF /* MasterViewController.swift */; };
 		1AB445C0194A66C4001BEDFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB445BF194A66C4001BEDFF /* Images.xcassets */; };
-		1ABDFDF01964E27A00DACB5A /* AdvancedTableSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABDFDEF1964E27A00DACB5A /* AdvancedTableSchemeViewController.swift */; };
+		1AD4F4A619895C14004D3676 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4F4A519895C14004D3676 /* ViewExtensions.swift */; };
+		1AD4F4A819895DD5004D3676 /* AdvancedTableSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */; };
 		1AE06748194BB2C300873E8A /* SchemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE06747194BB2C300873E8A /* SchemeCell.swift */; };
 		1AE0674C194BBA4E00873E8A /* BasicScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */; };
 		1AF584E7194A6D520090529C /* Scheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584E6194A6D520090529C /* Scheme.swift */; };
@@ -53,7 +54,8 @@
 		1AB445BF194A66C4001BEDFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1AB445C5194A66C4001BEDFF /* TableSchemerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TableSchemerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB445CA194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ABDFDEF1964E27A00DACB5A /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTableSchemeViewController.swift; sourceTree = "<group>"; };
+		1AD4F4A519895C14004D3676 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewExtensions.swift; path = ../../Sources/ViewExtensions.swift; sourceTree = "<group>"; };
+		1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTableSchemeViewController.swift; sourceTree = "<group>"; };
 		1AE06747194BB2C300873E8A /* SchemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeCell.swift; path = ../../Sources/SchemeCell.swift; sourceTree = "<group>"; };
 		1AE0674A194BBA4E00873E8A /* TableSchemerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TableSchemerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme_Tests.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		1AB445B3194A66C4001BEDFF /* TableSchemer */ = {
 			isa = PBXGroup;
 			children = (
+				1AD4F4A419895C05004D3676 /* Utility */,
 				1AE06749194BB2C800873E8A /* Cells */,
 				1AF584F0194B7A5C0090529C /* Collections */,
 				1AF584E5194A6D200090529C /* Table Scheme */,
@@ -120,7 +123,7 @@
 				1AF584E3194A6CEF0090529C /* Scheme Builders */,
 				1AB445B6194A66C4001BEDFF /* AppDelegate.swift */,
 				1AB445B8194A66C4001BEDFF /* MasterViewController.swift */,
-				1ABDFDEF1964E27A00DACB5A /* AdvancedTableSchemeViewController.swift */,
+				1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */,
 				1AB445BF194A66C4001BEDFF /* Images.xcassets */,
 				1AB445B4194A66C4001BEDFF /* Supporting Files */,
 			);
@@ -157,6 +160,14 @@
 				1AB445CA194A66C4001BEDFF /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1AD4F4A419895C05004D3676 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1AD4F4A519895C14004D3676 /* ViewExtensions.swift */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 		1AE06749194BB2C800873E8A /* Cells */ = {
@@ -350,9 +361,10 @@
 				1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */,
 				1AF584E9194A72810090529C /* BasicScheme.swift in Sources */,
 				1AF584E7194A6D520090529C /* Scheme.swift in Sources */,
-				1ABDFDF01964E27A00DACB5A /* AdvancedTableSchemeViewController.swift in Sources */,
 				1AE06748194BB2C300873E8A /* SchemeCell.swift in Sources */,
 				1AF584EB194A75900090529C /* AccordionScheme.swift in Sources */,
+				1AD4F4A619895C14004D3676 /* ViewExtensions.swift in Sources */,
+				1AD4F4A819895DD5004D3676 /* AdvancedTableSchemeViewController.swift in Sources */,
 				1AF584F4194B817F0090529C /* SchemeSetBuilder.swift in Sources */,
 				1AB445B9194A66C4001BEDFF /* MasterViewController.swift in Sources */,
 				1AF584F8194BA14A0090529C /* TableScheme.swift in Sources */,

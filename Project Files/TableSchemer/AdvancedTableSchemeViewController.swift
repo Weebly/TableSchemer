@@ -12,10 +12,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
     let SwitchReuseIdentifier = "SwitchCell"
     let InputReuseIdentifier = "InputCell"
     var tableScheme: TableScheme!
-    var firstSwitch: UISwitch!
-    var secondSwitch: UISwitch!
-    var firstField: UITextField!
-    var secondField: UITextField!
+    var firstSwitchScheme: Scheme!
+    var secondSwitchScheme: Scheme!
+    var firstFieldScheme: Scheme!
+    var secondFieldScheme: Scheme!
     
     var wifiEnabled = false
     var bluetoothEnabled = false
@@ -54,29 +54,29 @@ class AdvancedTableSchemeViewController: UITableViewController {
             builder.buildSchemeSet { (builder) in
                 builder.name = "Switches"
                 
-                builder.buildScheme { (scheme: BasicScheme) in
+                self.firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.textLabel.text = "First Switch"
                         cell.selectionStyle = .None
-                        self.firstSwitch = UISwitch()
-                        self.firstSwitch.on = self.wifiEnabled
-                        self.firstSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
-                        cell.accessoryView = self.firstSwitch
+                        let switchView = UISwitch()
+                        switchView.on = self.wifiEnabled
+                        switchView.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
+                        cell.accessoryView = switchView
                     }
                 }
                 
-                builder.buildScheme { (scheme: BasicScheme) in
+                self.secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
                         cell.textLabel.text = "Second Switch"
                         cell.selectionStyle = .None
-                        self.secondSwitch = UISwitch()
-                        self.secondSwitch.on = self.bluetoothEnabled
-                        self.secondSwitch.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged)
-                        cell.accessoryView = self.secondSwitch
+                        let switchView = UISwitch()
+                        switchView.on = self.bluetoothEnabled
+                        switchView.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged)
+                        cell.accessoryView = switchView
                     }
                 }
                 
@@ -86,7 +86,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.name = "Text Input"
                 builder.footerText = "Section footer text"
                 
-                builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
+                self.firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
@@ -96,11 +96,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.input.keyboardType = .Default // Since the other input cell changes this value, this cell must define what it wants to avoid reuse issues.
                         cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
                         cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
-                        self.firstField = cell.input
                     }
                 }
                 
-                builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
+                self.secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
@@ -110,7 +109,6 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.input.keyboardType = .EmailAddress
                         cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
                         cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
-                        self.secondField = cell.input
                     }
                 }
             }
@@ -122,22 +120,26 @@ class AdvancedTableSchemeViewController: UITableViewController {
 
     // MARK: Target-Action
     func switcherUpdated(switcher: UISwitch) {
-        if switcher === self.firstSwitch {
-            println("Toggle some feature, like allowing wifi!")
-            self.wifiEnabled = switcher.on
-        } else if switcher === self.secondSwitch {
-            println("Toggle some other feature, like bluetooth!")
-            self.bluetoothEnabled = switcher.on
+        if let scheme = tableScheme.schemeContainingView(switcher) {
+            if scheme === self.firstSwitchScheme {
+                println("Toggle some feature, like allowing wifi!")
+                self.wifiEnabled = switcher.on
+            } else if scheme === self.secondSwitchScheme {
+                println("Toggle some other feature, like bluetooth!")
+                self.bluetoothEnabled = switcher.on
+            }
         }
     }
     
     func textFieldUpdated(textField: UITextField) {
-        if textField == self.firstField {
-            println("Storing \"\(textField.text)\" for first text field!")
-            self.firstFieldValue = textField.text
-        } else if textField == self.secondField {
-            println("Storing \"\(textField.text)\" for the email!")
-            self.secondFieldValue = textField.text
+        if let scheme = tableScheme.schemeContainingView(textField) {
+            if scheme === self.firstFieldScheme {
+                println("Storing \"\(textField.text)\" for first text field!")
+                self.firstFieldValue = textField.text
+            } else if scheme === self.secondFieldScheme {
+                println("Storing \"\(textField.text)\" for the email!")
+                self.secondFieldValue = textField.text
+            }
         }
     }
     

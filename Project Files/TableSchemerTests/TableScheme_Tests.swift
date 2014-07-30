@@ -199,6 +199,17 @@ class TableScheme_Tests: XCTestCase {
         XCTAssert(subject.schemeAtIndexPath(NSIndexPath(forRow: 0, inSection: 2)) === schemeSet3Scheme1)
     }
     
+    // MARK: Finding a Scheme within a View
+    func testSchemeContainingView_returnsCorrectView() {
+        let tableView = configuredTableView()
+        let subview = UIView()
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as UITableViewCell!
+        cell.contentView.addSubview(subview)
+        let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
+        tableMock.stub().andReturn(NSIndexPath(forRow: 0, inSection: 2)).indexPathForCell(cell)
+        XCTAssert(subject.schemeContainingView(subview) ===  schemeSet3Scheme1)
+    }
+    
     // MARK: Test Helpers
     func configuredTableView(cellClass: AnyObject.Type = SchemeCell.self) -> UITableView {
         let tableView = UITableView()
