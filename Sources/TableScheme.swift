@@ -148,7 +148,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
     
     /**
-     *      This method returns the scheme contained in a particular view. You would typical use
+     *      This method returns the scheme contained in a particular view. You would typically use
      *      this method when you have a UIControl sending an action for a view and you need to 
      *      determine the scheme that contains the control.
      *
@@ -157,7 +157,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *
      *      @param view The view that is contained in the view.
      *     
-     *      @return The Scheme that contains the view, or nil if the scheme view does not have a scheme.
+     *      @return The Scheme that contains the view, or nil if the view does not have a scheme.
      */
     public func schemeContainingView(view: UIView) -> Scheme? {
         if let cell = view.TSR_containingTableViewCell() {
@@ -166,6 +166,38 @@ public class TableScheme: NSObject, UITableViewDataSource {
                 if let indexPath = tableView.indexPathForCell(cell) {
                     if let scheme = schemeAtIndexPath(indexPath) {
                         return scheme
+                    }
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    /**
+    *      This method returns the scheme contained in a particular view along with the offset within
+    *      the scheme the chosen cell is at. Its similar to schemeContainingView(view:) -> Scheme?. 
+    *
+    *      You would typically use this method when you have a UIControl sending an action for a view
+    *      that is part of a collection of cells within a scheme.
+    *
+    *      This view must be contained in the view hierarchey for the UITableView that this
+    *      TableScheme is backing.
+    *
+    *      @param view The view that is contained in the view.
+    *
+    *      @return A tuple with the Scheme and Index of the cell within the scheme, or nil if 
+    *              the view does not have a scheme.
+    */
+    public func schemeWithIndexContainingView(view: UIView) -> (scheme: Scheme, index: Int)? {
+        if let cell = view.TSR_containingTableViewCell() {
+            if let tableView = cell.TSR_containingTableView() {
+                assert(tableView.dataSource === self)
+                if let indexPath = tableView.indexPathForCell(cell) {
+                    if let scheme = schemeAtIndexPath(indexPath) {
+                        let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
+                        let offset = indexPath.row - numberOfRowsBeforeScheme
+                        return (scheme: scheme, index: offset)
                     }
                 }
             }

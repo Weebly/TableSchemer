@@ -200,7 +200,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     // MARK: Finding a Scheme within a View
-    func testSchemeContainingView_returnsCorrectView() {
+    func testSchemeContainingView_returnsCorrectScheme() {
         let tableView = configuredTableView()
         let subview = UIView()
         let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as UITableViewCell!
@@ -208,6 +208,18 @@ class TableScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(NSIndexPath(forRow: 0, inSection: 2)).indexPathForCell(cell)
         XCTAssert(subject.schemeContainingView(subview) ===  schemeSet3Scheme1)
+    }
+    
+    func testSchemeWithIndexContainingView_returnsCorrectTuple() {
+        let tableView = configuredTableView()
+        let subview = UIView()
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 2, inSection: 1)) as UITableViewCell!
+        cell.contentView.addSubview(subview)
+        let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
+        tableMock.stub().andReturn(NSIndexPath(forRow: 2, inSection: 1)).indexPathForCell(cell)
+        let tuple = subject.schemeWithIndexContainingView(subview)!
+        XCTAssert(tuple.scheme ===  schemeSet2Scheme1)
+        XCTAssertEqual(tuple.index, 2)
     }
     
     // MARK: Test Helpers

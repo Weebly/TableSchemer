@@ -11,11 +11,13 @@ import UIKit
 class AdvancedTableSchemeViewController: UITableViewController {
     let SwitchReuseIdentifier = "SwitchCell"
     let InputReuseIdentifier = "InputCell"
+    let BasicReuseIdentifier = "BasicCell"
     var tableScheme: TableScheme!
     var firstSwitchScheme: Scheme!
     var secondSwitchScheme: Scheme!
     var firstFieldScheme: Scheme!
     var secondFieldScheme: Scheme!
+    var buttonsScheme: ArrayScheme<String, SchemeCell>!
     
     var wifiEnabled = false
     var bluetoothEnabled = false
@@ -37,6 +39,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         tableView.rowHeight = 44.0
         tableView.registerClass(SchemeCell.self, forCellReuseIdentifier: SwitchReuseIdentifier)
         tableView.registerClass(InputFieldCell.self, forCellReuseIdentifier: InputReuseIdentifier)
+        tableView.registerClass(SchemeCell.self, forCellReuseIdentifier: BasicReuseIdentifier)
         buildAndSetTableScheme()
     }
     
@@ -112,6 +115,23 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
             }
+            
+            builder.buildSchemeSet { (builder) in
+                builder.name = "Button Press Inside Array Scheme"
+                
+                self.buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
+                    scheme.reuseIdentifier = self.BasicReuseIdentifier
+                    scheme.objects = ["First", "Second", "Third", "Fourth"]
+                    
+                    scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
+                        cell.selectionStyle = .None
+                        cell.textLabel.text = object
+                        let button = UIButton.buttonWithType(.InfoDark) as UIButton
+                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+                        cell.accessoryView = button
+                    }
+                }
+            }
 
         }
         
@@ -139,6 +159,15 @@ class AdvancedTableSchemeViewController: UITableViewController {
             } else if scheme === self.secondFieldScheme {
                 println("Storing \"\(textField.text)\" for the email!")
                 self.secondFieldValue = textField.text
+            }
+        }
+    }
+    
+    func buttonPressed(button: UIButton) {
+        if let tuple = tableScheme.schemeWithIndexContainingView(button) {
+            if tuple.scheme === self.buttonsScheme {
+                let object = self.buttonsScheme.objects![tuple.index]
+                println("You pressed the button with object: \(object)")
             }
         }
     }

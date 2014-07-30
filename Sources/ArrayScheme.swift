@@ -32,6 +32,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     public var reuseIdentifier: String?
     
     /** The objects this scheme is representing */
+    // TODO: Change this and other required optionals to implicitly unwrapped when the compiler stops crashing because of it
     public var objects: [T]?
     
     /** The closure called to determine the height of this cell.
