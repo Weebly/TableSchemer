@@ -76,6 +76,13 @@ class MasterViewController: UITableViewController {
 
 TableSchemer supports configuring selection handlers and height, but you need to be sure to forward delegate methods to the tableScheme object. Check out the [Using Table Schemer](wiki/Using-Table-Schemer) page for how to do that and more, and be sure to check out our sample app!
 
+## Contact
+
+* If you need help or have a general question use [Stack Overflow](https://stackoverflow.com/questions/tagged/tableschemer)
+* If you've found a bug or have a feature request [open an issue](https://github.com/weebly/TableSchemer/issues/new)
+
+We're also frequently in the [Gitter](https://gitter.im/weebly/TableSchemer) chatroom!
+
 ## Contributing
 
 We love to have your help to make TableSchemer better. Feel free to
