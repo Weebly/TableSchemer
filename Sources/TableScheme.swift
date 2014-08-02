@@ -70,7 +70,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @param tableView The table view being selected.
      *    @param indexPath The index path that was selected.
      */
-    public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) {
+    public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) {
         let scheme = schemeAtIndexPath(indexPath)!
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
@@ -88,7 +88,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return The height that the cell should be.
      */
-    public func heightInTableView(tableView: UITableView, forIndexPath indexPath:NSIndexPath) -> CGFloat {
+    public func heightInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) -> CGFloat {
         let scheme = schemeAtIndexPath(indexPath)!
         let relativeIndex = indexPath.row - rowsBeforeScheme(scheme)
         let rowHeight = scheme.heightForRelativeIndex(relativeIndex)
