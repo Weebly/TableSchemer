@@ -90,10 +90,10 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     }
     
     override public func isValid() -> Bool {
-        assert(reuseIdentifier)
-        assert(objects)
-        assert(configurationHandler)
-        return reuseIdentifier && objects && configurationHandler
+        assert(reuseIdentifier != nil)
+        assert(objects != nil)
+        assert(configurationHandler != nil)
+        return reuseIdentifier != nil && objects != nil && configurationHandler != nil
     }
 }
 

@@ -106,10 +106,10 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     }
     
     override public func isValid() -> Bool {
-        assert(reuseIdentifiers)
-        assert(configurationHandler)
+        assert(reuseIdentifiers != nil)
+        assert(configurationHandler != nil)
 
-        return reuseIdentifiers && configurationHandler
+        return reuseIdentifiers != nil && configurationHandler != nil
     }
 }
 

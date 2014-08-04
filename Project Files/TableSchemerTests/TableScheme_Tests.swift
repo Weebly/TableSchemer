@@ -232,7 +232,7 @@ class TableScheme_Tests: XCTestCase {
     }
 }
 
-class TestableScheme: Scheme {
+public class TestableScheme: Scheme {
     var lastConfigureCall: (cell: UITableViewCell, relativeIndex: Int)!
     var lastSelectCall: (cell: UITableViewCell, tableView: UITableView, section: Int, rowsBeforeScheme: Int, relativeIndex: Int)!
     
@@ -242,7 +242,7 @@ class TestableScheme: Scheme {
         return definedNumberOfCells
     }
     
-    public init() {
+    public required init() {
         super.init()
     }
     

@@ -25,12 +25,16 @@ class AdvancedTableSchemeViewController: UITableViewController {
     var firstFieldValue = ""
     var secondFieldValue = ""
     
-    init(style: UITableViewStyle) {
+    override init(style: UITableViewStyle) {
         super.init(style: style)
     }
     
-    init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init(coder aDecoder: NSCoder!) {
+        super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
@@ -181,7 +185,7 @@ class InputFieldCell: SchemeCell {
     let label = UILabel()
     let input = UITextField()
     
-    init(style: UITableViewCellStyle, reuseIdentifier: String!) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         label.setTranslatesAutoresizingMaskIntoConstraints(false)
         input.setTranslatesAutoresizingMaskIntoConstraints(false)
         super.init(style: style, reuseIdentifier: reuseIdentifier)

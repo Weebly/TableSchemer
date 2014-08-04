@@ -60,9 +60,9 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     }
     
     override public func isValid() -> Bool  {
-        assert(reuseIdentifier?)
-        assert(configurationHandler?)
-        return reuseIdentifier? && configurationHandler?
+        assert(reuseIdentifier != nil)
+        assert(configurationHandler != nil)
+        return reuseIdentifier != nil && configurationHandler != nil
     }
 }
 

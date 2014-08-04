@@ -112,7 +112,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
     public func tableView(tableView: UITableView!, titleForFooterInSection section: Int) -> String! {
         let schemeSet = schemeSets[section]
         
-        if !schemeSet.footerText {
+        if schemeSet.footerText == nil {
             return nil
         }
         
@@ -233,7 +233,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
             }
         }
         
-        assert(foundSet)
+        assert(foundSet != nil)
         
         return foundSet!
     }

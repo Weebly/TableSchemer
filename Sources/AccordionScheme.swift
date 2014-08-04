@@ -126,7 +126,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if expanded {
-            if accordionHeights && countElements(accordionHeights!) > relativeIndex {
+            if accordionHeights != nil && countElements(accordionHeights!) > relativeIndex {
                 return accordionHeights![relativeIndex]
             } else {
                 return .UseTable
@@ -137,11 +137,11 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
     
     override public func isValid() -> Bool {
-        assert(accordionReuseIdentifiers)
+        assert(accordionReuseIdentifiers != nil)
         assert(countElements(accordionReuseIdentifiers!) > 0)
-        assert(accordionConfigurationHandler)
+        assert(accordionConfigurationHandler != nil)
         
-        return super.isValid() && accordionReuseIdentifiers && accordionConfigurationHandler
+        return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
     }
 }
 

@@ -15,12 +15,16 @@ class MasterViewController: UITableViewController {
     var accordionSelection = 0
     var radioSelection = 0
     
-    init(style: UITableViewStyle) {
+    override init(style: UITableViewStyle) {
         super.init(style: style)
     }
     
-    init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init(coder aDecoder: NSCoder!) {
+        super.init(coder: aDecoder)
     }
     
     // TODO: Change handler capture blocks to unowned. Currently causes a crash on Beta2
@@ -101,7 +105,7 @@ class MasterViewController: UITableViewController {
                     scheme.objects = self.arrayObjects
                     
                     scheme.heightHandler = { (object) in
-                        let rect = object.bridgeToObjectiveC().boundingRectWithSize(CGSize(width: 300, height: CGFloat.max), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
+                        let rect = object.boundingRectWithSize(CGSize(width: 300, height: CGFloat.max), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
                         let height = CGFloat(ceilf(Float(rect.size.height)) + 28.0)
                         return .Custom(height)
                     }
