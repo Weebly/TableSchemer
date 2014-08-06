@@ -60,7 +60,8 @@ class MasterViewController: UITableViewController {
                         cell.textLabel.text = "Tap here for an advanced example."
                         cell.accessoryType = .DisclosureIndicator
                     }
-                    
+
+		    // We're specifying unowned(unsafe) self here because handlers are retained by the schemes. Without it, we'd have a retain cycle                    
                     scheme.selectionHandler = { [unowned(unsafe) self] (cell, scheme) in
                         let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
                         self.navigationController.pushViewController(advancedController, animated: true)
