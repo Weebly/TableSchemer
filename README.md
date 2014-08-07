@@ -8,7 +8,7 @@ Build your table view using closures, and have all of your cell(s) logic in one 
 
 ### Built-in Schemes
 
-TableSchemer comes with a variety of powerful schemes already built-in. Included is a basic scheme (for when you just need to render one cell), a radio scheme (for when you need a single cell in a group of cells selected at once), an array scheme (for when you need a dynamic set of cells backed by specific objects), and an accordion scheme (for when you need one cell to expand into many for a collapsed selection). Check out how to use them [here](wiki/Built-in-Schemes).
+TableSchemer comes with a variety of powerful schemes already built-in. Included is a basic scheme (for when you just need to render one cell), a radio scheme (for when you need a single cell in a group of cells selected at once), an array scheme (for when you need a dynamic set of cells backed by specific objects), and an accordion scheme (for when you need one cell to expand into many for a collapsed selection). Check out how to use them [here](./wiki/Built-in-Schemes).
 
 ### Extendable
 
@@ -17,7 +17,7 @@ You can easily create your own Schemes and add them into your tables. With a few
 ## Getting Started
 
 * Download TableSchemer and see it in action using the example app.
-* Start building your own tables by installing it in your own app. See [Using Table Schemer](wiki/Using-Table-Schemer) for more information on how to use Table Schemer.
+* Start building your own tables by installing it in your own app. See [Using Table Schemer](./wiki/Using-Table-Schemer) for more information on how to use Table Schemer.
 
 ## Requirements
 
