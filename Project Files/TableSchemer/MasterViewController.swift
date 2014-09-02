@@ -23,7 +23,7 @@ class MasterViewController: UITableViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    required init(coder aDecoder: NSCoder!) {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -39,11 +39,11 @@ class MasterViewController: UITableViewController {
         tableView.dataSource = tableScheme
     }
     
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
     }
     
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
@@ -55,13 +55,13 @@ class MasterViewController: UITableViewController {
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     
                     scheme.configurationHandler = { (cell) in
-                        cell.textLabel.text = "Tap here for an advanced example."
+                        cell.textLabel!.text = "Tap here for an advanced example."
                         cell.accessoryType = .DisclosureIndicator
                     }
                     
                     scheme.selectionHandler = { [unowned(unsafe) self] (cell, scheme) in
                         let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
-                        self.navigationController.pushViewController(advancedController, animated: true)
+                        self.navigationController!.pushViewController(advancedController, animated: true)
                     }
                 }
                 return // Trailing closures will attempt to retun the SchemeSet without this since it's a "one line" expression
@@ -75,7 +75,7 @@ class MasterViewController: UITableViewController {
                     scheme.accordionReuseIdentifiers = [String](count: 3, repeatedValue: self.ReuseIdentifier)
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned references for the config/selection handlers
-                        cell.textLabel.text = "Selected Index: \(self.accordionSelection)"
+                        cell.textLabel!.text = "Selected Index: \(self.accordionSelection)"
                     }
                     
                     scheme.selectionHandler = { (cell, scheme) in
@@ -83,7 +83,7 @@ class MasterViewController: UITableViewController {
                     }
                     
                     scheme.accordionConfigurationHandler = { [unowned(unsafe) self] (cell, index) in
-                        cell.textLabel.text = "Accordion Expanded Cell \(index + 1)"
+                        cell.textLabel!.text = "Accordion Expanded Cell \(index + 1)"
                         if index == self.accordionSelection {
                             cell.accessoryType = .Checkmark
                         } else {
@@ -111,11 +111,11 @@ class MasterViewController: UITableViewController {
                     }
                     
                     scheme.configurationHandler = { (cell, object) in
-                        cell.textLabel.text = object
-                        cell.textLabel.numberOfLines = 0
-                        cell.textLabel.preferredMaxLayoutWidth = 300
-                        cell.textLabel.lineBreakMode = .ByWordWrapping
-                        cell.textLabel.invalidateIntrinsicContentSize() // For when this cell gets reused
+                        cell.textLabel!.text = object
+                        cell.textLabel!.numberOfLines = 0
+                        cell.textLabel!.preferredMaxLayoutWidth = 300
+                        cell.textLabel!.lineBreakMode = .ByWordWrapping
+                        cell.textLabel!.invalidateIntrinsicContentSize() // For when this cell gets reused
                     }
                     
                     scheme.selectionHandler = { (cell, scheme, object) in
@@ -131,7 +131,7 @@ class MasterViewController: UITableViewController {
                     scheme.useReuseIdentifier(self.ReuseIdentifier, withNumberOfOptions: 5)
                     
                     scheme.configurationHandler = { (cell, index) in
-                        cell.textLabel.text = "Radio Button \(index + 1)"
+                        cell.textLabel!.text = "Radio Button \(index + 1)"
                     }
                     
                     scheme.selectionHandler = { [unowned(unsafe) self] (cell, scheme, index) in

@@ -30,11 +30,11 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
     
     // MARK: UITableViewDataSource methods
-    public func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return countElements(schemeSets)
     }
     
-    public func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let schemeSet = schemeSets[section]
         
         return schemeSet.schemes.reduce(0) { (memo: Int, scheme: Scheme) in
@@ -42,11 +42,11 @@ public class TableScheme: NSObject, UITableViewDataSource {
         }
     }
     
-    public func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let scheme = schemeAtIndexPath(indexPath)!
         let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
         let reuseIdentifier = scheme.reuseIdentifierForRelativeIndex(configurationIndex)
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier!, forIndexPath: indexPath) as UITableViewCell
         
         if let schemeCell = cell as? SchemeCell {
             schemeCell.scheme = scheme
@@ -57,7 +57,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         return cell
     }
     
-    public func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String! {
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String! {
         return schemeSets[section].name
     }
     
@@ -72,7 +72,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      */
     public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) {
         let scheme = schemeAtIndexPath(indexPath)!
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        let cell = tableView.cellForRowAtIndexPath(indexPath)!
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
         let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
         scheme.selectCell(cell, inTableView: tableView, inSection: indexPath.section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
@@ -109,7 +109,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return A strin containing the SchemeSet's footer text or nil
      */
-    public func tableView(tableView: UITableView!, titleForFooterInSection section: Int) -> String! {
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String! {
         let schemeSet = schemeSets[section]
         
         if schemeSet.footerText == nil {
