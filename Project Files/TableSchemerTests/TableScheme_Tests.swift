@@ -23,6 +23,8 @@ class TableScheme_Tests: XCTestCase {
     var schemeSet2Scheme1: TestableScheme!
     var schemeSet3Scheme1: TestableScheme!
     
+    var tableView: UITableView!
+    
     // MARK: Setup and Teardown
     override func setUp() {
         super.setUp()
@@ -38,6 +40,7 @@ class TableScheme_Tests: XCTestCase {
         schemeSet3 = SchemeSet(schemes: [schemeSet3Scheme1])
         
         subject = TableScheme(schemeSets: [schemeSet1, schemeSet2, schemeSet3])
+        tableView = UITableView()
     }
     
     override func tearDown() {
@@ -57,40 +60,27 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Number Of Sections In Table View
     func testNumberOfSections_matchesNumberOfSchemes() {
-        XCTAssertEqual(subject.numberOfSectionsInTableView(nil), 3)
+        XCTAssertEqual(subject.numberOfSectionsInTableView(tableView), 3)
     }
     
     // MARK: Number of Rows In Section
     func testNumberOfRowsInSection_matchesSchemeReportedCells() {
-        XCTAssertEqual(subject.tableView(nil, numberOfRowsInSection: 0), 4)
-        XCTAssertEqual(subject.tableView(nil, numberOfRowsInSection: 1), 5)
-        XCTAssertEqual(subject.tableView(nil, numberOfRowsInSection: 2), 1)
+        XCTAssertEqual(subject.tableView(tableView, numberOfRowsInSection: 0), 4)
+        XCTAssertEqual(subject.tableView(tableView, numberOfRowsInSection: 1), 5)
+        XCTAssertEqual(subject.tableView(tableView, numberOfRowsInSection: 2), 1)
     }
 
     // MARK: Cell For Row At Index Path
-    func testCellForRowAtIndex_returnsCell() {
+    func testCellForRowAtIndex_returnsCorrectCellType() {
         let tableView = configuredTableView()
         let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2))
-        XCTAssertTrue(cell != nil)
+        XCTAssertTrue(cell is SchemeCell)
     }
-    
-    // TODO: This test is causing a compiler crash. Once resolved, uncomment
-//    func testCellForRowAtIndex_returnsCorrectCellType() {
-//        let tableView = configuredTableView()
-//        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2))
-//        XCTAssertTrue(cell is SchemeCell)
-//    }
     
     func testCellForRowAtIndexPath_setsSchemeOnCell_whenSubclassOfSchemeCell() {
         let tableView = configuredTableView()
         let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as SchemeCell
         XCTAssert(cell.scheme === schemeSet3Scheme1)
-    }
-    
-    func testCellForRowAtIndexPath_doesntSetSchemeOnCell_whenNotSubclassOfSchemeCell() {
-        let tableView = configuredTableView(cellClass: UITableViewCell.self)
-        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2))
-        XCTAssert(cell != nil) // Mainly just to ensure the cell is returned. If this test failed it'd probably crash.
     }
     
     func testCellForRowAtIndexPath_configuresCellCorrectly_forBasicScheme() {
@@ -119,11 +109,11 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Title For Header In Section
     func testTitleForHeaderInSection_whenProvided_isCorrect() {
-        XCTAssertEqual(subject.tableView(nil, titleForHeaderInSection: 0), schemeSet1.name!)
+        XCTAssertEqual(subject.tableView(tableView, titleForHeaderInSection: 0), schemeSet1.name!)
     }
     
     func testTitleForHeaderInSection_whenNotProvided_isNil() {
-        XCTAssert(subject.tableView(nil, titleForHeaderInSection: 1) as NSString? == nil)
+        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 1) as NSString? == nil)
     }
     
     // MARK: Handling Selection
@@ -182,7 +172,7 @@ class TableScheme_Tests: XCTestCase {
     func testHeightInTableView_returnsCorrectHeight() {
         let tableView = configuredTableView()
         let height = subject.heightInTableView(tableView, forIndexPath: NSIndexPath(forRow: 0, inSection: 0))
-        XCTAssertEqual(height, 44.0)
+        XCTAssertEqual(height, CGFloat(44.0))
     }
     
     // MARK: Scheme At Index Path
@@ -203,7 +193,7 @@ class TableScheme_Tests: XCTestCase {
     func testSchemeContainingView_returnsCorrectScheme() {
         let tableView = configuredTableView()
         let subview = UIView()
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as UITableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as UITableViewCell
         cell.contentView.addSubview(subview)
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(NSIndexPath(forRow: 0, inSection: 2)).indexPathForCell(cell)
@@ -213,7 +203,7 @@ class TableScheme_Tests: XCTestCase {
     func testSchemeWithIndexContainingView_returnsCorrectTuple() {
         let tableView = configuredTableView()
         let subview = UIView()
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 2, inSection: 1)) as UITableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 2, inSection: 1)) as UITableViewCell
         cell.contentView.addSubview(subview)
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(NSIndexPath(forRow: 2, inSection: 1)).indexPathForCell(cell)

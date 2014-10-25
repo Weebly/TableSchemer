@@ -24,19 +24,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     
     var firstFieldValue = ""
     var secondFieldValue = ""
-    
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-    }
-    
-    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Advanced"
@@ -57,15 +45,15 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func buildAndSetTableScheme() {
-        tableScheme = TableScheme() { (builder) in
-            builder.buildSchemeSet { (builder) in
+        tableScheme = TableScheme() { builder in
+            builder.buildSchemeSet { builder in
                 builder.name = "Switches"
                 
                 self.firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
-                        cell.textLabel!.text = "First Switch"
+                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                        cell.textLabel.text = "First Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.wifiEnabled
@@ -77,8 +65,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 self.secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
-                        cell.textLabel!.text = "Second Switch"
+                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                        cell.textLabel.text = "Second Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.bluetoothEnabled
@@ -89,14 +77,14 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 
             }
             
-            builder.buildSchemeSet { (builder) in
+            builder.buildSchemeSet { builder in
                 builder.name = "Text Input"
                 builder.footerText = "Section footer text"
                 
                 self.firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
+                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "First Input:"
                         cell.input.text = self.firstFieldValue
@@ -109,7 +97,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 self.secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = self.InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in
+                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "Email:"
                         cell.input.text = self.secondFieldValue
@@ -120,7 +108,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 }
             }
             
-            builder.buildSchemeSet { (builder) in
+            builder.buildSchemeSet { builder in
                 builder.name = "Button Press Inside Array Scheme"
                 
                 self.buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
@@ -129,7 +117,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
                         cell.selectionStyle = .None
-                        cell.textLabel!.text = object
+                        cell.textLabel.text = object
                         let button = UIButton.buttonWithType(.InfoDark) as UIButton
                         button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
                         cell.accessoryView = button
