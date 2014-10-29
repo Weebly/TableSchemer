@@ -29,6 +29,19 @@ public class SchemeSet {
         return countElements(schemes)
     }
     
+    /// Schemes that are currently visible
+    public var visibleSchemes: [Scheme] {
+        return schemes.filter { !$0.hidden }
+    }
+    
+    /**
+        Identifies if the SchemeSet is hidden or not.
+        
+        You should not change this variable directly after initial configuration, and 
+        instead use the TableScheme that this SchemeSet belongs to.
+    */
+    final public var hidden = false
+    
     public init(schemes: [Scheme]) {
         self.schemes = schemes
     }
@@ -50,4 +63,14 @@ public class SchemeSet {
     public subscript(index: Int) -> Scheme {
         return schemes[index]
     }
+}
+
+extension SchemeSet: Equatable { }
+
+public func ==(lhs: SchemeSet, rhs: SchemeSet) -> Bool {
+    if lhs === rhs {
+        return true
+    }
+    
+    return lhs.name == rhs.name && lhs.footerText == rhs.footerText && lhs.schemes == rhs.schemes
 }

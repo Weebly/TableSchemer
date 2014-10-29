@@ -31,13 +31,13 @@ public class TableScheme: NSObject, UITableViewDataSource {
     
     // MARK: UITableViewDataSource methods
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return countElements(schemeSets)
+        return schemeSets.reduce(0) { $1.hidden ? $0 : $0 + 1 }
     }
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let schemeSet = schemeSets[section]
+        let schemeSet = schemeSetForSection(section)
         
-        return schemeSet.schemes.reduce(0) { (memo: Int, scheme: Scheme) in
+        return schemeSet.visibleSchemes.reduce(0) { (memo: Int, scheme: Scheme) in
             memo + scheme.numberOfCells
         }
     }
@@ -57,8 +57,8 @@ public class TableScheme: NSObject, UITableViewDataSource {
         return cell
     }
     
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String! {
-        return schemeSets[section].name
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return schemeSetForSection(section).name
     }
     
     // MARK: Public Instance Methods
@@ -110,13 +110,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @return A strin containing the SchemeSet's footer text or nil
      */
     public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String! {
-        let schemeSet = schemeSets[section]
-        
-        if schemeSet.footerText == nil {
-            return nil
-        }
-        
-        return schemeSet.footerText
+        return schemeSetForSection(section).footerText
     }
     
     /**
@@ -128,23 +122,29 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @return The scheme at the index path.
      */
     public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme? {
-        let schemeSet = schemeSets[indexPath.section]
+        let schemeSet = schemeSetForSection(indexPath.section)
         let row = indexPath.row
         var offset = 0
+        var priorHiddenSchemes = 0
         
         for (idx, scheme) in enumerate(schemeSet.schemes) {
             if (idx + offset > row) {
                 break
             }
             
-            if row >= (idx + offset) && row < (idx + offset + scheme.numberOfCells) {
+            if scheme.hidden {
+                priorHiddenSchemes++
+                continue
+            }
+            
+            if row >= (idx + offset - priorHiddenSchemes) && row < (idx + offset + scheme.numberOfCells - priorHiddenSchemes) {
                 return scheme
             } else {
                 offset += scheme.numberOfCells - 1
             }
         }
         
-        return schemeSet[row - offset]
+        return schemeSet[row - offset + priorHiddenSchemes]
     }
     
     /**
@@ -206,6 +206,68 @@ public class TableScheme: NSObject, UITableViewDataSource {
         return nil
     }
     
+    // MARK: Scheme Visibility
+    
+    /**
+        Hides a Scheme in the provided table view using the given animation.
+    
+        The passed in Scheme must belong to the TableScheme.
+    
+        :param:     scheme          The scheme to hide.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func hideScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        scheme.hidden = true
+        tableView.deleteRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+    }
+    
+    /**
+        Shows a Scheme in the provided table view using the given animation.
+        
+        The passed in Scheme must belong to the TableScheme.
+        
+        :param:     scheme          The scheme to show.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func showScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        scheme.hidden = false
+        tableView.insertRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+    }
+    
+    /**
+        Hides a SchemeSet in the provided table view using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to hide.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func hideSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        schemeSet.hidden = true
+        let section = find(schemeSets, schemeSet)!
+        tableView.deleteSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
+    }
+    
+    /**
+        Shows a SchemeSet in the provided table view using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to show.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func showSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        schemeSet.hidden = false
+        let section = find(schemeSets, schemeSet)!
+        tableView.insertSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
+    }
+    
+    // MARK: Private
+    
     private func rowsBeforeScheme(scheme: Scheme) -> Int {
         let schemeSet = schemeSetWithScheme(scheme)
         
@@ -215,10 +277,39 @@ public class TableScheme: NSObject, UITableViewDataSource {
                 break
             }
             
+            if scanScheme.hidden {
+                continue
+            }
+            
             count += scanScheme.numberOfCells
         }
         
         return count
+    }
+    
+    private func schemeSetForSection(section: Int) -> SchemeSet {
+        var schemeSetIndex = section // Default to the passed in section
+        var offset = 0
+        for (index, schemeSet) in enumerate(schemeSets) {
+            // Section indexes do not include our hidden scheme sets, so
+            // when we pull one from our schemeSets array, which does include
+            // the hidden scheme sets, we need to offset by our hidden schemes
+            // before it.
+            if schemeSet.hidden {
+                offset++
+                continue
+            }
+            
+            // If our enumerated index minus our prior hidden scheme sets
+            // equals the section that we're looking for, we found our
+            // correct scheme set and can end the loop
+            if index - offset == section {
+                schemeSetIndex = index
+                break
+            }
+        }
+        
+        return schemeSets[schemeSetIndex]
     }
     
     private func schemeSetWithScheme(scheme: Scheme) -> SchemeSet {
@@ -236,5 +327,12 @@ public class TableScheme: NSObject, UITableViewDataSource {
         assert(foundSet != nil)
         
         return foundSet!
+    }
+    
+    private func indexPathsForScheme(scheme: Scheme) -> [NSIndexPath] {
+        let rbs = rowsBeforeScheme(scheme)
+        let schemeSet = schemeSetWithScheme(scheme)
+        let section = find(schemeSets, schemeSet)!
+        return map(rbs..<(rbs + scheme.numberOfCells)) { NSIndexPath(forRow: $0, inSection: section) }
     }
 }
