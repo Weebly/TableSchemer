@@ -52,6 +52,13 @@ public class SchemeSet {
         self.schemes = schemes
     }
     
+    public init(name: String?, footerText: String?, hidden: Bool, withSchemes schemes: [Scheme]) {
+        self.name = name
+        self.footerText = footerText
+        self.hidden = hidden
+        self.schemes = schemes
+    }
+    
     public convenience init(name: String?, withSchemes schemes: [Scheme]) {
         self.init(name: name, footerText: nil, withSchemes: schemes)
     }

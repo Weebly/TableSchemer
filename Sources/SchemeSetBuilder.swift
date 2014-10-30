@@ -23,6 +23,9 @@ public class SchemeSetBuilder {
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
     public var schemes = [Scheme]()
     
+    /// This is used to identify if the scheme is initially hidden or not
+    public var hidden = false
+    
     public init() { } // Compiler won't compile without this. Not sure why.
     
     /** Build a scheme within the closure.
@@ -52,6 +55,6 @@ public class SchemeSetBuilder {
     
     /** Create the SchemeSet with the currently added Schemes. This method should not be called except from TableSchemeBuilder */
     internal func createSchemeSet() -> SchemeSet {
-        return SchemeSet(name: name, footerText: footerText, withSchemes: schemes)
+        return SchemeSet(name: name, footerText: footerText, hidden: hidden, withSchemes: schemes)
     }
 }
