@@ -477,9 +477,131 @@ class TableScheme_Tests: XCTestCase {
         tableMock.verify()
     }
     
+    func testBadgeSchemeVisibility_updatesSchemesAccordingly() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.hideSchemeSet(schemeSet3, inTableView: tableView)
+        subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
+        subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
+        tableView.clearCounters()
+        
+        subject.batchSchemeVisibilityChangesInTableView(tableView) {
+            self.subject.showScheme(self.schemeSet4Scheme1)
+            self.subject.showScheme(self.schemeSet1Scheme1)
+            self.subject.showSchemeSet(self.schemeSet3)
+            
+            self.subject.hideSchemeSet(self.schemeSet2)
+            self.subject.hideScheme(self.schemeSet1Scheme2)
+            self.subject.hideScheme(self.schemeSet4Scheme3)
+        }
+
+        XCTAssertEqual(tableView.callsToBeginUpdates, 1)
+        XCTAssertEqual(tableView.callsToEndUpdates, 1)
+        XCTAssertEqual(tableView.callsToInsertRows.count, 1)
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 1)
+        XCTAssertEqual(tableView.callsToInsertSections.count, 1)
+        XCTAssertEqual(tableView.callsToDeleteSections.count, 1)
+
+        let expectedDeletedIndexPaths = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 2), NSIndexPath(forRow: 2, inSection: 2), NSIndexPath(forRow: 3, inSection: 2), NSIndexPath(forRow: 1, inSection: 2), NSIndexPath(forRow: 2, inSection: 2), NSIndexPath(forRow: 4, inSection: 2)]
+        let expectedInsertedIndexPaths = [NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 2)]
+
+        for expectedDeletedIndexPath in expectedDeletedIndexPaths {
+            XCTAssert(find(tableView.callsToDeleteRows[0].indexPaths, expectedDeletedIndexPath) != nil)
+        }
+        
+        for expectedInsertedIndexPath in expectedInsertedIndexPaths {
+            XCTAssert(find(tableView.callsToInsertRows[0].indexPaths, expectedInsertedIndexPath) != nil)
+        }
+        
+        XCTAssertTrue(tableView.callsToDeleteSections[0].indexSet.containsIndex(1))
+        XCTAssertTrue(tableView.callsToInsertSections[0].indexSet.containsIndex(1))
+    }
+    
+    func testBadgeSchemeVisibility_updatesSchemeSets_usingCorrectAnimation() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.hideSchemeSet(schemeSet1, inTableView: tableView)
+        subject.hideSchemeSet(schemeSet2, inTableView: tableView)
+        tableView.clearCounters()
+
+        subject.batchSchemeVisibilityChangesInTableView(tableView) {
+            self.subject.showSchemeSet(self.schemeSet1, withRowAnimation: .Fade)
+            self.subject.showSchemeSet(self.schemeSet2, withRowAnimation: .Top)
+            
+            self.subject.hideSchemeSet(self.schemeSet3, withRowAnimation: .Bottom)
+            self.subject.hideSchemeSet(self.schemeSet4, withRowAnimation: .Left)
+        }
+        
+        XCTAssertEqual(tableView.callsToInsertSections.count, 2)
+        XCTAssertEqual(tableView.callsToDeleteSections.count, 2)
+        
+        for insert in tableView.callsToInsertSections {
+            if insert.animation == .Fade {
+                XCTAssertEqual(insert.indexSet, NSIndexSet(index: 0))
+            } else if insert.animation == .Top {
+                XCTAssertEqual(insert.indexSet, NSIndexSet(index: 1))
+            } else {
+                XCTFail("Unexpected animation in insertions")
+            }
+        }
+        
+        for delete in tableView.callsToDeleteSections {
+            if delete.animation == .Bottom {
+                XCTAssertEqual(delete.indexSet, NSIndexSet(index: 0))
+            } else if delete.animation == .Left {
+                XCTAssertEqual(delete.indexSet, NSIndexSet(index: 1))
+            } else {
+                XCTFail("Unexpected animation in deletions")
+            }
+        }
+    }
+    
+    func testBadgeSchemeVisibility_updatesSchemes_usingCorrectAnimation() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
+        subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
+        tableView.clearCounters()
+        
+        subject.batchSchemeVisibilityChangesInTableView(tableView) {
+            self.subject.showScheme(self.schemeSet1Scheme1, withRowAnimation: .Fade)
+            self.subject.showScheme(self.schemeSet4Scheme1, withRowAnimation: .Top)
+            
+            self.subject.hideScheme(self.schemeSet4Scheme2, withRowAnimation: .Bottom)
+            self.subject.hideScheme(self.schemeSet4Scheme3, withRowAnimation: .Left)
+        }
+        
+        XCTAssertEqual(tableView.callsToInsertRows.count, 2)
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 2)
+        
+        for insert in tableView.callsToInsertRows {
+            if insert.animation == .Fade {
+                // Check for all three cells in indexPaths, any order
+                XCTAssert(find(insert.indexPaths, NSIndexPath(forRow: 0, inSection: 0)) != nil)
+                XCTAssert(find(insert.indexPaths, NSIndexPath(forRow: 1, inSection: 0)) != nil)
+                XCTAssert(find(insert.indexPaths, NSIndexPath(forRow: 2, inSection: 0)) != nil)
+            } else if insert.animation == .Top {
+                XCTAssertEqual(insert.indexPaths[0], NSIndexPath(forRow: 0, inSection: 3))
+            } else {
+                XCTFail("Unexpected animation in insertions")
+            }
+        }
+        
+        for delete in tableView.callsToDeleteRows {
+            if delete.animation == .Bottom {
+                XCTAssertEqual(delete.indexPaths[0], NSIndexPath(forRow: 0, inSection: 3))
+            } else if delete.animation == .Left {
+                // Check for all 4 cells in indexPaths, any order
+                XCTAssert(find(delete.indexPaths, NSIndexPath(forRow: 1, inSection: 3)) != nil)
+                XCTAssert(find(delete.indexPaths, NSIndexPath(forRow: 2, inSection: 3)) != nil)
+                XCTAssert(find(delete.indexPaths, NSIndexPath(forRow: 3, inSection: 3)) != nil)
+                XCTAssert(find(delete.indexPaths, NSIndexPath(forRow: 4, inSection: 3)) != nil)
+            } else {
+                XCTFail("Unexpected animation in deletions")
+            }
+        }
+    }
+    
     // MARK: Test Helpers
-    func configuredTableView(cellClass: AnyObject.Type = SchemeCell.self) -> UITableView {
-        let tableView = UITableView()
+    func configuredTableView<T: UITableView>(cellClass: AnyObject.Type = SchemeCell.self) -> T {
+        let tableView = T()
         tableView.registerClass(cellClass, forCellReuseIdentifier: TableSchemeTestsReuseIdentifier)
         tableView.dataSource = subject
         
@@ -516,5 +638,53 @@ public class TestableScheme: Scheme {
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return .Custom(height)
+    }
+}
+
+class AnimationRecordingTableView: UITableView {
+    var callsToBeginUpdates = 0
+    var callsToEndUpdates = 0
+    var callsToInsertRows = Array<(indexPaths: [NSIndexPath], animation: UITableViewRowAnimation)>()
+    var callsToDeleteRows = Array<(indexPaths: [NSIndexPath], animation: UITableViewRowAnimation)>()
+    var callsToInsertSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
+    var callsToDeleteSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
+    
+    override func insertRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
+        callsToInsertRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        super.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    }
+    
+    override func deleteRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
+        callsToDeleteRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        super.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    }
+    
+    override func insertSections(sections: NSIndexSet, withRowAnimation animation: UITableViewRowAnimation) {
+        callsToInsertSections.append((indexSet: sections, animation: animation))
+        super.insertSections(sections, withRowAnimation: animation)
+    }
+    
+    override func deleteSections(sections: NSIndexSet, withRowAnimation animation: UITableViewRowAnimation) {
+        callsToDeleteSections.append((indexSet: sections, animation: animation))
+        super.deleteSections(sections, withRowAnimation: animation)
+    }
+    
+    override func beginUpdates() {
+        callsToBeginUpdates++
+        super.beginUpdates()
+    }
+    
+    override func endUpdates() {
+        callsToEndUpdates++
+        super.endUpdates()
+    }
+    
+    func clearCounters() {
+        callsToBeginUpdates = 0
+        callsToEndUpdates = 0
+        callsToInsertRows.removeAll()
+        callsToDeleteRows.removeAll()
+        callsToInsertSections.removeAll()
+        callsToDeleteSections.removeAll()
     }
 }
