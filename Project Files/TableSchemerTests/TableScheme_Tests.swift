@@ -109,11 +109,11 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Title For Header In Section
     func testTitleForHeaderInSection_whenProvided_isCorrect() {
-        XCTAssertEqual(subject.tableView(tableView, titleForHeaderInSection: 0), schemeSet1.name!)
+        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 0) == schemeSet1.name!)
     }
     
     func testTitleForHeaderInSection_whenNotProvided_isNil() {
-        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 1) as NSString? == nil)
+        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 1) == nil)
     }
     
     // MARK: Handling Selection

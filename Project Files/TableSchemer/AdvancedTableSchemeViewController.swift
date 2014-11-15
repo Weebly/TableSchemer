@@ -53,7 +53,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.textLabel.text = "First Switch"
+                        cell.textLabel?.text = "First Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.wifiEnabled
@@ -66,7 +66,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.reuseIdentifier = self.SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.textLabel.text = "Second Switch"
+                        cell.textLabel?.text = "Second Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.bluetoothEnabled
@@ -117,7 +117,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
                         cell.selectionStyle = .None
-                        cell.textLabel.text = object
+                        cell.textLabel?.text = object
                         let button = UIButton.buttonWithType(.InfoDark) as UIButton
                         button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
                         cell.accessoryView = button
