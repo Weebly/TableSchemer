@@ -16,31 +16,10 @@ import UIKit
  *    information about a particular cell, such as a configuration block or row height, in an object.
  */
 public class TableScheme: NSObject, UITableViewDataSource {
-    private class BatchUpdate {
-        struct Row {
-            let animation: UITableViewRowAnimation
-            let scheme: Scheme
-        }
-        
-        struct Section {
-            let animation: UITableViewRowAnimation
-            let schemeSet: SchemeSet
-        }
-        
-        var rowInsertions = [Row]()
-        var rowDeletions = [Row]()
-        var sectionInsertions = [Section]()
-        var sectionDeletions = [Section]()
-        let tableView: UITableView
-        
-        init(tableView: UITableView) {
-            self.tableView = tableView
-        }
-    }
     
     public typealias BuildHandler = (builder: TableSchemeBuilder) -> Void
     public let schemeSets: [SchemeSet]
-    private var currentBatchUpdate: BatchUpdate?
+    private var buildingBatchAnimations = false
     
     public init(schemeSets: [SchemeSet]) {
         self.schemeSets = schemeSets
@@ -234,65 +213,31 @@ public class TableScheme: NSObject, UITableViewDataSource {
     /**
         Hides a Scheme in the provided table view using the given animation.
     
-        The passed in Scheme must belong to the TableScheme. This method should not be used with batch updates. Instead, use
-        `hideScheme(_:, withRowAnimation:)`.
+        The passed in Scheme must belong to the TableScheme. 
     
         :param:     scheme          The scheme to hide.
         :param:     tableView       The UITableView to perform the animations on.
         :param:     rowAnimation    The type of animation that should be performed.
     */
     public func hideScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate == nil, "You should not use this method within a batch update block")
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         scheme.hidden = true
         tableView.deleteRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
-    }
-
-    /**
-        Hides a Scheme within a batch update.
-    
-        The passed in Scheme must belong to the TableScheme. This method should only be used with batch updates.
-        For one-off animations, use `hideScheme(_:, inTableView:, withRowAnimation:)`
-    
-        :param:     scheme          The scheme to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
-    */
-    public func hideScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate != nil, "You should only use this method within a batch update block")
-        if let batchUpdate = currentBatchUpdate {
-            batchUpdate.rowDeletions.append(BatchUpdate.Row(animation: rowAnimation, scheme: scheme))
-        }
     }
     
     /**
         Shows a Scheme in the provided table view using the given animation.
         
-        The passed in Scheme must belong to the TableScheme. This method should not be used with batch updates. Instead, use
-        `showScheme(_:, withRowAnimation:)`.
-        
+        The passed in Scheme must belong to the TableScheme. 
+    
         :param:     scheme          The scheme to show.
         :param:     tableView       The UITableView to perform the animations on.
         :param:     rowAnimation    The type of animation that should be performed.
     */
     public func showScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate == nil, "You should not use this method within a batch update block")
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         scheme.hidden = false
         tableView.insertRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
-    }
-    
-    /**
-        Shows a Scheme within a batch update using the given animation.
-    
-        The passed in Scheme must belong to the TableScheme. This method should only be used with batch updates.
-        For one-off animations, use `showScheme(_:, inTableView:, withRowAnimation:)`
-    
-        :param:     scheme          The scheme to show.
-        :param:     rowAnimation    The type of animation that should be performed.
-    */
-    public func showScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate != nil, "You should only use this method within a batch update block")
-        if let batchUpdate = currentBatchUpdate {
-            batchUpdate.rowInsertions.append(BatchUpdate.Row(animation: rowAnimation, scheme: scheme))
-        }
     }
     
     /**
@@ -306,166 +251,52 @@ public class TableScheme: NSObject, UITableViewDataSource {
         :param:     rowAnimation    The type of animation that should be performed.
     */
     public func hideSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate == nil, "You should not use this method within a batch update block")
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         let section = sectionForSchemeSet(schemeSet)
         schemeSet.hidden = true
         tableView.deleteSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
     }
     
     /**
-        Hides a SchemeSet within a batch update using the given animation.
-    
-        The passed in SchemeSet must belong to the TableScheme. This method should only be used with batch updates.
-        For one-off animations, use `hideSchemeSet(_:, inTableView:, withRowAnimation:)`.
-    
-        :param:     schemeSet       The schemeSet to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
-    */
-    public func hideSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate != nil, "You should only use this method within a batch update block")
-        if let batchUpdate = currentBatchUpdate {
-            batchUpdate.sectionDeletions.append(BatchUpdate.Section(animation: rowAnimation, schemeSet: schemeSet))
-        }
-    }
-    
-    /**
         Shows a SchemeSet in the provided table view using the given animation.
         
-        The passed in SchemeSet must belong to the TableScheme. This method should not be used with batch updates. Instead, use
-        `showSchemeSet(_:, withRowAnimation:)`.
+        The passed in SchemeSet must belong to the TableScheme.
         
         :param:     schemeSet       The schemeSet to show.
         :param:     tableView       The UITableView to perform the animations on.
         :param:     rowAnimation    The type of animation that should be performed.
     */
     public func showSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate == nil, "You should not use this method within a batch update block")
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         let section = sectionForSchemeSet(schemeSet)
         schemeSet.hidden = false
         tableView.insertSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
     }
     
     /**
-        Shows a SchemeSet within a batch update using the given animation.
-        
-        The passed in SchemeSet must belong to the TableScheme. This method should only be used with batch updates.
-        For one-off animations, use `showSchemeSet(_:, inTableView:, withRowAnimation:)`.
-    
-        :param:     schemeSet       The schemeSet to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
-    */
-    public func showSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        assert(currentBatchUpdate != nil, "You should only use this method within a batch update block")
-        if let batchUpdate = currentBatchUpdate {
-            batchUpdate.sectionInsertions.append(BatchUpdate.Section(animation: rowAnimation, schemeSet: schemeSet))
-        }
-    }
-    
-    /**
-        Perform batch changes to the given table view using the operations passed in the visibilityOperations closure.
+        Perform batch changes to the given table view using the operations performed on the animator passed in the 
+        visibilityOperations closure.
     
         It's important that this method be used over explicitly calling beginUpdates()/endUpdates() and using the normal
         visibility operations. The normal visibility operations will update the data set immediately, while the batch-specific
-        visibility operations (which lack a parameter for the table view, as it is passed in here) will defer
+        visibility operations (which are part of the passed in BatchAnimator class) will defer
         determining all the indexPaths until it is time to update the table view.
     
         :param:     tableView               The UITableView to perform the animations on.
-        :param:     visibilityOperations    A closure containing the animation operations to be performed on the UITableView.
+        :param:     visibilityOperations    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
+                                            will be passed into the closure, which is where your batch operations should occur.
     */
-    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, visibilityOperations: () -> Void) {
-        currentBatchUpdate = BatchUpdate(tableView: tableView)
+    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, visibilityOperations: (animator: BatchAnimator) -> Void) {
+        let batchAnimator = BatchAnimator(tableScheme: self, withTableView: tableView)
         tableView.beginUpdates()
-        visibilityOperations()
-        performVisibilityChanges()
+        buildingBatchAnimations = true
+        visibilityOperations(animator: batchAnimator)
+        buildingBatchAnimations = false
+        batchAnimator.performVisibilityChanges()
         tableView.endUpdates()
-        currentBatchUpdate = nil
     }
     
     // MARK: Private
-    
-    private func performVisibilityChanges() {
-        // Get the index paths of the schemes we are deleting. This will give us the deletion index paths. We need to do
-        // this before marking them as hidden so indexPathForScheme doesn't skip it
-        
-        let deleteRows = currentBatchUpdate!.rowDeletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
-            if memo[change.animation] == nil {
-                memo[change.animation] = [NSIndexPath]()
-            }
-            
-            memo[change.animation]! += self.indexPathsForScheme(change.scheme)
-            
-            return memo
-        }
-        
-        let deleteSections = currentBatchUpdate!.sectionDeletions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
-            if memo[change.animation] == nil {
-                memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
-            }
-            
-            memo[change.animation]!.addIndex(self.sectionForSchemeSet(change.schemeSet))
-            
-            return memo
-        }
-        
-        // Now update the visibility of all our batches
-        
-        for change in currentBatchUpdate!.rowInsertions {
-            change.scheme.hidden = false
-        }
-        
-        for change in currentBatchUpdate!.rowDeletions {
-            change.scheme.hidden = true
-        }
-        
-        for change in currentBatchUpdate!.sectionDeletions {
-            change.schemeSet.hidden = true
-        }
-        
-        for change in currentBatchUpdate!.sectionInsertions {
-            change.schemeSet.hidden = false
-        }
-        
-        // Now obtain the index paths for the inserted schemes. These will have their inserted index paths, skipping ones removed,
-        // and correctly finding the ones that are visible
-        
-        let insertRows = currentBatchUpdate!.rowInsertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
-            if memo[change.animation] == nil {
-                memo[change.animation] = [NSIndexPath]()
-            }
-            
-            memo[change.animation]! += self.indexPathsForScheme(change.scheme)
-            
-            return memo
-        }
-        
-        let insertSections = currentBatchUpdate!.sectionInsertions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
-            if memo[change.animation] == nil {
-                memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
-            }
-            
-            memo[change.animation]!.addIndex(self.sectionForSchemeSet(change.schemeSet))
-            
-            return memo
-        }
-        
-        // Now we have all the data we need to execute our animations. Perform them!
-        
-        for (animation, changes) in insertRows {
-            currentBatchUpdate!.tableView.insertRowsAtIndexPaths(changes, withRowAnimation: animation)
-        }
-        
-        for (animation, changes) in deleteRows {
-            currentBatchUpdate!.tableView.deleteRowsAtIndexPaths(changes, withRowAnimation: animation)
-        }
-        
-        for (animation, changes) in insertSections {
-            currentBatchUpdate!.tableView.insertSections(changes, withRowAnimation: animation)
-        }
-        
-        for (animation, changes) in deleteSections {
-            currentBatchUpdate!.tableView.deleteSections(changes, withRowAnimation: animation)
-        }
-    }
     
     private func rowsBeforeScheme(scheme: Scheme) -> Int {
         let schemeSet = schemeSetWithScheme(scheme)
@@ -549,5 +380,163 @@ public class TableScheme: NSObject, UITableViewDataSource {
         }
         
         return i
+    }
+}
+
+public class BatchAnimator {
+    private struct Row {
+        let animation: UITableViewRowAnimation
+        let scheme: Scheme
+    }
+    
+    private struct Section {
+        let animation: UITableViewRowAnimation
+        let schemeSet: SchemeSet
+    }
+    
+    private var rowInsertions = [Row]()
+    private var rowDeletions = [Row]()
+    private var sectionInsertions = [Section]()
+    private var sectionDeletions = [Section]()
+    
+    private let tableScheme: TableScheme
+    private let tableView: UITableView
+    
+    private init(tableScheme: TableScheme, withTableView tableView: UITableView) {
+        self.tableScheme = tableScheme
+        self.tableView = tableView
+    }
+    
+    /**
+        Shows a Scheme within a batch update using the given animation.
+        
+        The passed in Scheme must belong to the TableScheme.
+        
+        :param:     scheme          The scheme to show.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func showScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        rowInsertions.append(Row(animation: rowAnimation, scheme: scheme))
+    }
+    
+    /**
+        Hides a Scheme within a batch update.
+        
+        The passed in Scheme must belong to the TableScheme.
+        
+        :param:     scheme          The scheme to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func hideScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        rowDeletions.append(Row(animation: rowAnimation, scheme: scheme))
+    }
+    
+    /**
+        Shows a SchemeSet within a batch update using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func showSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        sectionInsertions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
+    }
+    
+    /**
+        Hides a SchemeSet within a batch update using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func hideSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        sectionDeletions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
+    }
+    
+    // MARK: Private methods
+    private func performVisibilityChanges() {
+        // Get the index paths of the schemes we are deleting. This will give us the deletion index paths. We need to do
+        // this before marking them as hidden so indexPathForScheme doesn't skip it
+        
+        let deleteRows = rowDeletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+            if memo[change.animation] == nil {
+                memo[change.animation] = [NSIndexPath]()
+            }
+            
+            memo[change.animation]! += self.tableScheme.indexPathsForScheme(change.scheme)
+            
+            return memo
+        }
+        
+        let deleteSections = sectionDeletions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
+            if memo[change.animation] == nil {
+                memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
+            }
+            
+            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(change.schemeSet))
+            
+            return memo
+        }
+        
+        // Now update the visibility of all our batches
+        
+        for change in rowInsertions {
+            change.scheme.hidden = false
+        }
+        
+        for change in rowDeletions {
+            change.scheme.hidden = true
+        }
+        
+        for change in sectionDeletions {
+            change.schemeSet.hidden = true
+        }
+        
+        for change in sectionInsertions {
+            change.schemeSet.hidden = false
+        }
+        
+        // Now obtain the index paths for the inserted schemes. These will have their inserted index paths, skipping ones removed,
+        // and correctly finding the ones that are visible
+        
+        let insertRows = rowInsertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+            if memo[change.animation] == nil {
+                memo[change.animation] = [NSIndexPath]()
+            }
+            
+            memo[change.animation]! += self.tableScheme.indexPathsForScheme(change.scheme)
+            
+            return memo
+        }
+        
+        let insertSections = sectionInsertions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
+            if memo[change.animation] == nil {
+                memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
+            }
+            
+            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(change.schemeSet))
+            
+            return memo
+        }
+        
+        // Now we have all the data we need to execute our animations. Perform them!
+        
+        for (animation, changes) in insertRows {
+            tableView.insertRowsAtIndexPaths(changes, withRowAnimation: animation)
+        }
+        
+        for (animation, changes) in deleteRows {
+            tableView.deleteRowsAtIndexPaths(changes, withRowAnimation: animation)
+        }
+        
+        for (animation, changes) in insertSections {
+            tableView.insertSections(changes, withRowAnimation: animation)
+        }
+        
+        for (animation, changes) in deleteSections {
+            tableView.deleteSections(changes, withRowAnimation: animation)
+        }
     }
 }

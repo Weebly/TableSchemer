@@ -226,13 +226,13 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     tableScheme.hideSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Top)
                 }
             } else if tuple.scheme === toggleHiddenSchemesScheme {
-                tableScheme.batchSchemeVisibilityChangesInTableView(tableView) {
+                tableScheme.batchSchemeVisibilityChangesInTableView(tableView) { animator in
                     if self.schemesHidden {
-                        self.tableScheme.showScheme(self.hiddenScheme1, withRowAnimation: .Left)
-                        self.tableScheme.showScheme(self.hiddenScheme2, withRowAnimation: .Right)
+                        animator.showScheme(self.hiddenScheme1, withRowAnimation: .Left)
+                        animator.showScheme(self.hiddenScheme2, withRowAnimation: .Right)
                     } else {
-                        self.tableScheme.hideScheme(self.hiddenScheme2, withRowAnimation: .Left)
-                        self.tableScheme.hideScheme(self.hiddenScheme1, withRowAnimation: .Right)
+                        animator.hideScheme(self.hiddenScheme2, withRowAnimation: .Left)
+                        animator.hideScheme(self.hiddenScheme1, withRowAnimation: .Right)
                     }
                 }
                 

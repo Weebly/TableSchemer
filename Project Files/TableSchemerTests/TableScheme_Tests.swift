@@ -484,14 +484,14 @@ class TableScheme_Tests: XCTestCase {
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
         tableView.clearCounters()
         
-        subject.batchSchemeVisibilityChangesInTableView(tableView) {
-            self.subject.showScheme(self.schemeSet4Scheme1)
-            self.subject.showScheme(self.schemeSet1Scheme1)
-            self.subject.showSchemeSet(self.schemeSet3)
+        subject.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+            animator.showScheme(self.schemeSet4Scheme1)
+            animator.showScheme(self.schemeSet1Scheme1)
+            animator.showSchemeSet(self.schemeSet3)
             
-            self.subject.hideSchemeSet(self.schemeSet2)
-            self.subject.hideScheme(self.schemeSet1Scheme2)
-            self.subject.hideScheme(self.schemeSet4Scheme3)
+            animator.hideSchemeSet(self.schemeSet2)
+            animator.hideScheme(self.schemeSet1Scheme2)
+            animator.hideScheme(self.schemeSet4Scheme3)
         }
 
         XCTAssertEqual(tableView.callsToBeginUpdates, 1)
@@ -522,12 +522,12 @@ class TableScheme_Tests: XCTestCase {
         subject.hideSchemeSet(schemeSet2, inTableView: tableView)
         tableView.clearCounters()
 
-        subject.batchSchemeVisibilityChangesInTableView(tableView) {
-            self.subject.showSchemeSet(self.schemeSet1, withRowAnimation: .Fade)
-            self.subject.showSchemeSet(self.schemeSet2, withRowAnimation: .Top)
+        subject.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+            animator.showSchemeSet(self.schemeSet1, withRowAnimation: .Fade)
+            animator.showSchemeSet(self.schemeSet2, withRowAnimation: .Top)
             
-            self.subject.hideSchemeSet(self.schemeSet3, withRowAnimation: .Bottom)
-            self.subject.hideSchemeSet(self.schemeSet4, withRowAnimation: .Left)
+            animator.hideSchemeSet(self.schemeSet3, withRowAnimation: .Bottom)
+            animator.hideSchemeSet(self.schemeSet4, withRowAnimation: .Left)
         }
         
         XCTAssertEqual(tableView.callsToInsertSections.count, 2)
@@ -560,12 +560,12 @@ class TableScheme_Tests: XCTestCase {
         subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
         tableView.clearCounters()
         
-        subject.batchSchemeVisibilityChangesInTableView(tableView) {
-            self.subject.showScheme(self.schemeSet1Scheme1, withRowAnimation: .Fade)
-            self.subject.showScheme(self.schemeSet4Scheme1, withRowAnimation: .Top)
+        subject.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+            animator.showScheme(self.schemeSet1Scheme1, withRowAnimation: .Fade)
+            animator.showScheme(self.schemeSet4Scheme1, withRowAnimation: .Top)
             
-            self.subject.hideScheme(self.schemeSet4Scheme2, withRowAnimation: .Bottom)
-            self.subject.hideScheme(self.schemeSet4Scheme3, withRowAnimation: .Left)
+            animator.hideScheme(self.schemeSet4Scheme2, withRowAnimation: .Bottom)
+            animator.hideScheme(self.schemeSet4Scheme3, withRowAnimation: .Left)
         }
         
         XCTAssertEqual(tableView.callsToInsertRows.count, 2)
