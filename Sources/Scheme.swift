@@ -50,6 +50,14 @@ public class Scheme: Equatable {
         return 1
     }
     
+    /**
+        Identifies if the Scheme is hidden or not.
+        
+        You should not change this variable directly after initial configuration, and 
+        instead use the TableScheme that this Scheme belongs to.
+    */
+    final public var hidden = false
+    
     required public init() { }
     
     /** This method verifies that the Scheme has all the required properties to be used in a TableScheme
@@ -125,5 +133,5 @@ public class Scheme: Equatable {
 }
 
 public func ==(lhs: Scheme, rhs: Scheme) -> Bool {
-    return true
+    return lhs === rhs
 }

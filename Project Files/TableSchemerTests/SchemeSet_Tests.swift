@@ -60,4 +60,46 @@ class SchemeSet_Tests: XCTestCase {
         
         XCTAssertEqual(subject.count, 2)
     }
+    
+    // MARK: Visibility
+    func testVisibleSchemes_onlyIncludeVisibleSchemes() {
+        let scheme1 = Scheme()
+        scheme1.hidden = true
+        let schemes = [scheme1, Scheme()]
+        let subject = SchemeSet(schemes: schemes)
+    }
+    
+    // MARK: Equality
+    func testSameInstances_areEqual() {
+        let schemes = [Scheme()]
+        let subject = SchemeSet(schemes: schemes)
+        XCTAssertEqual(subject, subject)
+    }
+    
+    func testDifferentInstances_withEqualProperties_areEqual() {
+        let schemes = [Scheme()]
+        let first = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: schemes)
+        let second = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: schemes)
+        XCTAssertEqual(first, second)
+    }
+    
+    func testEquality_whenNameIsDifferent_isFalse() {
+        let schemes = [Scheme()]
+        let first = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: schemes)
+        let second = SchemeSet(name: "Fuz", footerText: "Bar", withSchemes: schemes)
+        XCTAssertNotEqual(first, second)
+    }
+    
+    func testEquality_whenFooterTextIsDifferent_isFalse() {
+        let schemes = [Scheme()]
+        let first = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: schemes)
+        let second = SchemeSet(name: "Foo", footerText: "Baz", withSchemes: schemes)
+        XCTAssertNotEqual(first, second)
+    }
+    
+    func testEquality_whenSchemesAreDifferent_isFalse() {
+        let first = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: [])
+        let second = SchemeSet(name: "Foo", footerText: "Bar", withSchemes: [Scheme()])
+        XCTAssertNotEqual(first, second)
+    }
 }
