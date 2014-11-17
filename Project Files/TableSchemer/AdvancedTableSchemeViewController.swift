@@ -168,7 +168,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
-                        cell.textLabel.text = "First"
+                        cell.textLabel?.text = "First"
                         cell.accessoryView = nil
                     }
                 }
@@ -179,7 +179,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
-                        cell.textLabel.text = "Second"
+                        cell.textLabel?.text = "Second"
                         cell.accessoryView = nil
                     }
                 }
