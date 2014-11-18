@@ -477,7 +477,7 @@ class TableScheme_Tests: XCTestCase {
         tableMock.verify()
     }
     
-    func testBadgeSchemeVisibility_updatesSchemesAccordingly() {
+    func testBatchSchemeVisibility_updatesSchemesAccordingly() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet3, inTableView: tableView)
         subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
@@ -516,7 +516,7 @@ class TableScheme_Tests: XCTestCase {
         XCTAssertTrue(tableView.callsToInsertSections[0].indexSet.containsIndex(1))
     }
     
-    func testBadgeSchemeVisibility_updatesSchemeSets_usingCorrectAnimation() {
+    func testBatchSchemeVisibility_updatesSchemeSets_usingCorrectAnimation() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, inTableView: tableView)
         subject.hideSchemeSet(schemeSet2, inTableView: tableView)
@@ -554,7 +554,7 @@ class TableScheme_Tests: XCTestCase {
         }
     }
     
-    func testBadgeSchemeVisibility_updatesSchemes_usingCorrectAnimation() {
+    func testBatchSchemeVisibility_updatesSchemes_usingCorrectAnimation() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
         subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
