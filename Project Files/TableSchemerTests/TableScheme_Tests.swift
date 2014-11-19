@@ -401,6 +401,35 @@ class TableScheme_Tests: XCTestCase {
         tableMock.verify()
     }
     
+    func testReloadScheme_reloadsEachCellInScheme() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        // Hide a scheme set and scheme to test that it handles hidden objects
+        schemeSet1.hidden = true
+        schemeSet4Scheme1.hidden = true
+        subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
+        
+        XCTAssert(tableView.callsToReloadRows.count == 1)
+        
+        if tableView.callsToReloadRows.count == 0 {
+            return
+        }
+        
+        XCTAssert(tableView.callsToReloadRows[0].animation == .Fade)
+        
+        let expectedIndexPaths = [NSIndexPath(forRow: 1, inSection: 2), NSIndexPath(forRow: 2, inSection: 2), NSIndexPath(forRow: 3, inSection: 2), NSIndexPath(forRow: 4, inSection: 2)]
+        
+        for expectedIndexPath in expectedIndexPaths {
+            XCTAssert(find(tableView.callsToReloadRows[0].indexPaths, expectedIndexPath) != nil)
+        }
+    }
+    
+    func testReloadScheme_ifSchemeIsHidden_doesntReloadScheme() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        schemeSet4Scheme3.hidden = true
+        subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
+        XCTAssert(tableView.callsToReloadRows.count == 0)
+    }
+    
     func testHideSchemeSet_marksSchemeSetHidden() {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, inTableView: tableView)
@@ -475,6 +504,29 @@ class TableScheme_Tests: XCTestCase {
         subject.showSchemeSet(schemeSet3, inTableView: tableView)
         
         tableMock.verify()
+    }
+    
+    func testReloadSchemeSet_reloadsSection() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        schemeSet1.hidden = true // Hide a scheme set to test that it handles hidden scheme sets
+        subject.reloadSchemeSet(schemeSet4, inTableView: tableView, withRowAnimation: .Fade)
+        
+        XCTAssert(tableView.callsToReloadSections.count == 1)
+        
+        if tableView.callsToReloadSections.count == 0 {
+            return
+        }
+        
+        XCTAssert(tableView.callsToReloadSections[0].animation == .Fade)
+        
+        XCTAssert(tableView.callsToReloadSections[0].indexSet == NSIndexSet(index: 2))
+    }
+    
+    func testReloadSchemeSet_ifSchemeSetIsHidden_doesntReloadSchemeSet() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        schemeSet4.hidden = true
+        subject.reloadSchemeSet(schemeSet4, inTableView: tableView, withRowAnimation: .Fade)
+        XCTAssert(tableView.callsToReloadSections.count == 0)
     }
     
     func testBatchSchemeVisibility_updatesSchemesAccordingly() {
@@ -596,6 +648,62 @@ class TableScheme_Tests: XCTestCase {
             } else {
                 XCTFail("Unexpected animation in deletions")
             }
+        }
+    }
+    
+    func testBatchSchemeVisibility_reloadSchemeSet_reloadsUsingCorrectAnimation() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.hideSchemeSet(schemeSet1, inTableView: tableView)
+        tableView.clearCounters()
+        
+        subject.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+            animator.reloadSchemeSet(self.schemeSet2, withRowAnimation: .Fade)
+            animator.reloadSchemeSet(self.schemeSet4, withRowAnimation: .Top)
+            animator.hideSchemeSet(self.schemeSet3)
+        }
+
+        XCTAssertEqual(tableView.callsToReloadSections.count, 2)
+        
+        if tableView.callsToReloadSections.count != 2 {
+            return
+        }
+        
+        for reload in tableView.callsToReloadSections {
+            if reload.animation == .Fade {
+                XCTAssert(reload.indexSet == NSIndexSet(index: 0))
+            } else if reload.animation == .Top {
+                XCTAssert(reload.indexSet == NSIndexSet(index: 2))
+            } else {
+                XCTFail("Unexpected animation in reloads")
+            }
+        }
+    }
+    
+    func testBatchSchemeVisibility_reloadScheme_reloadsUsingCorrectAnimation() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.hideSchemeSet(schemeSet1, inTableView: tableView)
+        subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
+        tableView.clearCounters()
+        
+        subject.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+            animator.reloadScheme(self.schemeSet4Scheme3, withRowAnimation: .Top)
+            animator.hideScheme(self.schemeSet4Scheme2)
+        }
+        
+        XCTAssertEqual(tableView.callsToReloadRows.count, 1)
+        
+        if tableView.callsToReloadRows.count != 1 {
+            return
+        }
+        
+        let reload = tableView.callsToReloadRows[0]
+        
+        XCTAssert(reload.animation == .Top)
+        
+        let expectedIndexPaths = [NSIndexPath(forRow: 1, inSection: 2), NSIndexPath(forRow: 2, inSection: 2), NSIndexPath(forRow: 3, inSection: 2), NSIndexPath(forRow: 4, inSection: 2)]
+        
+        for ip in expectedIndexPaths {
+            XCTAssert(find(reload.indexPaths, ip) != nil)
         }
     }
     
@@ -852,6 +960,8 @@ class AnimationRecordingTableView: UITableView {
     var callsToInsertSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
     var callsToDeleteSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
     var callsToMoveRow = Array<(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)>()
+    var callsToReloadRows = Array<(indexPaths: [NSIndexPath], animation: UITableViewRowAnimation)>()
+    var callsToReloadSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
     
     override func insertRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
         callsToInsertRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
@@ -875,6 +985,17 @@ class AnimationRecordingTableView: UITableView {
     
     override func moveRowAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
         callsToMoveRow.append((fromIndexPath: indexPath, toIndexPath: newIndexPath))
+        super.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
+    }
+    
+    override func reloadRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
+        callsToReloadRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        super.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
+    }
+    
+    override func reloadSections(sections: NSIndexSet, withRowAnimation animation: UITableViewRowAnimation) {
+        callsToReloadSections.append((indexSet: sections, animation: animation))
+        super.reloadSections(sections, withRowAnimation: animation)
     }
     
     override func beginUpdates() {

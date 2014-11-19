@@ -248,6 +248,25 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
     
     /**
+        Reloads a Scheme in the provided table view using the given animation.
+    
+        The passed in Scheme must belong to the TableScheme.
+    
+        :param:     scheme          The scheme to reload the rows for.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func reloadScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        #if DEBUG
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
+        #endif
+        
+        if !scheme.hidden {
+            tableView.reloadRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+        }
+    }
+    
+    /**
         Hides a SchemeSet in the provided table view using the given animation.
         
         The passed in SchemeSet must belong to the TableScheme. This method should not be used with batch updates. Instead, use
@@ -285,7 +304,27 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
     
     /**
-        Perform batch changes to the given table view using the operations performed on the animator passed in the 
+        Reloads a SchemeSet in the provided table view using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to reload the rows for.
+        :param:     tableView       The UITableView to perform the animations on.
+        :param:     rowAnimation    The type of animation that should be performed.
+    */
+    public func reloadSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        #if DEBUG
+        assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
+        #endif
+        
+        if !schemeSet.hidden {
+            tableView.reloadSections(NSIndexSet(index: sectionForSchemeSet(schemeSet)), withRowAnimation: rowAnimation)
+        }
+    }
+
+    
+    /**
+        Perform batch changes to the given table view using the operations performed on the animator passed in the
         visibilityOperations closure.
     
         It's important that this method be used over explicitly calling beginUpdates()/endUpdates() and using the normal
