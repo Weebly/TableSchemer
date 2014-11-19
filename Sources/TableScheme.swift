@@ -297,8 +297,8 @@ public class TableScheme: NSObject, UITableViewDataSource {
         :param:     visibilityOperations    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
                                             will be passed into the closure, which is where your batch operations should occur.
     */
-    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, visibilityOperations: (animator: BatchAnimator) -> Void) {
-        let batchAnimator = BatchAnimator(tableScheme: self, withTableView: tableView)
+    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, visibilityOperations: (animator: TableSchemeBatchAnimator) -> Void) {
+        let batchAnimator = TableSchemeBatchAnimator(tableScheme: self, withTableView: tableView)
         tableView.beginUpdates()
         
         #if DEBUG
@@ -443,7 +443,12 @@ public class TableScheme: NSObject, UITableViewDataSource {
     }
 }
 
-public class BatchAnimator {
+/**
+    This class is passed into the closure for performing batch animations to a TableScheme. It will record
+    your changes to the TableScheme's SchemeSet and Scheme visibility, and then perform them all in one batch
+    at the end of the TableScheme's batch operation method.
+*/
+public class TableSchemeBatchAnimator {
     private struct Row {
         let animation: UITableViewRowAnimation
         let scheme: Scheme
