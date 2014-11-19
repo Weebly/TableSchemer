@@ -599,6 +599,191 @@ class TableScheme_Tests: XCTestCase {
         }
     }
     
+    // MARK: - Scheme Animatability
+    // MARK: Explicitly removing rows
+    func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
+            animator.deleteObjectAtIndex(0, withAnimation: .Fade)
+            animator.deleteObjectAtIndex(1, withAnimation: .Automatic)
+            animator.deleteObjectAtIndex(2, withAnimation: .Automatic)
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 2)
+        
+        for deletions in tableView.callsToDeleteRows {
+            if deletions.animation == .Fade {
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 2, inSection: 3)) != nil)
+            } else if deletions.animation == .Automatic {
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 3, inSection: 3)) != nil)
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 4, inSection: 3)) != nil)
+            } else {
+                XCTFail("Unexpected animation")
+            }
+        }
+    }
+    
+    func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_byRange_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
+            animator.deleteObjectsAtIndexes(0...1, withAnimation: .Fade)
+            animator.deleteObjectsAtIndexes(2...2, withAnimation: .Automatic)
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 2)
+        
+        for deletions in tableView.callsToDeleteRows {
+            if deletions.animation == .Fade {
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 2, inSection: 3)) != nil)
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 3, inSection: 3)) != nil)
+            } else if deletions.animation == .Automatic {
+                XCTAssert(find(deletions.indexPaths, NSIndexPath(forRow: 4, inSection: 3)) != nil)
+            } else {
+                XCTFail("Unexpected animation")
+            }
+        }
+    }
+    
+    // MARK: Explicitly adding rows
+    
+    func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
+            animator.insertObjectAtIndex(0, withAnimation: .Fade)
+            animator.insertObjectAtIndex(1, withAnimation: .Automatic)
+            animator.insertObjectAtIndex(2, withAnimation: .Automatic)
+        }
+        
+        XCTAssertEqual(tableView.callsToInsertRows.count, 2)
+        
+        for insertions in tableView.callsToInsertRows {
+            if insertions.animation == .Fade {
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 2, inSection: 3)) != nil)
+            } else if insertions.animation == .Automatic {
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 3, inSection: 3)) != nil)
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 4, inSection: 3)) != nil)
+            } else {
+                XCTFail("Unexpected animation")
+            }
+        }
+    }
+    
+    func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_byRange_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
+            animator.insertObjectsAtIndexes(0...1, withAnimation: .Fade)
+            animator.insertObjectsAtIndexes(2...2, withAnimation: .Automatic)
+        }
+        
+        XCTAssertEqual(tableView.callsToInsertRows.count, 2)
+        
+        for insertions in tableView.callsToInsertRows {
+            if insertions.animation == .Fade {
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 2, inSection: 3)) != nil)
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 3, inSection: 3)) != nil)
+            } else if insertions.animation == .Automatic {
+                XCTAssert(find(insertions.indexPaths, NSIndexPath(forRow: 4, inSection: 3)) != nil)
+            } else {
+                XCTFail("Unexpected animation")
+            }
+        }
+    }
+    
+    // MARK: Explicitly moving rows
+    func testAnimateChangesToScheme_withExplicitAnimations_whenMovingRows_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
+            animator.moveObjectAtIndex(0, toIndex: 2)
+            animator.moveObjectAtIndex(1, toIndex: 3)
+        }
+        
+        XCTAssertEqual(tableView.callsToMoveRow.count, 2)
+        
+        let expected: [(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)] = [(fromIndexPath: NSIndexPath(forRow: 2, inSection: 3), toIndexPath: NSIndexPath(forRow: 4, inSection: 3)), (fromIndexPath: NSIndexPath(forRow: 3, inSection: 3), toIndexPath: NSIndexPath(forRow: 5, inSection: 3))]
+        
+        for expect in expected {
+            XCTAssert(tableView.callsToMoveRow.filter { $0.fromIndexPath == expect.fromIndexPath && $0.toIndexPath == expect.toIndexPath }.count == 1)
+        }
+    }
+    
+    // MARK Inferred animations
+    func testAnimateChangesToScheme_withInferredAnimations_whenRemovingAnObject_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView, withAnimation: .Fade) {
+            _ = self.schemeSet4Scheme3.definedNumberOfCells = 3
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 1)
+        XCTAssertEqual(tableView.callsToInsertRows.count, 0)
+        XCTAssertEqual(tableView.callsToMoveRow.count, 0)
+        
+        let deletion = tableView.callsToDeleteRows[0]
+        
+        XCTAssert(deletion.indexPaths == [NSIndexPath(forRow: 5, inSection: 3)])
+        XCTAssert(deletion.animation == .Fade)
+    }
+    
+    func testAnimateChangesToScheme_withInferredAnimations_whenAddingAnObject_performsCorrectAnimations() {
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView, withAnimation: .Fade) {
+            _ = self.schemeSet4Scheme3.definedNumberOfCells = 5
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 0)
+        XCTAssertEqual(tableView.callsToInsertRows.count, 1)
+        XCTAssertEqual(tableView.callsToMoveRow.count, 0)
+        
+        let insertion = tableView.callsToInsertRows[0]
+        
+        XCTAssert(insertion.indexPaths == [NSIndexPath(forRow: 6, inSection: 3)])
+        XCTAssert(insertion.animation == .Fade)
+    }
+    
+    func testAnimateChangesToScheme_withInferredAnimations_whenMovingAnObject_performsCorrectAnimations() {
+        schemeSet4Scheme3.identifiers = [0,1,2,3]
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) {
+            _ = self.schemeSet4Scheme3.identifiers = [1,0,2,3]
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 0)
+        XCTAssertEqual(tableView.callsToInsertRows.count, 0)
+        XCTAssertEqual(tableView.callsToMoveRow.count, 2)
+        
+        let orderedMoves = tableView.callsToMoveRow.sorted { $0.fromIndexPath.row < $1.fromIndexPath.row }
+        
+        let move1 = orderedMoves[0]
+        let move2 = orderedMoves[1]
+        
+        XCTAssert(move1.fromIndexPath == NSIndexPath(forRow: 2, inSection: 3))
+        XCTAssert(move1.toIndexPath == NSIndexPath(forRow: 3, inSection: 3))
+        XCTAssert(move2.fromIndexPath == NSIndexPath(forRow: 3, inSection: 3))
+        XCTAssert(move2.toIndexPath == NSIndexPath(forRow: 2, inSection: 3))
+    }
+    
+    func testAnimateChangesToScheme_withInferredAnimations_withEqualObjects_performsCorrectAnimations() {
+        schemeSet4Scheme3.identifiers = [1,1,2,3]
+        let tableView: AnimationRecordingTableView = configuredTableView()
+        subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) {
+            _ = self.schemeSet4Scheme3.identifiers = [1,0,2,1]
+        }
+        
+        XCTAssertEqual(tableView.callsToDeleteRows.count, 1)
+        XCTAssertEqual(tableView.callsToInsertRows.count, 1)
+        XCTAssertEqual(tableView.callsToMoveRow.count, 1)
+        
+        let deletion = tableView.callsToDeleteRows[0]
+        let insertion = tableView.callsToInsertRows[0]
+        let move = tableView.callsToMoveRow[0]
+        
+        XCTAssert(deletion.indexPaths == [NSIndexPath(forRow: 5, inSection: 3)])
+        XCTAssert(deletion.animation == .Automatic)
+        XCTAssert(insertion.indexPaths == [NSIndexPath(forRow: 3, inSection: 3)])
+        XCTAssert(insertion.animation == .Automatic)
+        XCTAssert(move.fromIndexPath == NSIndexPath(forRow: 3, inSection: 3))
+        XCTAssert(move.toIndexPath == NSIndexPath(forRow: 5, inSection: 3))
+    }
+    
     // MARK: Test Helpers
     func configuredTableView<T: UITableView>(cellClass: AnyObject.Type = SchemeCell.self) -> T {
         let tableView = T()
@@ -615,6 +800,7 @@ public class TestableScheme: Scheme {
     
     var definedNumberOfCells = 1
     var height: CGFloat = 44.0
+    var identifiers: [Int]?
     
     override public var numberOfCells: Int {
         return definedNumberOfCells
@@ -641,6 +827,23 @@ public class TestableScheme: Scheme {
     }
 }
 
+extension TestableScheme: InferrableRowAnimatableScheme {
+    public typealias IdentifierType = Int
+    public var rowIdentifiers: [IdentifierType] {
+        if let identifiers = identifiers {
+            assert(identifiers.count == definedNumberOfCells)
+            return identifiers
+        }
+        
+        var inferredIdentifiers = [Int]()
+        for i in 0..<definedNumberOfCells {
+            inferredIdentifiers.append(i)
+        }
+        
+        return inferredIdentifiers
+    }
+}
+
 class AnimationRecordingTableView: UITableView {
     var callsToBeginUpdates = 0
     var callsToEndUpdates = 0
@@ -648,6 +851,7 @@ class AnimationRecordingTableView: UITableView {
     var callsToDeleteRows = Array<(indexPaths: [NSIndexPath], animation: UITableViewRowAnimation)>()
     var callsToInsertSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
     var callsToDeleteSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
+    var callsToMoveRow = Array<(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)>()
     
     override func insertRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
         callsToInsertRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
@@ -667,6 +871,10 @@ class AnimationRecordingTableView: UITableView {
     override func deleteSections(sections: NSIndexSet, withRowAnimation animation: UITableViewRowAnimation) {
         callsToDeleteSections.append((indexSet: sections, animation: animation))
         super.deleteSections(sections, withRowAnimation: animation)
+    }
+    
+    override func moveRowAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
+        callsToMoveRow.append((fromIndexPath: indexPath, toIndexPath: newIndexPath))
     }
     
     override func beginUpdates() {
