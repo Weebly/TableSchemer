@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1A0482A8194E582D005EE547 /* SchemeSet_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */; };
+		1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */; };
+		1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
 		1AAF4721194D127700BC2F17 /* ArrayScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */; };
 		1AAF4723194D2CBB00BC2F17 /* RadioScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */; };
@@ -45,6 +47,8 @@
 /* Begin PBXFileReference section */
 		1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet_Tests.swift; sourceTree = "<group>"; };
 		1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder_Tests.swift; sourceTree = "<group>"; };
+		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
+		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeRowAnimators.swift; sourceTree = "<group>"; };
 		1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme_Tests.swift; sourceTree = "<group>"; };
 		1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme_Tests.swift; sourceTree = "<group>"; };
 		1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioScheme_Tests.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				1AF584F7194BA14A0090529C /* TableScheme.swift */,
+				1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */,
+				1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */,
 			);
 			name = "Table Scheme";
 			sourceTree = "<group>";
@@ -377,9 +383,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */,
 				1AF584EF194B6F0E0090529C /* RadioScheme.swift in Sources */,
 				1AF584F2194B7A8C0090529C /* SchemeSet.swift in Sources */,
 				1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */,
+				1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */,
 				1AF584E9194A72810090529C /* BasicScheme.swift in Sources */,
 				1AF584E7194A6D520090529C /* Scheme.swift in Sources */,
 				1AE06748194BB2C300873E8A /* SchemeCell.swift in Sources */,
