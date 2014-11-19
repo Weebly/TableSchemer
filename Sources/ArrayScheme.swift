@@ -109,3 +109,11 @@ public func ==<T, U: UITableViewCell>(lhs: ArrayScheme<T, U>, rhs: ArrayScheme<T
     
     return reuseIdentifiersEqual && objectsEqual
 }
+
+extension ArrayScheme: InferrableRowAnimatableScheme {
+    typealias IdentifierType = T
+    
+    public var rowIdentifiers: [IdentifierType] {
+        return objects!
+    }
+}

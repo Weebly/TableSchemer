@@ -102,6 +102,17 @@ class ArrayScheme_Tests: XCTestCase {
         XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(80.0))
     }
     
+    // MARK: InferrableRowAnimatableScheme
+    
+    func testRowIdentifiers_equalsObjects() {
+        let string1 = "One"
+        let string2 = "Two"
+        
+        configureSubjectWithObjects([string1, string2])
+        
+        XCTAssert(subject.rowIdentifiers == [string1, string2])
+    }
+    
     // MARK: Test Configuration
     func configureSubjectWithObjects(_ objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
         subject = ArrayScheme<String, UITableViewCell>()
