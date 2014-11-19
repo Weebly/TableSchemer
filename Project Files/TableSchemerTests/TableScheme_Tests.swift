@@ -712,9 +712,9 @@ class TableScheme_Tests: XCTestCase {
     func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_performsCorrectAnimations() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
-            animator.deleteObjectAtIndex(0, withAnimation: .Fade)
-            animator.deleteObjectAtIndex(1, withAnimation: .Automatic)
-            animator.deleteObjectAtIndex(2, withAnimation: .Automatic)
+            animator.deleteObjectAtIndex(0, withRowAnimation: .Fade)
+            animator.deleteObjectAtIndex(1, withRowAnimation: .Automatic)
+            animator.deleteObjectAtIndex(2, withRowAnimation: .Automatic)
         }
         
         XCTAssertEqual(tableView.callsToDeleteRows.count, 2)
@@ -734,8 +734,8 @@ class TableScheme_Tests: XCTestCase {
     func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_byRange_performsCorrectAnimations() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
-            animator.deleteObjectsAtIndexes(0...1, withAnimation: .Fade)
-            animator.deleteObjectsAtIndexes(2...2, withAnimation: .Automatic)
+            animator.deleteObjectsAtIndexes(0...1, withRowAnimation: .Fade)
+            animator.deleteObjectsAtIndexes(2...2, withRowAnimation: .Automatic)
         }
         
         XCTAssertEqual(tableView.callsToDeleteRows.count, 2)
@@ -757,9 +757,9 @@ class TableScheme_Tests: XCTestCase {
     func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_performsCorrectAnimations() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
-            animator.insertObjectAtIndex(0, withAnimation: .Fade)
-            animator.insertObjectAtIndex(1, withAnimation: .Automatic)
-            animator.insertObjectAtIndex(2, withAnimation: .Automatic)
+            animator.insertObjectAtIndex(0, withRowAnimation: .Fade)
+            animator.insertObjectAtIndex(1, withRowAnimation: .Automatic)
+            animator.insertObjectAtIndex(2, withRowAnimation: .Automatic)
         }
         
         XCTAssertEqual(tableView.callsToInsertRows.count, 2)
@@ -779,8 +779,8 @@ class TableScheme_Tests: XCTestCase {
     func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_byRange_performsCorrectAnimations() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
-            animator.insertObjectsAtIndexes(0...1, withAnimation: .Fade)
-            animator.insertObjectsAtIndexes(2...2, withAnimation: .Automatic)
+            animator.insertObjectsAtIndexes(0...1, withRowAnimation: .Fade)
+            animator.insertObjectsAtIndexes(2...2, withRowAnimation: .Automatic)
         }
         
         XCTAssertEqual(tableView.callsToInsertRows.count, 2)

@@ -56,11 +56,11 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     index       The index to remove.
-        :param:     animation   The type of animation to perform.
+        :param:     index           The index to remove.
+        :param:     rowAnimation    The type of animation to perform.
     */
-    public func deleteObjectAtIndex(index: Int, withAnimation animation: UITableViewRowAnimation = .Automatic) {
-        deletions.append(AddRemove(animation: animation, index: index))
+    public func deleteObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        deletions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
     /**
@@ -69,11 +69,11 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     index       The index to insert.
-        :param:     animation   The type of animation to perform.
+        :param:     index               The index to insert.
+        :param:     rowAnimation        The type of animation to perform.
     */
-    public func insertObjectAtIndex(index: Int, withAnimation animation: UITableViewRowAnimation = .Automatic) {
-        insertions.append(AddRemove(animation: animation, index: index))
+    public func insertObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+        insertions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
     /**
@@ -82,12 +82,12 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     indexes     The indexes to remove.
-        :param:     animation   The type of animation to perform.
+        :param:     indexes         The indexes to remove.
+        :param:     rowAnimation       The type of animation to perform.
     */
-    public func deleteObjectsAtIndexes(indexes: Range<Int>, withAnimation animation: UITableViewRowAnimation = .Automatic) {
+    public func deleteObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
-            deletions.append(AddRemove(animation: animation, index: i))
+            deletions.append(AddRemove(animation: rowAnimation, index: i))
         }
     }
     
@@ -97,12 +97,12 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     indexes     The indexes to insert.
-        :param:     animation   The type of animation to perform.
+        :param:     indexes         The indexes to insert.
+        :param:     rowAnimation    The type of animation to perform.
     */
-    public func insertObjectsAtIndexes(indexes: Range<Int>, withAnimation animation: UITableViewRowAnimation = .Automatic) {
+    public func insertObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
-            insertions.append(AddRemove(animation: animation, index: i))
+            insertions.append(AddRemove(animation: rowAnimation, index: i))
         }
     }
     
