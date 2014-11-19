@@ -38,48 +38,48 @@ public class TableSchemeBatchAnimator {
     }
     
     /**
-    Shows a Scheme within a batch update using the given animation.
-    
-    The passed in Scheme must belong to the TableScheme.
-    
-    :param:     scheme          The scheme to show.
-    :param:     rowAnimation    The type of animation that should be performed.
+        Shows a Scheme within a batch update using the given animation.
+        
+        The passed in Scheme must belong to the TableScheme.
+        
+        :param:     scheme          The scheme to show.
+        :param:     rowAnimation    The type of animation that should be performed.
     */
     public func showScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         rowInsertions.append(Row(animation: rowAnimation, scheme: scheme))
     }
     
     /**
-    Hides a Scheme within a batch update.
-    
-    The passed in Scheme must belong to the TableScheme.
-    
-    :param:     scheme          The scheme to hide.
-    :param:     rowAnimation    The type of animation that should be performed.
+        Hides a Scheme within a batch update.
+        
+        The passed in Scheme must belong to the TableScheme.
+        
+        :param:     scheme          The scheme to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
     */
     public func hideScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         rowDeletions.append(Row(animation: rowAnimation, scheme: scheme))
     }
     
     /**
-    Shows a SchemeSet within a batch update using the given animation.
-    
-    The passed in SchemeSet must belong to the TableScheme.
-    
-    :param:     schemeSet       The schemeSet to hide.
-    :param:     rowAnimation    The type of animation that should be performed.
+        Shows a SchemeSet within a batch update using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
     */
     public func showSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         sectionInsertions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
     }
     
     /**
-    Hides a SchemeSet within a batch update using the given animation.
-    
-    The passed in SchemeSet must belong to the TableScheme.
-    
-    :param:     schemeSet       The schemeSet to hide.
-    :param:     rowAnimation    The type of animation that should be performed.
+        Hides a SchemeSet within a batch update using the given animation.
+        
+        The passed in SchemeSet must belong to the TableScheme.
+        
+        :param:     schemeSet       The schemeSet to hide.
+        :param:     rowAnimation    The type of animation that should be performed.
     */
     public func hideSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         sectionDeletions.append(Section(animation: rowAnimation, schemeSet: schemeSet))

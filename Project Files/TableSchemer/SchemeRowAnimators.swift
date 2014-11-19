@@ -9,8 +9,8 @@
 import UIKit
 
 /**
-An instance of this class is passed into the closure for explicitly animating rows of a scheme. It records the animation methods
-called and then batches them to the passed in UITableView.
+    An instance of this class is passed into the closure for explicitly animating rows of a scheme. It records the animation methods
+    called and then batches them to the passed in UITableView.
 */
 public class SchemeRowAnimator {
     private struct AddRemove {
@@ -38,52 +38,52 @@ public class SchemeRowAnimator {
     }
     
     /**
-    Records the row at index to move to toIndex at the end of the batch closure.
-    
-    The indexes are relative to the scheme, and cells above or below this scheme
-    should not be considered when making calls to this method.
-    
-    :param:     index       The index to move the row from.
-    :param:     toIndex     The index to move the row to.
+        Records the row at index to move to toIndex at the end of the batch closure.
+        
+        The indexes are relative to the scheme, and cells above or below this scheme
+        should not be considered when making calls to this method.
+        
+        :param:     index       The index to move the row from.
+        :param:     toIndex     The index to move the row to.
     */
     public func moveObjectAtIndex(index: Int, toIndex: Int) {
         moves.append(Move(fromIndex: index, toIndex: toIndex))
     }
     
     /**
-    Records the row to be removed from index using animation at the end of the batch closure.
-    
-    The indexes are relative to the scheme, and cells above or below this scheme
-    should not be considered when making calls to this method.
-    
-    :param:     index       The index to remove.
-    :param:     animation   The type of animation to perform.
+        Records the row to be removed from index using animation at the end of the batch closure.
+        
+        The indexes are relative to the scheme, and cells above or below this scheme
+        should not be considered when making calls to this method.
+        
+        :param:     index       The index to remove.
+        :param:     animation   The type of animation to perform.
     */
     public func deleteObjectAtIndex(index: Int, withAnimation animation: UITableViewRowAnimation = .Automatic) {
         deletions.append(AddRemove(animation: animation, index: index))
     }
     
     /**
-    Records the row to be inserted to index using animation at the end of the batch closure.
-    
-    The indexes are relative to the scheme, and cells above or below this scheme
-    should not be considered when making calls to this method.
-    
-    :param:     index       The index to insert.
-    :param:     animation   The type of animation to perform.
+        Records the row to be inserted to index using animation at the end of the batch closure.
+        
+        The indexes are relative to the scheme, and cells above or below this scheme
+        should not be considered when making calls to this method.
+        
+        :param:     index       The index to insert.
+        :param:     animation   The type of animation to perform.
     */
     public func insertObjectAtIndex(index: Int, withAnimation animation: UITableViewRowAnimation = .Automatic) {
         insertions.append(AddRemove(animation: animation, index: index))
     }
     
     /**
-    Records a range of rows to be removed from indexes using animation at the end of the batch closure.
-    
-    The indexes are relative to the scheme, and cells above or below this scheme
-    should not be considered when making calls to this method.
-    
-    :param:     indexes     The indexes to remove.
-    :param:     animation   The type of animation to perform.
+        Records a range of rows to be removed from indexes using animation at the end of the batch closure.
+        
+        The indexes are relative to the scheme, and cells above or below this scheme
+        should not be considered when making calls to this method.
+        
+        :param:     indexes     The indexes to remove.
+        :param:     animation   The type of animation to perform.
     */
     public func deleteObjectsAtIndexes(indexes: Range<Int>, withAnimation animation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
@@ -92,13 +92,13 @@ public class SchemeRowAnimator {
     }
     
     /**
-    Records a range of rows to be inserted to indexes using animation at the end of the batch closure.
-    
-    The indexes are relative to the scheme, and cells above or below this scheme
-    should not be considered when making calls to this method.
-    
-    :param:     indexes     The indexes to insert.
-    :param:     animation   The type of animation to perform.
+        Records a range of rows to be inserted to indexes using animation at the end of the batch closure.
+        
+        The indexes are relative to the scheme, and cells above or below this scheme
+        should not be considered when making calls to this method.
+        
+        :param:     indexes     The indexes to insert.
+        :param:     animation   The type of animation to perform.
     */
     public func insertObjectsAtIndexes(indexes: Range<Int>, withAnimation animation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
