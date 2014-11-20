@@ -11,6 +11,7 @@
 		1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */; };
 		1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
+		1A57B9251A1D809000846EAD /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A57B9241A1D809000846EAD /* AnimationsViewController.swift */; };
 		1AAF4721194D127700BC2F17 /* ArrayScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */; };
 		1AAF4723194D2CBB00BC2F17 /* RadioScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */; };
 		1AB445B7194A66C4001BEDFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B6194A66C4001BEDFF /* AppDelegate.swift */; };
@@ -50,6 +51,7 @@
 		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
 		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeRowAnimators.swift; sourceTree = "<group>"; };
 		1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme_Tests.swift; sourceTree = "<group>"; };
+		1A57B9241A1D809000846EAD /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
 		1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme_Tests.swift; sourceTree = "<group>"; };
 		1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioScheme_Tests.swift; sourceTree = "<group>"; };
 		1AB445B1194A66C4001BEDFF /* TableSchemer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableSchemer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +101,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A57B9231A1D7FE200846EAD /* Samples */ = {
+			isa = PBXGroup;
+			children = (
+				1AB445B8194A66C4001BEDFF /* MasterViewController.swift */,
+				1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */,
+				1A57B9241A1D809000846EAD /* AnimationsViewController.swift */,
+			);
+			name = Samples;
+			sourceTree = "<group>";
+		};
 		1AB445A8194A66C4001BEDFF = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +134,7 @@
 		1AB445B3194A66C4001BEDFF /* TableSchemer */ = {
 			isa = PBXGroup;
 			children = (
+				1A57B9231A1D7FE200846EAD /* Samples */,
 				1ACFAFE01A1AB2650065ADB9 /* Protocols */,
 				1AD4F4A419895C05004D3676 /* Utility */,
 				1AE06749194BB2C800873E8A /* Cells */,
@@ -130,8 +143,6 @@
 				1AF584E4194A6CF70090529C /* Schemes */,
 				1AF584E3194A6CEF0090529C /* Scheme Builders */,
 				1AB445B6194A66C4001BEDFF /* AppDelegate.swift */,
-				1AB445B8194A66C4001BEDFF /* MasterViewController.swift */,
-				1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */,
 				1AB445BF194A66C4001BEDFF /* Images.xcassets */,
 				1AB445B4194A66C4001BEDFF /* Supporting Files */,
 			);
@@ -386,6 +397,7 @@
 				1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */,
 				1AF584EF194B6F0E0090529C /* RadioScheme.swift in Sources */,
 				1AF584F2194B7A8C0090529C /* SchemeSet.swift in Sources */,
+				1A57B9251A1D809000846EAD /* AnimationsViewController.swift in Sources */,
 				1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */,
 				1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */,
 				1AF584E9194A72810090529C /* BasicScheme.swift in Sources */,

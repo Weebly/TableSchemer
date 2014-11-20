@@ -36,8 +36,22 @@ class MasterViewController: UITableViewController {
     }
     
     func createTableScheme() {
-        tableScheme = TableScheme() { builder in
+        tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
+                builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    
+                    scheme.configurationHandler = { cell in
+                        cell.textLabel?.text = "Tap here for animation examples."
+                        cell.accessoryType = .DisclosureIndicator
+                    }
+                    
+                    scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
+                        let animationController = AnimationsViewController(style: .Grouped)
+                        self.navigationController!.pushViewController(animationController, animated: true)
+                    }
+                }
+                
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     
@@ -51,7 +65,6 @@ class MasterViewController: UITableViewController {
                         self.navigationController!.pushViewController(advancedController, animated: true)
                     }
                 }
-                return // Trailing closures will attempt to retun the SchemeSet without this since it's a "one line" expression
             }
             
             builder.buildSchemeSet { builder in

@@ -24,14 +24,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     
     var firstFieldValue = ""
     var secondFieldValue = ""
-    
-    var toggleHiddenSchemeSetScheme: Scheme!
-    var hiddenSchemeSet: SchemeSet!
-    var toggleHiddenSchemesScheme: Scheme!
-    var hiddenScheme1: Scheme!
-    var hiddenScheme2: Scheme!
-    var schemesHidden = true
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Advanced"
@@ -52,7 +45,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func buildAndSetTableScheme() {
-        tableScheme = TableScheme() { builder in
+        tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
                 builder.name = "Switches"
                 
@@ -130,59 +123,6 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.accessoryView = button
                     }
                 }
-                
-                self.toggleHiddenSchemeSetScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
-                    scheme.reuseIdentifier = self.BasicReuseIdentifier
-                    
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.selectionStyle = .None
-                        let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
-                        button.setTitle("Tap to toggle hidden scheme set", forState: .Normal)
-                        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
-                        cell.contentView.addSubview(button)
-                    }
-                }
-            }
-
-            self.hiddenSchemeSet = builder.buildSchemeSet { builder in
-                builder.name = "Hidden Sample"
-                builder.hidden = true
-                
-                self.toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.BasicReuseIdentifier
-                
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.selectionStyle = .None
-                        let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
-                        button.setTitle("Tap to toggle other schemes visibility", forState: .Normal)
-                        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
-                        cell.contentView.addSubview(button)
-                    }
-                }
-                
-                self.hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.BasicReuseIdentifier
-                    scheme.hidden = true
-                    
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.selectionStyle = .None
-                        cell.textLabel?.text = "First"
-                        cell.accessoryView = nil
-                    }
-                }
-                
-                self.hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.BasicReuseIdentifier
-                    scheme.hidden = true
-                    
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
-                        cell.selectionStyle = .None
-                        cell.textLabel?.text = "Second"
-                        cell.accessoryView = nil
-                    }
-                }
             }
         }
         
@@ -219,24 +159,6 @@ class AdvancedTableSchemeViewController: UITableViewController {
             if tuple.scheme === buttonsScheme {
                 let object = buttonsScheme.objects![tuple.index]
                 println("You pressed the button with object: \(object)")
-            } else if tuple.scheme === toggleHiddenSchemeSetScheme {
-                if hiddenSchemeSet.hidden {
-                    tableScheme.showSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Top)
-                } else {
-                    tableScheme.hideSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Top)
-                }
-            } else if tuple.scheme === toggleHiddenSchemesScheme {
-                tableScheme.batchSchemeVisibilityChangesInTableView(tableView) { animator in
-                    if self.schemesHidden {
-                        animator.showScheme(self.hiddenScheme1, withRowAnimation: .Left)
-                        animator.showScheme(self.hiddenScheme2, withRowAnimation: .Right)
-                    } else {
-                        animator.hideScheme(self.hiddenScheme2, withRowAnimation: .Left)
-                        animator.hideScheme(self.hiddenScheme1, withRowAnimation: .Right)
-                    }
-                }
-                
-                schemesHidden = !schemesHidden
             }
         }
     }
