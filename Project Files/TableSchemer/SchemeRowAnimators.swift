@@ -23,9 +23,9 @@ public class SchemeRowAnimator {
         let toIndex: Int
     }
     
-    private let tableScheme: TableScheme
-    private let tableView: UITableView
-    public let scheme: Scheme
+    private final let tableScheme: TableScheme
+    private final let tableView: UITableView
+    public final let scheme: Scheme
     
     private var moves = [Move]()
     private var insertions = [AddRemove]()
@@ -46,7 +46,7 @@ public class SchemeRowAnimator {
         :param:     index       The index to move the row from.
         :param:     toIndex     The index to move the row to.
     */
-    public func moveObjectAtIndex(index: Int, toIndex: Int) {
+    public final func moveObjectAtIndex(index: Int, toIndex: Int) {
         moves.append(Move(fromIndex: index, toIndex: toIndex))
     }
     
@@ -59,7 +59,7 @@ public class SchemeRowAnimator {
         :param:     index           The index to remove.
         :param:     rowAnimation    The type of animation to perform.
     */
-    public func deleteObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func deleteObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         deletions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -72,7 +72,7 @@ public class SchemeRowAnimator {
         :param:     index               The index to insert.
         :param:     rowAnimation        The type of animation to perform.
     */
-    public func insertObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func insertObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         insertions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -85,7 +85,7 @@ public class SchemeRowAnimator {
         :param:     indexes         The indexes to remove.
         :param:     rowAnimation       The type of animation to perform.
     */
-    public func deleteObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func deleteObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
             deletions.append(AddRemove(animation: rowAnimation, index: i))
         }
@@ -100,13 +100,13 @@ public class SchemeRowAnimator {
         :param:     indexes         The indexes to insert.
         :param:     rowAnimation    The type of animation to perform.
     */
-    public func insertObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func insertObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
             insertions.append(AddRemove(animation: rowAnimation, index: i))
         }
     }
     
-    func performAnimations() {
+    final func performAnimations() {
         let schemeSet = tableScheme.schemeSetWithScheme(scheme)
         let section = tableScheme.sectionForSchemeSet(schemeSet)
         let rowsBeforeScheme = tableScheme.rowsBeforeScheme(scheme)
@@ -151,7 +151,7 @@ public class SchemeRowAnimator {
     }
 }
 
-class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableScheme>: SchemeRowAnimator {
+final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableScheme>: SchemeRowAnimator {
     private let originalRowIdentifiers: [T.IdentifierType]
     private var animatableScheme: T {
         return scheme as T

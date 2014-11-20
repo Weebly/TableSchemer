@@ -25,12 +25,12 @@ public class SchemeSet {
     public let schemes: [Scheme]
     
     /** The number of schemes within the SchemeSet */
-    public var count: Int {
+    public final var count: Int {
         return countElements(schemes)
     }
     
     /// Schemes that are currently visible
-    public var visibleSchemes: [Scheme] {
+    public final var visibleSchemes: [Scheme] {
         return schemes.filter { !$0.hidden }
     }
     
@@ -40,7 +40,7 @@ public class SchemeSet {
         You should not change this variable directly after initial configuration, and 
         instead use the TableScheme that this SchemeSet belongs to.
     */
-    final public var hidden = false
+    public final var hidden = false
     
     public init(schemes: [Scheme]) {
         self.schemes = schemes

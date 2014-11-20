@@ -13,7 +13,7 @@ import UIKit
  * An instance of this object is passed into the build handler from TableScheme(buildHandler:).
  * It's used to create SchemeSet objects, which correspond directly to table view sections.
  */
-public class TableSchemeBuilder {
+public final class TableSchemeBuilder {
     /** The scheme sets that have been added to the builder. */
     public var schemeSets = [SchemeSet]();
     

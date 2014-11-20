@@ -13,7 +13,7 @@ import UIKit
  *  An instance of this object is passed into the build handler from WBLSchemeDataSourceBuilder.buildSchemeSet(handler:).
  *  It's used to set a section title and to add schemes to the scheme set.
  */
-public class SchemeSetBuilder {
+public final class SchemeSetBuilder {
     /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
     public var name: String?
     

@@ -13,7 +13,7 @@ import UIKit
     your changes to the TableScheme's SchemeSet and Scheme visibility, and then perform them all in one batch
     at the end of the TableScheme's batch operation method.
 */
-public class TableSchemeBatchAnimator {
+public final class TableSchemeBatchAnimator {
     private struct Row {
         let animation: UITableViewRowAnimation
         let scheme: Scheme
