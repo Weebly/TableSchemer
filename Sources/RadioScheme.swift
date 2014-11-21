@@ -115,13 +115,18 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
 
 public func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
-    var heightsEqual = false
-    
     var reuseIdentifiersEqual = lhs.reuseIdentifiers == rhs.reuseIdentifiers
+    var heightsEqual = true
     
     if let lh = lhs.heights {
         if let rh = rhs.heights {
             heightsEqual = lh == rh
+        } else {
+            heightsEqual = false
+        }
+    } else {
+        if rhs.heights != nil {
+            heightsEqual = false
         }
     }
     
