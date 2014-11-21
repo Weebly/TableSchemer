@@ -382,7 +382,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         between the object before and after the closure.
     
         The changes to your object must affect the rowIdentifiers property of the InferrableRowAnimatableScheme protocol. You
-        should have one rowIdentifier for each row. 
+        must have one rowIdentifier for each row.
     
         :param:     scheme          The scheme that the changes are being applied to.
         :param:     tableView       The UITableView that the animations should be performed on.
@@ -390,7 +390,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
     */
     public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, withChangeHandler changeHandler: () -> Void) {
         let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
+        assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells before the changes")
         changeHandler()
+        assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells after the changes")
         animator.guessRowAnimationsWithAnimation(animation)
         animator.performAnimations()
     }
