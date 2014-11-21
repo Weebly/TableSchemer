@@ -50,13 +50,27 @@ public class Scheme: Equatable {
         return 1
     }
     
+    final var finishedBuilding = false
+    
     /**
         Identifies if the Scheme is hidden or not.
         
         You should not change this variable directly after initial configuration, and 
         instead use the TableScheme that this Scheme belongs to.
     */
-    final public var hidden = false
+    
+    public final var hidden: Bool {
+        set {
+            assert(!finishedBuilding, "Setting this property after the scheme has finished building is an error. Use the methods on the TableScheme class to change visibility")
+            _hidden = newValue
+        }
+        
+        get {
+            return _hidden
+        }
+    }
+    
+    final var _hidden = false
     
     required public init() { }
     

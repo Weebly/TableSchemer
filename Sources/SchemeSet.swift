@@ -34,13 +34,26 @@ public class SchemeSet {
         return schemes.filter { !$0.hidden }
     }
     
+    final var finishedBuilding = false
+
     /**
         Identifies if the SchemeSet is hidden or not.
         
         You should not change this variable directly after initial configuration, and 
         instead use the TableScheme that this SchemeSet belongs to.
     */
-    public final var hidden = false
+    public final var hidden: Bool {
+        set {
+            assert(!finishedBuilding, "Setting this property after the scheme has finished building is an error. Use the methods on the TableScheme class to change visibility")
+            _hidden = newValue
+        }
+        
+        get {
+            return _hidden
+        }
+    }
+    
+    final var _hidden = false
     
     public init(schemes: [Scheme]) {
         self.schemes = schemes
@@ -55,7 +68,7 @@ public class SchemeSet {
     public init(name: String?, footerText: String?, hidden: Bool, withSchemes schemes: [Scheme]) {
         self.name = name
         self.footerText = footerText
-        self.hidden = hidden
+        _hidden = hidden
         self.schemes = schemes
     }
     

@@ -161,19 +161,19 @@ public final class TableSchemeBatchAnimator {
         // Now update the visibility of all our batches
         
         for change in rowInsertions {
-            change.scheme.hidden = false
+            change.scheme._hidden = false
         }
         
         for change in rowDeletions {
-            change.scheme.hidden = true
+            change.scheme._hidden = true
         }
         
         for change in sectionDeletions {
-            change.schemeSet.hidden = true
+            change.schemeSet._hidden = true
         }
         
         for change in sectionInsertions {
-            change.schemeSet.hidden = false
+            change.schemeSet._hidden = false
         }
         
         // Now obtain the index paths for the inserted schemes. These will have their inserted index paths, skipping ones removed,

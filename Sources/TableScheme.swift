@@ -226,7 +226,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
-        scheme.hidden = true
+        scheme._hidden = true
         tableView.deleteRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
     }
     
@@ -243,7 +243,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
-        scheme.hidden = false
+        scheme._hidden = false
         tableView.insertRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
     }
     
@@ -281,7 +281,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
         let section = sectionForSchemeSet(schemeSet)
-        schemeSet.hidden = true
+        schemeSet._hidden = true
         tableView.deleteSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
     }
     
@@ -299,7 +299,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
         let section = sectionForSchemeSet(schemeSet)
-        schemeSet.hidden = false
+        schemeSet._hidden = false
         tableView.insertSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
     }
     
