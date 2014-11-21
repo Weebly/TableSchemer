@@ -21,13 +21,13 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     public typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
     
     /** The reuseIdentifier for this scheme. */
-    public var reuseIdentifier: String?
+    public var reuseIdentifier: String!
     
     /** The height the cell should be if asked. */
     public var height: RowHeight = .UseTable
     
     /** The closure called to configure the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler!
     
     /** The closure called when the cell is selected. 
      *
@@ -42,7 +42,7 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Abstract method overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler!(cell: cell as T)
+        configurationHandler(cell: cell as T)
     }
     
     override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
@@ -52,7 +52,7 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     }
     
     override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
-        return reuseIdentifier!
+        return reuseIdentifier
     }
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {

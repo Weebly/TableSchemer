@@ -13,7 +13,7 @@ import UIKit
  *  An instance of this object is passed into the build handler from WBLSchemeDataSourceBuilder.buildSchemeSet(handler:).
  *  It's used to set a section title and to add schemes to the scheme set.
  */
-public class SchemeSetBuilder {
+public final class SchemeSetBuilder {
     /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
     public var name: String?
     
@@ -22,6 +22,9 @@ public class SchemeSetBuilder {
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
     public var schemes = [Scheme]()
+    
+    /// This is used to identify if the scheme is initially hidden or not
+    public var hidden = false
     
     public init() { } // Compiler won't compile without this. Not sure why.
     
@@ -52,6 +55,6 @@ public class SchemeSetBuilder {
     
     /** Create the SchemeSet with the currently added Schemes. This method should not be called except from TableSchemeBuilder */
     internal func createSchemeSet() -> SchemeSet {
-        return SchemeSet(name: name, footerText: footerText, withSchemes: schemes)
+        return SchemeSet(name: name, footerText: footerText, hidden: hidden, withSchemes: schemes)
     }
 }

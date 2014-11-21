@@ -46,4 +46,17 @@ class SchemeSetBuilder_Tests: XCTestCase {
         let schemeSet = subject.createSchemeSet()
         XCTAssert(schemeSet.footerText == "Foo bar")
     }
+    
+    func testCreateSchemeSet_setsHidden() {
+        let subject = SchemeSetBuilder()
+        let scheme1 = subject.buildScheme {(scheme: BasicScheme) in
+            scheme.reuseIdentifier = "Foo"
+            scheme.configurationHandler = {(cell: UITableViewCell) in}
+        }
+        
+        subject.hidden = true
+        
+        let schemeSet = subject.createSchemeSet()
+        XCTAssertTrue(schemeSet.hidden)
+    }
 }

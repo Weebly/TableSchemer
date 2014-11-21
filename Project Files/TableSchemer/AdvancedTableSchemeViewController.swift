@@ -45,7 +45,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func buildAndSetTableScheme() {
-        tableScheme = TableScheme() { builder in
+        tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
                 builder.name = "Switches"
                 
@@ -109,7 +109,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Button Press Inside Array Scheme"
+                builder.name = "Buttons!"
                 
                 self.buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
                     scheme.reuseIdentifier = self.BasicReuseIdentifier
@@ -124,7 +124,6 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
             }
-
         }
         
         tableView.dataSource = tableScheme
@@ -157,8 +156,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
     
     func buttonPressed(button: UIButton) {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
-            if tuple.scheme === self.buttonsScheme {
-                let object = self.buttonsScheme.objects![tuple.index]
+            if tuple.scheme === buttonsScheme {
+                let object = buttonsScheme.objects![tuple.index]
                 println("You pressed the button with object: \(object)")
             }
         }
