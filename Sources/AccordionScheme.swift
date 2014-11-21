@@ -13,7 +13,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     public typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
     /** The reuse identifiers used by the accordion cells. */
-    public var accordionReuseIdentifiers: [String]?
+    public var accordionReuseIdentifiers: [String]!
     
     /** The height used for each accordion cell if asked. */
     public var accordionHeights: [RowHeight]?
@@ -22,7 +22,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     public var selectedIndex = 0
     
     /** The closure called to handle accordion cells when the accordion is expanded. */
-    public var accordionConfigurationHandler: AccordionConfigurationHandler?
+    public var accordionConfigurationHandler: AccordionConfigurationHandler!
     
     /** The closure called when an accordion cell is selected.
      *
@@ -44,13 +44,13 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
     
     public var numberOfItems: Int {
-        return countElements(accordionReuseIdentifiers!)
+        return countElements(accordionReuseIdentifiers)
     }
     
     // MARK: Abstract Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if (expanded) {
-            accordionConfigurationHandler!(cell: cell as U, index: relativeIndex)
+            accordionConfigurationHandler(cell: cell as U, index: relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
         }
@@ -150,13 +150,7 @@ public func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U
     let heightsEqual = lhs.height == rhs.height
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
     var expandedEqual = lhs.expanded == rhs.expanded
-    var accordionReuseIdentifiersEqual = false
-    
-    if let larh = lhs.accordionReuseIdentifiers {
-        if let rarh = rhs.accordionReuseIdentifiers {
-            accordionReuseIdentifiersEqual = larh == rarh
-        }
-    }
+    var accordionReuseIdentifiersEqual = lhs.accordionReuseIdentifiers == rhs.accordionReuseIdentifiers
 
     return reuseIdentifiersEqual && heightsEqual && selectedIndexesEqual && expandedEqual && accordionReuseIdentifiersEqual
 }

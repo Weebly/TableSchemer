@@ -29,13 +29,13 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     public var selectedIndex = 0
     
     /** The reuse identifiers that each cell will use. */
-    public var reuseIdentifiers: [String]?
+    public var reuseIdentifiers: [String]!
     
     /** The heights that the cells should have if asked. */
     public var heights: [RowHeight]?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler!
     
     /** The closure called when the cell is selected.
     *
@@ -50,7 +50,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return countElements(reuseIdentifiers!)
+        return countElements(reuseIdentifiers)
     }
     
     // MARK: Public Instance Methods
@@ -60,7 +60,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Abstract Method Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
-        configurationHandler!(cell: cell as T, index: relativeIndex)
+        configurationHandler(cell: cell as T, index: relativeIndex)
         
         if selectedIndex == relativeIndex {
             cell.accessoryType = .Checkmark
@@ -90,7 +90,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     }
     
     override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
-        return reuseIdentifiers![relativeIndex]
+        return reuseIdentifiers[relativeIndex]
     }
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight  {
@@ -115,14 +115,9 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
 
 public func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
-    var reuseIdentifiersEqual = false
     var heightsEqual = false
     
-    if let lrh = lhs.reuseIdentifiers {
-        if let rrh = rhs.reuseIdentifiers {
-            reuseIdentifiersEqual = lrh == rrh
-        }
-    }
+    var reuseIdentifiersEqual = lhs.reuseIdentifiers == rhs.reuseIdentifiers
     
     if let lh = lhs.heights {
         if let rh = rhs.heights {

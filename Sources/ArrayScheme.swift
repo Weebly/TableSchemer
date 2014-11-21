@@ -29,11 +29,10 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
      *  reuse identifier for all cells. This is because this scheme is
      *  meant to be used with closely related cells.
      */
-    public var reuseIdentifier: String?
+    public var reuseIdentifier: String!
     
     /** The objects this scheme is representing */
-    // TODO: Change this and other required optionals to implicitly unwrapped when the compiler stops crashing because of it
-    public var objects: [T]?
+    public var objects: [T]!
     
     /** The closure called to determine the height of this cell.
      *
@@ -48,7 +47,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     public var heightHandler: HeightHandler?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler?
+    public var configurationHandler: ConfigurationHandler!
     
     /** The closure called when a cell representing this scheme is selected.
     *
@@ -59,7 +58,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return countElements(objects!)
+        return countElements(objects)
     }
     
     required public init() {
@@ -68,7 +67,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     
     // MARK: Abstract Method Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler!(cell: cell as U, object: objects![relativeIndex])
+        configurationHandler(cell: cell as U, object: objects![relativeIndex])
     }
     
     override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
@@ -78,7 +77,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     }
     
     override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
-        return reuseIdentifier!
+        return reuseIdentifier
     }
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
