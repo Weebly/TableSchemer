@@ -16,7 +16,7 @@ You can easily create your own Schemes and add them into your tables. With a few
 
 ## Getting Started
 
-* Download TableSchemer and see it in action using the example app. See [Sample Project](#Sample-Project) for instructions on how to get the sample project running.
+* Download TableSchemer and see it in action using the example app. See [Sample Project](#sample-project) for instructions on how to get the sample project running.
 * Start building your own tables by installing it in your own app. See [Using Table Schemer](https://github.com/Weebly/TableSchemer/wiki/Using-Table-Schemer) for more information on how to use Table Schemer.
 
 ## Requirements
