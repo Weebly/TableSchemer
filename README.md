@@ -16,7 +16,7 @@ You can easily create your own Schemes and add them into your tables. With a few
 
 ## Getting Started
 
-* Download TableSchemer and see it in action using the example app.
+* Download TableSchemer and see it in action using the example app. See [Sample Project](#Sample-Project) for instructions on how to get the sample project running.
 * Start building your own tables by installing it in your own app. See [Using Table Schemer](https://github.com/Weebly/TableSchemer/wiki/Using-Table-Schemer) for more information on how to use Table Schemer.
 
 ## Requirements
@@ -76,6 +76,10 @@ class MasterViewController: UITableViewController {
 ```
 
 TableSchemer supports configuring selection handlers and height, but you need to be sure to forward delegate methods to the tableScheme object. Check out the [Using Table Schemer](https://github.com/Weebly/TableSchemer/wiki/Using-Table-Schemer) page for how to do that and more, and be sure to check out our sample app!
+
+## Sample Project
+
+The sample project makes use of CocoaPods. Be sure you have the latest installed. After downloading the project, run ```pod install``` from the root directory. After the command completes be sure to open the **workspace** file, and not the project file.
 
 ## Contact
 
