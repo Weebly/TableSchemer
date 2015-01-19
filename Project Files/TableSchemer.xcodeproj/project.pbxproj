@@ -48,8 +48,8 @@
 /* Begin PBXFileReference section */
 		1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet_Tests.swift; sourceTree = "<group>"; };
 		1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder_Tests.swift; sourceTree = "<group>"; };
-		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
-		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeRowAnimators.swift; sourceTree = "<group>"; };
+		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSchemeBatchAnimator.swift; path = ../../Sources/TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
+		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeRowAnimators.swift; path = ../../Sources/SchemeRowAnimators.swift; sourceTree = "<group>"; };
 		1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme_Tests.swift; sourceTree = "<group>"; };
 		1A57B9241A1D809000846EAD /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
 		1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme_Tests.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 		1AB445BF194A66C4001BEDFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1AB445C5194A66C4001BEDFF /* TableSchemerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TableSchemerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB445CA194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferrableRowAnimatableScheme.swift; sourceTree = "<group>"; };
+		1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InferrableRowAnimatableScheme.swift; path = ../../Sources/InferrableRowAnimatableScheme.swift; sourceTree = "<group>"; };
 		1AD4F4A519895C14004D3676 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewExtensions.swift; path = ../../Sources/ViewExtensions.swift; sourceTree = "<group>"; };
 		1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTableSchemeViewController.swift; sourceTree = "<group>"; };
 		1AE06747194BB2C300873E8A /* SchemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeCell.swift; path = ../../Sources/SchemeCell.swift; sourceTree = "<group>"; };
