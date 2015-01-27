@@ -29,7 +29,7 @@ public final class TableSchemeBuilder {
      *  @param handler The block to configure the builder.
      *  @return The created SchemeSet object.
      */
-    internal func buildSchemeSet(handler: (builder: SchemeSetBuilder) -> Void) -> SchemeSet {
+    public func buildSchemeSet(handler: (builder: SchemeSetBuilder) -> Void) -> SchemeSet {
         let builder = SchemeSetBuilder()
         handler(builder: builder)
         let schemeSet = builder.createSchemeSet()
