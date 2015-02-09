@@ -51,7 +51,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         let scheme = schemeAtIndexPath(indexPath)!
         let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
         let reuseIdentifier = scheme.reuseIdentifierForRelativeIndex(configurationIndex)
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier!, forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier!, forIndexPath: indexPath) as! UITableViewCell
         
         if let schemeCell = cell as? SchemeCell {
             schemeCell.scheme = scheme
@@ -114,7 +114,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *
      *    @return A strin containing the SchemeSet's footer text or nil
      */
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String! {
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return schemeSetForSection(section).footerText
     }
     

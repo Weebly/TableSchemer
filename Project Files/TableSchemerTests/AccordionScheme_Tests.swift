@@ -53,7 +53,7 @@ class AccordionScheme_Tests: XCTestCase {
         var passedCell2: UITableViewCell?
         var passedCell3: UITableViewCell?
         
-        configureSubjectWithConfigurationHandler({(cell) in
+        configureSubjectWithConfigurationHandler(configurationHandler: {(cell) in
         }, accordionConfigurationHandler: {(cell, index) in
             if index == 0 {
                 passedCell1 = cell
@@ -157,7 +157,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
         tableMock.verify()
     }
@@ -174,7 +174,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
         tableMock.verify()
     }
@@ -192,7 +192,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
         
         tableMock.verify()
     }
@@ -203,14 +203,14 @@ class AccordionScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
         tableMock.expect().beginUpdates()
         tableMock.expect().endUpdates()
         tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Fade)
         tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
 
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
         tableMock.verify()
     }
@@ -221,14 +221,14 @@ class AccordionScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
         tableMock.expect().beginUpdates()
         tableMock.expect().endUpdates()
         tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Fade)
         tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 2)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 2)
         
         tableMock.verify()
     }
@@ -239,7 +239,7 @@ class AccordionScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
         
         tableMock.expect().beginUpdates()
         tableMock.expect().endUpdates()
@@ -247,7 +247,7 @@ class AccordionScheme_Tests: XCTestCase {
         tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 0)], withRowAnimation: .Fade)
         tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
 
-        subject.selectCell(cell, inTableView: tableMock as UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 1)
+        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 1)
         
         tableMock.verify()
     }

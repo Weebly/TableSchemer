@@ -154,7 +154,7 @@ public class SchemeRowAnimator {
 final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableScheme>: SchemeRowAnimator {
     private let originalRowIdentifiers: [T.IdentifierType]
     private var animatableScheme: T {
-        return scheme as T
+        return scheme as! T
     }
     
     init(tableScheme: TableScheme, withScheme scheme: T, inTableView tableView: UITableView) {

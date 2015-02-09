@@ -50,7 +50,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return countElements(reuseIdentifiers)
+        return count(reuseIdentifiers)
     }
     
     // MARK: Public Instance Methods
@@ -60,7 +60,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Abstract Method Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
-        configurationHandler(cell: cell as T, index: relativeIndex)
+        configurationHandler(cell: cell as! T, index: relativeIndex)
         
         if selectedIndex == relativeIndex {
             cell.accessoryType = .Checkmark
@@ -71,7 +71,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as T, scheme: self, index: relativeIndex)
+            sh(cell: cell as! T, scheme: self, index: relativeIndex)
         }
         
         let oldSelectedIndex = selectedIndex
@@ -97,7 +97,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
         var height = RowHeight.UseTable
         
         if let rowHeights = heights {
-            if countElements(rowHeights) > relativeIndex {
+            if count(rowHeights) > relativeIndex {
                 height = rowHeights[relativeIndex]
             }
         }

@@ -58,7 +58,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return countElements(objects)
+        return count(objects)
     }
     
     required public init() {
@@ -67,12 +67,12 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     
     // MARK: Abstract Method Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as U, object: objects![relativeIndex])
+        configurationHandler(cell: cell as! U, object: objects![relativeIndex])
     }
     
     override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as U, scheme: self, object: objects![relativeIndex])
+            sh(cell: cell as! U, scheme: self, object: objects![relativeIndex])
         }
     }
     

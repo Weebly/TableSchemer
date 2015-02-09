@@ -106,7 +106,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testCellForRowAtIndexPath_setsSchemeOnCell_whenSubclassOfSchemeCell() {
         let tableView = configuredTableView()
-        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as SchemeCell
+        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as! SchemeCell
         XCTAssert(cell.scheme === schemeSet3Scheme1)
     }
     
@@ -282,7 +282,7 @@ class TableScheme_Tests: XCTestCase {
     func testSchemeContainingView_returnsCorrectScheme() {
         let tableView = configuredTableView()
         let subview = UIView()
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 2)) as! UITableViewCell
         cell.contentView.addSubview(subview)
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(NSIndexPath(forRow: 0, inSection: 2)).indexPathForCell(cell)
@@ -292,7 +292,7 @@ class TableScheme_Tests: XCTestCase {
     func testSchemeWithIndexContainingView_returnsCorrectTuple() {
         let tableView = configuredTableView()
         let subview = UIView()
-        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 2, inSection: 1)) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(TableSchemeTestsReuseIdentifier, forIndexPath: NSIndexPath(forRow: 2, inSection: 1)) as! UITableViewCell
         cell.contentView.addSubview(subview)
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(NSIndexPath(forRow: 2, inSection: 1)).indexPathForCell(cell)
@@ -964,12 +964,12 @@ class AnimationRecordingTableView: UITableView {
     var callsToReloadSections = Array<(indexSet: NSIndexSet, animation: UITableViewRowAnimation)>()
     
     override func insertRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
-        callsToInsertRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        callsToInsertRows.append((indexPaths: indexPaths as! [NSIndexPath], animation: animation))
         super.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
     }
     
     override func deleteRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
-        callsToDeleteRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        callsToDeleteRows.append((indexPaths: indexPaths as! [NSIndexPath], animation: animation))
         super.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
     }
     
@@ -989,7 +989,7 @@ class AnimationRecordingTableView: UITableView {
     }
     
     override func reloadRowsAtIndexPaths(indexPaths: [AnyObject], withRowAnimation animation: UITableViewRowAnimation) {
-        callsToReloadRows.append((indexPaths: indexPaths as [NSIndexPath], animation: animation))
+        callsToReloadRows.append((indexPaths: indexPaths as! [NSIndexPath], animation: animation))
         super.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: animation)
     }
     

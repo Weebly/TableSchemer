@@ -42,12 +42,12 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Abstract method overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as T)
+        configurationHandler(cell: cell as! T)
     }
     
     override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
-            sh(cell: cell as T, scheme: self)
+            sh(cell: cell as! T, scheme: self)
         }
     }
     

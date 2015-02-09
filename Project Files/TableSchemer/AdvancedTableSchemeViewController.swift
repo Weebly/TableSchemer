@@ -118,7 +118,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
                         cell.selectionStyle = .None
                         cell.textLabel?.text = object
-                        let button = UIButton.buttonWithType(.InfoDark) as UIButton
+                        let button = UIButton.buttonWithType(.InfoDark) as! UIButton
                         button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
                         cell.accessoryView = button
                     }

@@ -26,7 +26,7 @@ public class SchemeSet {
     
     /** The number of schemes within the SchemeSet */
     public final var count: Int {
-        return countElements(schemes)
+        return schemes.count
     }
     
     /// Schemes that are currently visible
@@ -57,6 +57,8 @@ public class SchemeSet {
     
     public init(schemes: [Scheme]) {
         self.schemes = schemes
+        footerText = nil
+        name = nil
     }
     
     public init(name: String?, footerText: String?, withSchemes schemes: [Scheme]) {

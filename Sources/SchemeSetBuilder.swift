@@ -42,8 +42,7 @@ public final class SchemeSetBuilder {
      *  @return The created Scheme instance
      */
     public func buildScheme<T: Scheme>(handler: (scheme: T) -> Void) -> T {
-        // FIXME: (T.self as T.Type)() is a hack because 6.1 broke T(). Change back when bug is fixed.
-        let scheme = (T.self as T.Type)()
+        let scheme = T()
         handler(scheme: scheme)
         
         if scheme.isValid() {

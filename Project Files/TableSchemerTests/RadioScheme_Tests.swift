@@ -112,7 +112,7 @@ class RadioScheme_Tests: XCTestCase {
         
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: mockTableView as UITableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
+        subject.selectCell(cell, inTableView: mockTableView as! UITableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
         
         XCTAssertEqual(oldCell.accessoryType, UITableViewCellAccessoryType.None)
         XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.Checkmark)

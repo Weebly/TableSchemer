@@ -44,13 +44,13 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
     
     public var numberOfItems: Int {
-        return countElements(accordionReuseIdentifiers)
+        return count(accordionReuseIdentifiers)
     }
     
     // MARK: Abstract Overrides
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if (expanded) {
-            accordionConfigurationHandler(cell: cell as U, index: relativeIndex)
+            accordionConfigurationHandler(cell: cell as! U, index: relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
         }
@@ -64,7 +64,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
         
         if (expanded) {
             if let ash = accordionSelectionHandler {
-                ash(cell: cell as U, scheme: self, selectedIndex: relativeIndex)
+                ash(cell: cell as! U, scheme: self, selectedIndex: relativeIndex)
             }
             
             selectedIndex = relativeIndex
@@ -79,11 +79,11 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
                 appendedIndexPaths.append(ip)
             }
             
-            if countElements(prependedIndexPaths) > 0 {
+            if count(prependedIndexPaths) > 0 {
                 tableView.deleteRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
             }
             
-            if countElements(appendedIndexPaths) > 0 {
+            if count(appendedIndexPaths) > 0 {
                 tableView.deleteRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
             }
         } else {
@@ -99,11 +99,11 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
                 appendedIndexPaths.append(ip)
             }
             
-            if countElements(prependedIndexPaths) > 0 {
+            if count(prependedIndexPaths) > 0 {
                 tableView.insertRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
             }
             
-            if countElements(appendedIndexPaths) > 0 {
+            if count(appendedIndexPaths) > 0 {
                 tableView.insertRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
             }
         }
@@ -126,7 +126,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if expanded {
-            if accordionHeights != nil && countElements(accordionHeights!) > relativeIndex {
+            if accordionHeights != nil && count(accordionHeights!) > relativeIndex {
                 return accordionHeights![relativeIndex]
             } else {
                 return .UseTable
@@ -138,7 +138,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func isValid() -> Bool {
         assert(accordionReuseIdentifiers != nil)
-        assert(countElements(accordionReuseIdentifiers!) > 0)
+        assert(count(accordionReuseIdentifiers!) > 0)
         assert(accordionConfigurationHandler != nil)
         
         return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil

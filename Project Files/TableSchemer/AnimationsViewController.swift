@@ -226,7 +226,7 @@ class AnimationsViewController: UITableViewController {
     }
     
     private func removeSubviewsInView(view: UIView) {
-        for v in view.subviews as [UIView] {
+        for v in view.subviews as! [UIView] {
             v.removeFromSuperview()
         }
     }
