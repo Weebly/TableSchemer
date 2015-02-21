@@ -36,7 +36,7 @@ public func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
  *
  *  This class can be used as a type of placeholder object for UITableViewCell's. It's used in
  *  conjunction with a TableScheme, which takes an array of SchemeSet objects and for each
- *  row will ask the Scheme for it's reuseIdentifier to dequeue a cell, and then call the
+ *  row will ask the Scheme for its reuseIdentifier to dequeue a cell, and then call the
  *  configurationHandler to allow setup of the cell based on the scheme of the cell.
  *
  *  This class is an abstract class, and can not be used. You must use a concret subclass for it.
