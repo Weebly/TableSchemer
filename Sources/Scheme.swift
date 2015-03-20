@@ -83,7 +83,22 @@ public class Scheme: Equatable {
     public func isValid() -> Bool {
         return true
     }
-    
+
+    /**
+     *    This method is called by TableScheme when the cell needs
+     *    to be created. It will be passed the table creating the cell and
+     *    the relative index the cell is from the start of the scheme. For
+     *    example, if your scheme has 3 different cells, this will be called
+     *    three times with relativeIndexes 0, 1 and 2.
+     *
+     *    @param cell          The UITableViewCell being created.
+     *    @param relativeIndex The cell index from the start of the scheme being configured.
+     */
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
+        let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)!
+        return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as UITableViewCell
+    }
+
     /**
      *    This method is called by TableScheme when the cell needs
      *    to be configured. It will be passed the cell being created and

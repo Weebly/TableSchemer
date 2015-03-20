@@ -32,6 +32,7 @@
 		1AF584F6194B9F6D0090529C /* TableSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */; };
 		1AF584F8194BA14A0090529C /* TableScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F7194BA14A0090529C /* TableScheme.swift */; };
 		1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */; };
+		61E259641ABCDD6C005297C9 /* StaticScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E259621ABCD958005297C9 /* StaticScheme.swift */; };
 		65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		1AF584F7194BA14A0090529C /* TableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableScheme.swift; path = ../../Sources/TableScheme.swift; sourceTree = "<group>"; };
 		1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme_Tests.swift; sourceTree = "<group>"; };
 		5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		61E259621ABCD958005297C9 /* StaticScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticScheme.swift; path = ../../Sources/StaticScheme.swift; sourceTree = "<group>"; };
 		CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.release.xcconfig"; sourceTree = "<group>"; };
 		E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TableSchemerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -222,6 +224,7 @@
 				1AF584EA194A75900090529C /* AccordionScheme.swift */,
 				1AF584EC194A807A0090529C /* ArrayScheme.swift */,
 				1AF584EE194B6F0E0090529C /* RadioScheme.swift */,
+				61E259621ABCD958005297C9 /* StaticScheme.swift */,
 			);
 			name = Schemes;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				1AF584EF194B6F0E0090529C /* RadioScheme.swift in Sources */,
 				1AF584F2194B7A8C0090529C /* SchemeSet.swift in Sources */,
 				1A57B9251A1D809000846EAD /* AnimationsViewController.swift in Sources */,
+				61E259641ABCDD6C005297C9 /* StaticScheme.swift in Sources */,
 				1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */,
 				1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */,
 				1AF584E9194A72810090529C /* BasicScheme.swift in Sources */,
