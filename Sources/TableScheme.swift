@@ -133,15 +133,11 @@ public class TableScheme: NSObject, UITableViewDataSource {
         var priorHiddenSchemes = 0
         
         for (idx, scheme) in enumerate(schemeSet.schemes) {
-            if (idx + offset > row) {
-                break
-            }
-            
             if scheme.hidden {
                 priorHiddenSchemes++
                 continue
             }
-            
+
             if row >= (idx + offset - priorHiddenSchemes) && row < (idx + offset + scheme.numberOfCells - priorHiddenSchemes) {
                 return scheme
             } else {
@@ -149,7 +145,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
             }
         }
         
-        return schemeSet[row - offset + priorHiddenSchemes]
+        return nil
     }
     
     /**
