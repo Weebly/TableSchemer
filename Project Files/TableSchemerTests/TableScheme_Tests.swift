@@ -148,7 +148,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
         subject.hideScheme(schemeSet4Scheme2, inTableView: tableView)
-        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 2))
+        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 3))
         let configureCall = schemeSet4Scheme3.lastConfigureCall
         XCTAssert(configureCall.cell === cell)
         XCTAssert(configureCall.relativeIndex == 1)
