@@ -50,12 +50,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let scheme = schemeAtIndexPath(indexPath)!
         let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
-        let reuseIdentifier = scheme.reuseIdentifierForRelativeIndex(configurationIndex)
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier!, forIndexPath: indexPath) as UITableViewCell
-        
-        if let schemeCell = cell as? SchemeCell {
-            schemeCell.scheme = scheme
-        }
+        let cell = scheme.tableView(tableView, cellForRowAtIndexPath: indexPath, relativeIndex: configurationIndex)
+
+        (cell as? SchemeCell)?.scheme = scheme
         
         scheme.configureCell(cell, withRelativeIndex: configurationIndex)
         
