@@ -113,10 +113,15 @@ public final class TableSchemeBatchAnimator {
     
     // MARK: - Internal methods
     func performVisibilityChanges() {
+        // Don't notify table view of changes in hidden scheme sets, or scheme sets we're already notifying about.
+        let ignoredSchemeSets = tableScheme.schemeSets.filter { $0.hidden } + (sectionDeletions + sectionInsertions + sectionReloads).map { $0.schemeSet }
+
         // Get the index paths of the schemes we are deleting. This will give us the deletion index paths. We need to do
         // this before marking them as hidden so indexPathForScheme doesn't skip it
-        
-        let deleteRows = rowDeletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+
+        let deleteRows = rowDeletions.filter {
+            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
@@ -138,7 +143,9 @@ public final class TableSchemeBatchAnimator {
         
         // We also need the index paths of the reloaded schemes and sections before making changes to the table.
         
-        let reloadRows = rowReloads.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+        let reloadRows = rowReloads.filter {
+            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
@@ -179,7 +186,9 @@ public final class TableSchemeBatchAnimator {
         // Now obtain the index paths for the inserted schemes. These will have their inserted index paths, skipping ones removed,
         // and correctly finding the ones that are visible
         
-        let insertRows = rowInsertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+        let insertRows = rowInsertions.filter {
+            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
