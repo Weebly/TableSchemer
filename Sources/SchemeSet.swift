@@ -9,7 +9,7 @@
 /**
  *    A SchemeSet is a container for Scheme objects.
  *
- *    This class maps to a table view's section. It's schemes property
+ *    This class maps to a table view's section. Its schemes property
  *    are similar to the rows in that section (though a scheme may
  *    have more than a single row), and the name property is used for the
  *    section name.

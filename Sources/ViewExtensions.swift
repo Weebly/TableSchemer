@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    func TSR_containingTableViewCell() -> UITableViewCell? {
+    public func TSR_containingTableViewCell() -> UITableViewCell? {
         var view: UIView? = self
         while let v = view {
             if v is UITableViewCell {
@@ -24,7 +24,7 @@ extension UIView {
 }
 
 extension UITableViewCell {
-    func TSR_containingTableView() -> UITableView? {
+    public func TSR_containingTableView() -> UITableView? {
         var view: UIView? = self
         while let v = view {
             if v is UITableView {

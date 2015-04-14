@@ -143,6 +143,16 @@ class TableScheme_Tests: XCTestCase {
         XCTAssert(configureCall.cell === cell)
         XCTAssert(configureCall.relativeIndex == 1)
     }
+
+    func testCellForRowAtIndexPath_accountsForMultipleHiddenSchemes() {
+        let tableView = configuredTableView()
+        subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
+        subject.hideScheme(schemeSet4Scheme2, inTableView: tableView)
+        let cell = subject.tableView(tableView, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 3))
+        let configureCall = schemeSet4Scheme3.lastConfigureCall
+        XCTAssert(configureCall.cell === cell)
+        XCTAssert(configureCall.relativeIndex == 1)
+    }
     
     // MARK: Title For Header In Section
     func testTitleForHeaderInSection_whenProvided_isCorrect() {
