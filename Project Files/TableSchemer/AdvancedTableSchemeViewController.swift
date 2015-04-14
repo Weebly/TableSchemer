@@ -181,6 +181,10 @@ class InputFieldCell: SchemeCell {
         setNeedsUpdateConstraints()
     }
 
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func updateConstraints() {
         let views = ["label": label, "input": input]
         contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[label]-5-|", options: nil, metrics: nil, views: views))
