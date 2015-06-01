@@ -39,7 +39,7 @@ class MasterViewController: UITableViewController {
         tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
                 builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for animation examples."
@@ -53,7 +53,7 @@ class MasterViewController: UITableViewController {
                 }
                 
                 builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for an advanced example."
@@ -71,7 +71,7 @@ class MasterViewController: UITableViewController {
                 builder.name = "Accordion Sample"
                 
                 builder.buildScheme { (scheme: AccordionScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     scheme.accordionReuseIdentifiers = [String](count: 3, repeatedValue: self.ReuseIdentifier)
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
                     scheme.configurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned(unsafe) references for the config/selection handlers
@@ -101,8 +101,8 @@ class MasterViewController: UITableViewController {
                 builder.name = "Array Sample"
                 
                 builder.buildScheme { (scheme: ArrayScheme<String, UITableViewCell>) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
-                    scheme.objects = self.arrayObjects
+                    scheme.reuseIdentifier = ReuseIdentifier
+                    scheme.objects = arrayObjects
                     
                     scheme.heightHandler = { object in
                         let rect = object.boundingRectWithSize(CGSize(width: 300, height: CGFloat.max), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)

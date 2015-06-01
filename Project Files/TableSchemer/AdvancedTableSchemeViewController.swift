@@ -49,8 +49,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.name = "Switches"
                 
-                self.firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.SwitchReuseIdentifier
+                firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.textLabel?.text = "First Switch"
@@ -62,8 +62,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
                 
-                self.secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.SwitchReuseIdentifier
+                secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = SwitchReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.textLabel?.text = "Second Switch"
@@ -81,8 +81,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.name = "Text Input"
                 builder.footerText = "Section footer text"
                 
-                self.firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
-                    scheme.reuseIdentifier = self.InputReuseIdentifier
+                firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
+                    scheme.reuseIdentifier = InputReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
@@ -94,8 +94,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
                 
-                self.secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
-                    scheme.reuseIdentifier = self.InputReuseIdentifier
+                secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
+                    scheme.reuseIdentifier = InputReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         cell.selectionStyle = .None
@@ -111,7 +111,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.name = "Buttons!"
                 
-                self.buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
+                buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
                     scheme.reuseIdentifier = self.BasicReuseIdentifier
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
                     

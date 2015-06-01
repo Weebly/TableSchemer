@@ -28,7 +28,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         self.schemeSets = schemeSets
     }
     
-    public convenience init(buildHandler: BuildHandler) {
+    public convenience init(@noescape buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder: builder)
         self.init(schemeSets: builder.schemeSets)
@@ -329,7 +329,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         :param:     visibilityOperations    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
                                             will be passed into the closure, which is where your batch operations should occur.
     */
-    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, visibilityOperations: (animator: TableSchemeBatchAnimator) -> Void) {
+    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, @noescape visibilityOperations: (animator: TableSchemeBatchAnimator) -> Void) {
         let batchAnimator = TableSchemeBatchAnimator(tableScheme: self, withTableView: tableView)
         tableView.beginUpdates()
         
@@ -361,7 +361,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         :param:     tableView       The UITableView that the animations should be performed on.
         :param:     changeHandler   A closure with a SchemeRowAnimator that you give your animation instructions to.
     */
-    public func animateChangesToScheme(scheme: Scheme, inTableView tableView: UITableView, withChangeHandler changeHandler: (animator: SchemeRowAnimator) -> Void) {
+    public func animateChangesToScheme(scheme: Scheme, inTableView tableView: UITableView, @noescape withChangeHandler changeHandler: (animator: SchemeRowAnimator) -> Void) {
         let animator = SchemeRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
         changeHandler(animator: animator)
         animator.performAnimations()
@@ -381,7 +381,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         :param:     tableView       The UITableView that the animations should be performed on.
         :param:     changeHandler   A closure that you perform the changes to your scheme in.
     */
-    public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, withChangeHandler changeHandler: () -> Void) {
+    public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, @noescape withChangeHandler changeHandler: () -> Void) {
         let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
         assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells before the changes")
         changeHandler()

@@ -47,8 +47,8 @@ class AnimationsViewController: UITableViewController {
         tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
                 // Demonstrate cell reloading by using a random number in each configuration
-                self.randomNumberScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                randomNumberScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -63,7 +63,7 @@ class AnimationsViewController: UITableViewController {
                 }
                 
                 self.toggleHiddenSchemeSetScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -78,12 +78,12 @@ class AnimationsViewController: UITableViewController {
                 }
             }
             
-            self.hiddenSchemeSet = builder.buildSchemeSet { builder in
+            hiddenSchemeSet = builder.buildSchemeSet { builder in
                 builder.name = "Hidden Sample"
                 builder.hidden = true
                 
-                self.toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -97,8 +97,8 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                self.hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = ReuseIdentifier
                     scheme.hidden = true
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
@@ -110,8 +110,8 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                self.hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme) in
+                    scheme.reuseIdentifier = ReuseIdentifier
                     scheme.hidden = true
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
@@ -137,7 +137,7 @@ class AnimationsViewController: UITableViewController {
                 get configured.
                 */
                 builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -176,7 +176,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                self.toggledArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
+                toggledArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     scheme.objects = [1,2,3,4,5,6,7,8,9]
                     
@@ -196,7 +196,7 @@ class AnimationsViewController: UITableViewController {
                 ArrayScheme conforms to it, so for most cases it should be free to use!
                 */
                 builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                    scheme.reuseIdentifier = ReuseIdentifier
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -211,9 +211,9 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                self.randomizedArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
-                    scheme.objects = self.generateRandomizedArray()
+                randomizedArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
+                    scheme.reuseIdentifier = ReuseIdentifier
+                    scheme.objects = generateRandomizedArray()
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
                         self.removeSubviewsInView(cell.contentView)
@@ -256,12 +256,12 @@ class AnimationsViewController: UITableViewController {
                 }
             } else if tuple.scheme === toggleHiddenSchemesScheme {
                 tableScheme.batchSchemeVisibilityChangesInTableView(tableView) { animator in
-                    if self.schemesHidden {
-                        animator.showScheme(self.hiddenScheme1, withRowAnimation: .Left)
-                        animator.showScheme(self.hiddenScheme2, withRowAnimation: .Right)
+                    if schemesHidden {
+                        animator.showScheme(hiddenScheme1, withRowAnimation: .Left)
+                        animator.showScheme(hiddenScheme2, withRowAnimation: .Right)
                     } else {
-                        animator.hideScheme(self.hiddenScheme2, withRowAnimation: .Left)
-                        animator.hideScheme(self.hiddenScheme1, withRowAnimation: .Right)
+                        animator.hideScheme(hiddenScheme2, withRowAnimation: .Left)
+                        animator.hideScheme(hiddenScheme1, withRowAnimation: .Right)
                     }
                 }
                 

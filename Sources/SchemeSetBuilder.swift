@@ -41,7 +41,7 @@ public final class SchemeSetBuilder {
      *  @param handler The closure to configure the scheme.
      *  @return The created Scheme instance
      */
-    public func buildScheme<T: Scheme>(handler: (scheme: T) -> Void) -> T {
+    public func buildScheme<T: Scheme>(@noescape handler: (scheme: T) -> Void) -> T {
         let scheme = T()
         handler(scheme: scheme)
         
