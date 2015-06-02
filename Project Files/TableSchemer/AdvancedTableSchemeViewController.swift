@@ -112,7 +112,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.name = "Buttons!"
                 
                 buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
-                    scheme.reuseIdentifier = self.BasicReuseIdentifier
+                    scheme.reuseIdentifier = BasicReuseIdentifier
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
                     
                     scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
