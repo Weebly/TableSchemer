@@ -46,7 +46,7 @@ class MasterViewController: UITableViewController {
                         cell.accessoryType = .DisclosureIndicator
                     }
                     
-                    scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
+                    scheme.selectionHandler = { [unowned self] cell, scheme in
                         let animationController = AnimationsViewController(style: .Grouped)
                         self.navigationController!.pushViewController(animationController, animated: true)
                     }
@@ -60,7 +60,7 @@ class MasterViewController: UITableViewController {
                         cell.accessoryType = .DisclosureIndicator
                     }
                     
-                    scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
+                    scheme.selectionHandler = { [unowned self] cell, scheme in
                         let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
                         self.navigationController!.pushViewController(advancedController, animated: true)
                     }
@@ -82,7 +82,7 @@ class MasterViewController: UITableViewController {
                         println("Opening Accordion!")
                     }
                     
-                    scheme.accordionConfigurationHandler = { [unowned(unsafe) self] cell, index in
+                    scheme.accordionConfigurationHandler = { [unowned self] cell, index in
                         cell.textLabel?.text = "Accordion Expanded Cell \(index + 1)"
                         if index == self.accordionSelection {
                             cell.accessoryType = .Checkmark
@@ -91,7 +91,7 @@ class MasterViewController: UITableViewController {
                         }
                     }
                     
-                    scheme.accordionSelectionHandler = { [unowned(unsafe) self] cell, scheme, selectedIndex in
+                    scheme.accordionSelectionHandler = { [unowned self] cell, scheme, selectedIndex in
                         self.accordionSelection = selectedIndex
                     }
                 }
@@ -134,7 +134,7 @@ class MasterViewController: UITableViewController {
                         _ = cell.textLabel?.text = "Radio Button \(index + 1)"
                     }
                     
-                    scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme, index in
+                    scheme.selectionHandler = { [unowned self] cell, scheme, index in
                         println("You selected \(index)!")
                         self.radioSelection = index
                     }

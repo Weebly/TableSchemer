@@ -52,7 +52,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "First Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
@@ -65,7 +65,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = SwitchReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "Second Switch"
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
@@ -84,7 +84,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "First Input:"
                         cell.input.text = self.firstFieldValue
@@ -97,7 +97,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
                     scheme.reuseIdentifier = InputReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "Email:"
                         cell.input.text = self.secondFieldValue
@@ -115,7 +115,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.reuseIdentifier = BasicReuseIdentifier
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
+                    scheme.configurationHandler = { [unowned self] cell, object in
                         cell.selectionStyle = .None
                         cell.textLabel?.text = object
                         let button = UIButton.buttonWithType(.InfoDark) as! UIButton

@@ -50,7 +50,7 @@ class AnimationsViewController: UITableViewController {
                 randomNumberScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
                     scheme.reuseIdentifier = ReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         let randomNumber = arc4random() % 100
@@ -85,7 +85,7 @@ class AnimationsViewController: UITableViewController {
                 toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = ReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
                         cell.selectionStyle = .None
@@ -101,7 +101,7 @@ class AnimationsViewController: UITableViewController {
                     scheme.reuseIdentifier = ReuseIdentifier
                     scheme.hidden = true
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
                         cell.selectionStyle = .None
@@ -114,7 +114,7 @@ class AnimationsViewController: UITableViewController {
                     scheme.reuseIdentifier = ReuseIdentifier
                     scheme.hidden = true
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         cell.textLabel?.text = "Second"
@@ -139,13 +139,13 @@ class AnimationsViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = ReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         cell.textLabel?.text = "Tap to toggle preset array"
                     }
                     
-                    scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
+                    scheme.selectionHandler = { [unowned self] cell, scheme in
                         if !self.toggledArrayToggled {
                             self.tableScheme.animateChangesToScheme(self.toggledArrayScheme, inTableView: self.tableView) { animator in
                                 animator.deleteObjectAtIndex(1, withRowAnimation: .Left)
@@ -180,7 +180,7 @@ class AnimationsViewController: UITableViewController {
                     scheme.reuseIdentifier = self.ReuseIdentifier
                     scheme.objects = [1,2,3,4,5,6,7,8,9]
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
+                    scheme.configurationHandler = { [unowned self] cell, object in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         cell.textLabel?.text = "\(object)"
@@ -198,13 +198,13 @@ class AnimationsViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = ReuseIdentifier
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell in
+                    scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         cell.textLabel?.text = "Tap to toggle random inferred array"
                     }
                     
-                    scheme.selectionHandler = { [unowned(unsafe) self] cell, object in
+                    scheme.selectionHandler = { [unowned self] cell, object in
                         self.tableScheme.animateChangesToScheme(self.randomizedArrayScheme, inTableView: self.tableView, withAnimation: .Fade) {
                             self.randomizedArrayScheme.objects = self.generateRandomizedArray()
                         }
@@ -215,7 +215,7 @@ class AnimationsViewController: UITableViewController {
                     scheme.reuseIdentifier = ReuseIdentifier
                     scheme.objects = generateRandomizedArray()
                     
-                    scheme.configurationHandler = { [unowned(unsafe) self] cell, object in
+                    scheme.configurationHandler = { [unowned self] cell, object in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
                         cell.textLabel?.text = "\(object)"
