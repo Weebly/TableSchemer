@@ -43,8 +43,8 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     index       The index to move the row from.
-        :param:     toIndex     The index to move the row to.
+        - parameter     index:       The index to move the row from.
+        - parameter     toIndex:     The index to move the row to.
     */
     public final func moveObjectAtIndex(index: Int, toIndex: Int) {
         moves.append(Move(fromIndex: index, toIndex: toIndex))
@@ -56,8 +56,8 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     index           The index to remove.
-        :param:     rowAnimation    The type of animation to perform.
+        - parameter     index:           The index to remove.
+        - parameter     rowAnimation:    The type of animation to perform.
     */
     public final func deleteObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         deletions.append(AddRemove(animation: rowAnimation, index: index))
@@ -69,8 +69,8 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     index               The index to insert.
-        :param:     rowAnimation        The type of animation to perform.
+        - parameter     index:               The index to insert.
+        - parameter     rowAnimation:        The type of animation to perform.
     */
     public final func insertObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         insertions.append(AddRemove(animation: rowAnimation, index: index))
@@ -82,8 +82,8 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     indexes         The indexes to remove.
-        :param:     rowAnimation       The type of animation to perform.
+        - parameter     indexes:         The indexes to remove.
+        - parameter     rowAnimation:       The type of animation to perform.
     */
     public final func deleteObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
@@ -97,8 +97,8 @@ public class SchemeRowAnimator {
         The indexes are relative to the scheme, and cells above or below this scheme
         should not be considered when making calls to this method.
         
-        :param:     indexes         The indexes to insert.
-        :param:     rowAnimation    The type of animation to perform.
+        - parameter     indexes:         The indexes to insert.
+        - parameter     rowAnimation:    The type of animation to perform.
     */
     public final func insertObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         for i in indexes {
@@ -167,7 +167,7 @@ final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableSchem
         var addedIdentifiers = updatedRowIdentifiers // Will remove objects when they are found in the original identifiers
         var immovableIndexes = Dictionary<Array<T.IdentifierType>.Index, Void>() // To help with multiple equal objects
         
-        for (index, identifier) in enumerate(originalRowIdentifiers) {
+        for (index, identifier) in originalRowIdentifiers.enumerate() {
             if let newIndex = findIdentifier(identifier, inIdentifiers: updatedRowIdentifiers, excludingIndexes: immovableIndexes) {
                 // Handle possibility of it moved
                 if index != newIndex {
@@ -180,7 +180,7 @@ final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableSchem
                 immovableIndexes[newIndex] = ()
                 
                 // Object was in both original and updated, so we can remove it from our list of added identifiers
-                addedIdentifiers.removeAtIndex(find(addedIdentifiers, updatedRowIdentifiers[newIndex])!)
+                addedIdentifiers.removeAtIndex(addedIdentifiers.indexOf(updatedRowIdentifiers[newIndex])!)
             } else {
                 // Object was deleted, so mark this row deleted
                 deletions.append(AddRemove(animation: animation, index: index))
@@ -188,14 +188,14 @@ final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableSchem
         }
         
         for added in addedIdentifiers {
-            insertions.append(AddRemove(animation: animation, index: find(updatedRowIdentifiers, added)!))
+            insertions.append(AddRemove(animation: animation, index: updatedRowIdentifiers.indexOf(added)!))
         }
     }
     
     private func findIdentifier(identifier: T.IdentifierType, inIdentifiers identifiers: [T.IdentifierType], excludingIndexes excludedIndexes: Dictionary<Array<T.IdentifierType>.Index, Void>) -> Array<T.IdentifierType>.Index? {
         var foundIndex: Array<T.IdentifierType>.Index?
         
-        for (index, ident) in enumerate(identifiers) {
+        for (index, ident) in identifiers.enumerate() {
             if excludedIndexes[index] == nil && ident == identifier {
                 foundIndex = index
                 break

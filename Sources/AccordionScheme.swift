@@ -44,7 +44,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
     
     public var numberOfItems: Int {
-        return count(accordionReuseIdentifiers)
+        return accordionReuseIdentifiers.count
     }
     
     // MARK: Abstract Overrides
@@ -79,11 +79,11 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
                 appendedIndexPaths.append(ip)
             }
             
-            if count(prependedIndexPaths) > 0 {
+            if prependedIndexPaths.count > 0 {
                 tableView.deleteRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
             }
             
-            if count(appendedIndexPaths) > 0 {
+            if appendedIndexPaths.count > 0 {
                 tableView.deleteRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
             }
         } else {
@@ -99,11 +99,11 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
                 appendedIndexPaths.append(ip)
             }
             
-            if count(prependedIndexPaths) > 0 {
+            if prependedIndexPaths.count > 0 {
                 tableView.insertRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
             }
             
-            if count(appendedIndexPaths) > 0 {
+            if appendedIndexPaths.count > 0 {
                 tableView.insertRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
             }
         }
@@ -126,7 +126,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if expanded {
-            if accordionHeights != nil && count(accordionHeights!) > relativeIndex {
+            if accordionHeights != nil && accordionHeights!.count > relativeIndex {
                 return accordionHeights![relativeIndex]
             } else {
                 return .UseTable
@@ -138,7 +138,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func isValid() -> Bool {
         assert(accordionReuseIdentifiers != nil)
-        assert(count(accordionReuseIdentifiers!) > 0)
+        assert(accordionReuseIdentifiers!.count > 0)
         assert(accordionConfigurationHandler != nil)
         
         return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
@@ -149,8 +149,8 @@ public func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U
     let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
     let heightsEqual = lhs.height == rhs.height
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
-    var expandedEqual = lhs.expanded == rhs.expanded
-    var accordionReuseIdentifiersEqual = lhs.accordionReuseIdentifiers == rhs.accordionReuseIdentifiers
+    let expandedEqual = lhs.expanded == rhs.expanded
+    let accordionReuseIdentifiersEqual = lhs.accordionReuseIdentifiers == rhs.accordionReuseIdentifiers
 
     return reuseIdentifiersEqual && heightsEqual && selectedIndexesEqual && expandedEqual && accordionReuseIdentifiersEqual
 }

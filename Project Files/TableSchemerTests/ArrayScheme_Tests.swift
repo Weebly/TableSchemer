@@ -114,7 +114,7 @@ class ArrayScheme_Tests: XCTestCase {
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithObjects(_ objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
+    func configureSubjectWithObjects(objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
         subject = ArrayScheme<String, UITableViewCell>()
         subject.reuseIdentifier = ReuseIdentifier
         subject.objects = objects

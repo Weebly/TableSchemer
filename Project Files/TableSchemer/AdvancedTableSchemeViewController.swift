@@ -24,7 +24,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     
     var firstFieldValue = ""
     var secondFieldValue = ""
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Advanced"
@@ -118,7 +118,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.configurationHandler = { [unowned self] cell, object in
                         cell.selectionStyle = .None
                         cell.textLabel?.text = object
-                        let button = UIButton.buttonWithType(.InfoDark) as! UIButton
+                        let button = UIButton(type: .InfoDark)
                         button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
                         cell.accessoryView = button
                     }
@@ -133,10 +133,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
     func switcherUpdated(switcher: UISwitch) {
         if let scheme = tableScheme.schemeContainingView(switcher) {
             if scheme === self.firstSwitchScheme {
-                println("Toggle some feature, like allowing wifi!")
+                print("Toggle some feature, like allowing wifi!")
                 self.wifiEnabled = switcher.on
             } else if scheme === self.secondSwitchScheme {
-                println("Toggle some other feature, like bluetooth!")
+                print("Toggle some other feature, like bluetooth!")
                 self.bluetoothEnabled = switcher.on
             }
         }
@@ -145,11 +145,11 @@ class AdvancedTableSchemeViewController: UITableViewController {
     func textFieldUpdated(textField: UITextField) {
         if let scheme = tableScheme.schemeContainingView(textField) {
             if scheme === self.firstFieldScheme {
-                println("Storing \"\(textField.text)\" for first text field!")
-                self.firstFieldValue = textField.text
+                print("Storing \"\(textField.text)\" for first text field!")
+                self.firstFieldValue = textField.text ?? ""
             } else if scheme === self.secondFieldScheme {
-                println("Storing \"\(textField.text)\" for the email!")
-                self.secondFieldValue = textField.text
+                print("Storing \"\(textField.text)\" for the email!")
+                self.secondFieldValue = textField.text ?? ""
             }
         }
     }
@@ -158,7 +158,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
             if tuple.scheme === buttonsScheme {
                 let object = buttonsScheme.objects![tuple.index]
-                println("You pressed the button with object: \(object)")
+                print("You pressed the button with object: \(object)")
             }
         }
     }
@@ -171,10 +171,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
 class InputFieldCell: SchemeCell {
     let label = UILabel()
     let input = UITextField()
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
-        input.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        input.translatesAutoresizingMaskIntoConstraints = false
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(label)
         contentView.addSubview(input)
@@ -187,11 +187,12 @@ class InputFieldCell: SchemeCell {
 
     override func updateConstraints() {
         let views = ["label": label, "input": input]
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[label]-5-|", options: nil, metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[input]-5-|", options: nil, metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-20-[label]", options: nil, metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[input(150)]-20-|", options: nil, metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[label]-5-|", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[input]-5-|", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-20-[label]", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[input(150)]-20-|", options: [], metrics: nil, views: views))
         
         super.updateConstraints()
     }
+    
 }

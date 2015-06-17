@@ -65,8 +65,10 @@ class SchemeSet_Tests: XCTestCase {
     func testVisibleSchemes_onlyIncludeVisibleSchemes() {
         let scheme1 = Scheme()
         scheme1.hidden = true
-        let schemes = [scheme1, Scheme()]
+        let scheme2 = Scheme()
+        let schemes = [scheme1, scheme2]
         let subject = SchemeSet(schemes: schemes)
+        XCTAssertEqual(subject.visibleSchemes, [scheme2])
     }
     
     // MARK: Equality

@@ -79,7 +79,7 @@ class MasterViewController: UITableViewController {
                     }
                     
                     scheme.selectionHandler = { cell, scheme in
-                        println("Opening Accordion!")
+                        print("Opening Accordion!")
                     }
                     
                     scheme.accordionConfigurationHandler = { [unowned self] cell, index in
@@ -119,7 +119,7 @@ class MasterViewController: UITableViewController {
                     }
                     
                     scheme.selectionHandler = { cell, scheme, object in
-                        println("Selected object in ArrayScheme: \(object)")
+                        print("Selected object in ArrayScheme: \(object)")
                     }
                 }
             }
@@ -135,7 +135,7 @@ class MasterViewController: UITableViewController {
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, scheme, index in
-                        println("You selected \(index)!")
+                        print("You selected \(index)!")
                         self.radioSelection = index
                     }
                 }

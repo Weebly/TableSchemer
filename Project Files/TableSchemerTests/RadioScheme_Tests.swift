@@ -32,7 +32,7 @@ class RadioScheme_Tests: XCTestCase {
         var passedCell: UITableViewCell?
         var passedIndex: Int?
         
-        configureSubjectWithConfigurationHandler(configurationHandler: { (cell, index) in
+        configureSubjectWithConfigurationHandler({ (cell, index) in
             passedCell = cell
             passedIndex = index
         })

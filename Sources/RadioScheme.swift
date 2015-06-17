@@ -50,7 +50,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return count(reuseIdentifiers)
+        return reuseIdentifiers.count
     }
     
     // MARK: Public Instance Methods
@@ -97,7 +97,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
         var height = RowHeight.UseTable
         
         if let rowHeights = heights {
-            if count(rowHeights) > relativeIndex {
+            if rowHeights.count > relativeIndex {
                 height = rowHeights[relativeIndex]
             }
         }
@@ -115,7 +115,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
 
 public func ==<T: UITableViewCell>(lhs: RadioScheme<T>, rhs: RadioScheme<T>) -> Bool {
     let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
-    var reuseIdentifiersEqual = lhs.reuseIdentifiers == rhs.reuseIdentifiers
+    let reuseIdentifiersEqual = lhs.reuseIdentifiers == rhs.reuseIdentifiers
     var heightsEqual = true
     
     if let lh = lhs.heights {

@@ -58,7 +58,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     
     // MARK: Property Overrides
     override public var numberOfCells: Int {
-        return count(objects)
+        return objects.count
     }
     
     required public init() {

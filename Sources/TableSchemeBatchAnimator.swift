@@ -44,8 +44,8 @@ public final class TableSchemeBatchAnimator {
         
         The passed in Scheme must belong to the TableScheme.
         
-        :param:     scheme          The scheme to show.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to show.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         rowInsertions.append(Row(animation: rowAnimation, scheme: scheme))
@@ -56,8 +56,8 @@ public final class TableSchemeBatchAnimator {
         
         The passed in Scheme must belong to the TableScheme.
         
-        :param:     scheme          The scheme to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to hide.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         rowDeletions.append(Row(animation: rowAnimation, scheme: scheme))
@@ -68,8 +68,8 @@ public final class TableSchemeBatchAnimator {
     
         The passed in Scheme must belong to the TableScheme.
         
-        :param:     scheme          The scheme to reload.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to reload.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         rowReloads.append(Row(animation: rowAnimation, scheme: scheme))
@@ -80,8 +80,8 @@ public final class TableSchemeBatchAnimator {
         
         The passed in SchemeSet must belong to the TableScheme.
         
-        :param:     schemeSet       The schemeSet to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to hide.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         sectionInsertions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
@@ -92,8 +92,8 @@ public final class TableSchemeBatchAnimator {
         
         The passed in SchemeSet must belong to the TableScheme.
         
-        :param:     schemeSet       The schemeSet to hide.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to hide.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         sectionDeletions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
@@ -104,8 +104,8 @@ public final class TableSchemeBatchAnimator {
         
         The passed in SchemeSet must belong to the TableScheme.
         
-        :param:     schemeSet       The schemeSet to reload.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to reload.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         sectionReloads.append(Section(animation: rowAnimation, schemeSet: schemeSet))
@@ -120,7 +120,7 @@ public final class TableSchemeBatchAnimator {
         // this before marking them as hidden so indexPathForScheme doesn't skip it
 
         let deleteRows = rowDeletions.filter {
-            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+            ignoredSchemeSets.indexOf(self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
@@ -144,7 +144,7 @@ public final class TableSchemeBatchAnimator {
         // We also need the index paths of the reloaded schemes and sections before making changes to the table.
         
         let reloadRows = rowReloads.filter {
-            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+            ignoredSchemeSets.indexOf(self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
@@ -187,7 +187,7 @@ public final class TableSchemeBatchAnimator {
         // and correctly finding the ones that are visible
         
         let insertRows = rowInsertions.filter {
-            find(ignoredSchemeSets, self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
+            ignoredSchemeSets.indexOf(self.tableScheme.schemeSetWithScheme($0.scheme)) == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()

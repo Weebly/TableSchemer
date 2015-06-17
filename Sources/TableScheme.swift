@@ -129,7 +129,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         var offset = 0
         var priorHiddenSchemes = 0
         
-        for (idx, scheme) in enumerate(schemeSet.schemes) {
+        for (idx, scheme) in schemeSet.schemes.enumerate() {
             if scheme.hidden {
                 priorHiddenSchemes++
                 continue
@@ -211,9 +211,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
     
         The passed in Scheme must belong to the TableScheme. 
     
-        :param:     scheme          The scheme to hide.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to hide.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -228,9 +228,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         
         The passed in Scheme must belong to the TableScheme. 
     
-        :param:     scheme          The scheme to show.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to show.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -245,9 +245,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
     
         The passed in Scheme must belong to the TableScheme.
     
-        :param:     scheme          The scheme to reload the rows for.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     scheme:          The scheme to reload the rows for.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -265,9 +265,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         The passed in SchemeSet must belong to the TableScheme. This method should not be used with batch updates. Instead, use
         `hideSchemeSet(_:, withRowAnimation:)`.
         
-        :param:     schemeSet       The schemeSet to hide.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to hide.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -283,9 +283,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         
         The passed in SchemeSet must belong to the TableScheme.
         
-        :param:     schemeSet       The schemeSet to show.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to show.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -301,9 +301,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         
         The passed in SchemeSet must belong to the TableScheme.
         
-        :param:     schemeSet       The schemeSet to reload the rows for.
-        :param:     tableView       The UITableView to perform the animations on.
-        :param:     rowAnimation    The type of animation that should be performed.
+        - parameter     schemeSet:       The schemeSet to reload the rows for.
+        - parameter     tableView:       The UITableView to perform the animations on.
+        - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
         #if DEBUG
@@ -325,8 +325,8 @@ public class TableScheme: NSObject, UITableViewDataSource {
         visibility operations (which are part of the passed in BatchAnimator class) will defer
         determining all the indexPaths until it is time to update the table view.
     
-        :param:     tableView               The UITableView to perform the animations on.
-        :param:     visibilityOperations    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
+        - parameter     tableView:               The UITableView to perform the animations on.
+        - parameter     visibilityOperations:    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
                                             will be passed into the closure, which is where your batch operations should occur.
     */
     public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, @noescape visibilityOperations: (animator: TableSchemeBatchAnimator) -> Void) {
@@ -357,9 +357,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         internally, and ignore how schemes around it are laid out. It's recommended that you make the changes to your scheme within the
         changeHandler block as well to keep that code grouped together.
     
-        :param:     scheme          The scheme that the changes are being applied to.
-        :param:     tableView       The UITableView that the animations should be performed on.
-        :param:     changeHandler   A closure with a SchemeRowAnimator that you give your animation instructions to.
+        - parameter     scheme:          The scheme that the changes are being applied to.
+        - parameter     tableView:       The UITableView that the animations should be performed on.
+        - parameter     changeHandler:   A closure with a SchemeRowAnimator that you give your animation instructions to.
     */
     public func animateChangesToScheme(scheme: Scheme, inTableView tableView: UITableView, @noescape withChangeHandler changeHandler: (animator: SchemeRowAnimator) -> Void) {
         let animator = SchemeRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
@@ -377,9 +377,9 @@ public class TableScheme: NSObject, UITableViewDataSource {
         The changes to your object must affect the rowIdentifiers property of the InferrableRowAnimatableScheme protocol. You
         must have one rowIdentifier for each row.
     
-        :param:     scheme          The scheme that the changes are being applied to.
-        :param:     tableView       The UITableView that the animations should be performed on.
-        :param:     changeHandler   A closure that you perform the changes to your scheme in.
+        - parameter     scheme:          The scheme that the changes are being applied to.
+        - parameter     tableView:       The UITableView that the animations should be performed on.
+        - parameter     changeHandler:   A closure that you perform the changes to your scheme in.
     */
     public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, @noescape withChangeHandler changeHandler: () -> Void) {
         let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
@@ -396,7 +396,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         let rbs = rowsBeforeScheme(scheme)
         let schemeSet = schemeSetWithScheme(scheme)
         let section = sectionForSchemeSet(schemeSet)
-        return map(rbs..<(rbs + scheme.numberOfCells)) { NSIndexPath(forRow: $0, inSection: section) }
+        return (rbs..<(rbs + scheme.numberOfCells)).map { NSIndexPath(forRow: $0, inSection: section) }
     }
     
     func sectionForSchemeSet(schemeSet: SchemeSet) -> Int {
@@ -457,7 +457,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
     private func schemeSetForSection(section: Int) -> SchemeSet {
         var schemeSetIndex = section // Default to the passed in section
         var offset = 0
-        for (index, schemeSet) in enumerate(schemeSets) {
+        for (index, schemeSet) in schemeSets.enumerate() {
             // Section indexes do not include our hidden scheme sets, so
             // when we pull one from our schemeSets array, which does include
             // the hidden scheme sets, we need to offset by our hidden schemes

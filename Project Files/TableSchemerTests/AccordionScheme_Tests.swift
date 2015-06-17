@@ -38,7 +38,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Configuring Cell
     func testConfigureCell_whenUnexpanded_callsConfigurationBlockWithCell() {
         var passedCell: UITableViewCell?
-        configureSubjectWithConfigurationHandler(configurationHandler: {(cell) in
+        configureSubjectWithConfigurationHandler({(cell) in
             passedCell = cell
         })
         
@@ -53,7 +53,7 @@ class AccordionScheme_Tests: XCTestCase {
         var passedCell2: UITableViewCell?
         var passedCell3: UITableViewCell?
         
-        configureSubjectWithConfigurationHandler(configurationHandler: {(cell) in
+        configureSubjectWithConfigurationHandler({(cell) in
         }, accordionConfigurationHandler: {(cell, index) in
             if index == 0 {
                 passedCell1 = cell

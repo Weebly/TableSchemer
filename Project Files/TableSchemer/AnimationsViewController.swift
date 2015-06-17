@@ -226,7 +226,7 @@ class AnimationsViewController: UITableViewController {
     }
     
     private func removeSubviewsInView(view: UIView) {
-        for v in view.subviews as! [UIView] {
+        for v in view.subviews {
             v.removeFromSuperview()
         }
     }
@@ -239,7 +239,7 @@ class AnimationsViewController: UITableViewController {
             items.append(i)
         }
         
-        items.sort { _, _ in
+        items.sortInPlace { _, _ in
             arc4random() % 2 == 1 ? true : false
         }
         

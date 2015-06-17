@@ -96,7 +96,7 @@ public class Scheme: Equatable {
      */
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)!
-        return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! UITableViewCell
+        return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
     }
 
     /**
