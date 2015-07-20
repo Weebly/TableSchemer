@@ -138,7 +138,6 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func isValid() -> Bool {
         assert(accordionReuseIdentifiers != nil)
-        assert(count(accordionReuseIdentifiers!) > 0)
         assert(accordionConfigurationHandler != nil)
         
         return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
@@ -153,4 +152,12 @@ public func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U
     var accordionReuseIdentifiersEqual = lhs.accordionReuseIdentifiers == rhs.accordionReuseIdentifiers
 
     return reuseIdentifiersEqual && heightsEqual && selectedIndexesEqual && expandedEqual && accordionReuseIdentifiersEqual
+}
+
+extension AccordionScheme: InferrableRowAnimatableScheme {
+    public typealias IdentifierType = String
+
+    public var rowIdentifiers: [IdentifierType] {
+        return expanded ? accordionReuseIdentifiers : [reuseIdentifier]
+    }
 }
