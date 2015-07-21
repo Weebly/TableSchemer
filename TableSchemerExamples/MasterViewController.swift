@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Weebly. All rights reserved.
 //
 
+import TableSchemer
 import UIKit
 
 class MasterViewController: UITableViewController {

@@ -8,87 +8,115 @@
 
 /* Begin PBXBuildFile section */
 		1A0482A8194E582D005EE547 /* SchemeSet_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */; };
-		1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */; };
-		1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
-		1A57B9251A1D809000846EAD /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A57B9241A1D809000846EAD /* AnimationsViewController.swift */; };
+		1A8400011B5DCD5C00F187B6 /* TableSchemer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */; };
+		1A8400021B5DCD5C00F187B6 /* TableSchemer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1A84000A1B5DCF4600F187B6 /* InferrableRowAnimatableScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */; };
+		1A84000B1B5DCF4600F187B6 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4F4A519895C14004D3676 /* ViewExtensions.swift */; };
+		1A84000C1B5DCF4600F187B6 /* SchemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE06747194BB2C300873E8A /* SchemeCell.swift */; };
+		1A84000D1B5DCF4600F187B6 /* SchemeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F1194B7A8C0090529C /* SchemeSet.swift */; };
+		1A84000E1B5DCF4600F187B6 /* TableScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F7194BA14A0090529C /* TableScheme.swift */; };
+		1A84000F1B5DCF4600F187B6 /* TableSchemeBatchAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */; };
+		1A8400101B5DCF4600F187B6 /* SchemeRowAnimators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */; };
+		1A8400111B5DCF4600F187B6 /* Scheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584E6194A6D520090529C /* Scheme.swift */; };
+		1A8400121B5DCF4600F187B6 /* BasicScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584E8194A72810090529C /* BasicScheme.swift */; };
+		1A8400131B5DCF4600F187B6 /* AccordionScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EA194A75900090529C /* AccordionScheme.swift */; };
+		1A8400141B5DCF4600F187B6 /* ArrayScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EC194A807A0090529C /* ArrayScheme.swift */; };
+		1A8400151B5DCF4600F187B6 /* RadioScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EE194B6F0E0090529C /* RadioScheme.swift */; };
+		1A8400161B5DCF4600F187B6 /* StaticScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E259621ABCD958005297C9 /* StaticScheme.swift */; };
+		1A8400171B5DCF4600F187B6 /* SchemeSetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F3194B817F0090529C /* SchemeSetBuilder.swift */; };
+		1A8400181B5DCF4600F187B6 /* TableSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */; };
+		1A84001A1B5DD0BF00F187B6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8400191B5DD0BF00F187B6 /* MasterViewController.swift */; };
+		1A84001C1B5DD0CB00F187B6 /* AnimationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A84001B1B5DD0CB00F187B6 /* AnimationsViewController.swift */; };
+		1A84FFEF1B5DCD5B00F187B6 /* TableSchemer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A84FFEE1B5DCD5B00F187B6 /* TableSchemer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AAF4721194D127700BC2F17 /* ArrayScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */; };
 		1AAF4723194D2CBB00BC2F17 /* RadioScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */; };
 		1AB445B7194A66C4001BEDFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B6194A66C4001BEDFF /* AppDelegate.swift */; };
-		1AB445B9194A66C4001BEDFF /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B8194A66C4001BEDFF /* MasterViewController.swift */; };
+		1AB445B9194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B8194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift */; };
 		1AB445C0194A66C4001BEDFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB445BF194A66C4001BEDFF /* Images.xcassets */; };
-		1ACFAFE21A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */; };
-		1AD4F4A619895C14004D3676 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4F4A519895C14004D3676 /* ViewExtensions.swift */; };
-		1AD4F4A819895DD5004D3676 /* AdvancedTableSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */; };
-		1AE06748194BB2C300873E8A /* SchemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE06747194BB2C300873E8A /* SchemeCell.swift */; };
 		1AE0674C194BBA4E00873E8A /* BasicScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */; };
-		1AF584E7194A6D520090529C /* Scheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584E6194A6D520090529C /* Scheme.swift */; };
-		1AF584E9194A72810090529C /* BasicScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584E8194A72810090529C /* BasicScheme.swift */; };
-		1AF584EB194A75900090529C /* AccordionScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EA194A75900090529C /* AccordionScheme.swift */; };
-		1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EC194A807A0090529C /* ArrayScheme.swift */; };
-		1AF584EF194B6F0E0090529C /* RadioScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584EE194B6F0E0090529C /* RadioScheme.swift */; };
-		1AF584F2194B7A8C0090529C /* SchemeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F1194B7A8C0090529C /* SchemeSet.swift */; };
-		1AF584F4194B817F0090529C /* SchemeSetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F3194B817F0090529C /* SchemeSetBuilder.swift */; };
-		1AF584F6194B9F6D0090529C /* TableSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */; };
-		1AF584F8194BA14A0090529C /* TableScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF584F7194BA14A0090529C /* TableScheme.swift */; };
 		1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */; };
-		61E259641ABCDD6C005297C9 /* StaticScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E259621ABCD958005297C9 /* StaticScheme.swift */; };
 		65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1AB445C6194A66C4001BEDFF /* PBXContainerItemProxy */ = {
+		1A84FFFF1B5DCD5C00F187B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AB445A9194A66C4001BEDFF /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1AB445B0194A66C4001BEDFF;
+			remoteGlobalIDString = 1A84FFE91B5DCD5B00F187B6;
 			remoteInfo = TableSchemer;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1A8400061B5DCD5C00F187B6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1A8400021B5DCD5C00F187B6 /* TableSchemer.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet_Tests.swift; sourceTree = "<group>"; };
 		1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder_Tests.swift; sourceTree = "<group>"; };
-		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSchemeBatchAnimator.swift; path = ../../Sources/TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
-		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeRowAnimators.swift; path = ../../Sources/SchemeRowAnimators.swift; sourceTree = "<group>"; };
+		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
+		1A47434B1A1C35D500B5AD13 /* SchemeRowAnimators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeRowAnimators.swift; sourceTree = "<group>"; };
 		1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme_Tests.swift; sourceTree = "<group>"; };
-		1A57B9241A1D809000846EAD /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationsViewController.swift; sourceTree = "<group>"; };
+		1A8400191B5DD0BF00F187B6 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = ../TableSchemerExamples/MasterViewController.swift; sourceTree = "<group>"; };
+		1A84001B1B5DD0CB00F187B6 /* AnimationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimationsViewController.swift; path = ../TableSchemerExamples/AnimationsViewController.swift; sourceTree = "<group>"; };
+		1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TableSchemer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A84FFED1B5DCD5B00F187B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A84FFEE1B5DCD5B00F187B6 /* TableSchemer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableSchemer.h; sourceTree = "<group>"; };
 		1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme_Tests.swift; sourceTree = "<group>"; };
 		1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioScheme_Tests.swift; sourceTree = "<group>"; };
-		1AB445B1194A66C4001BEDFF /* TableSchemer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableSchemer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AB445B1194A66C4001BEDFF /* TableSchemerExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableSchemerExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB445B5194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1AB445B6194A66C4001BEDFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1AB445B8194A66C4001BEDFF /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		1AB445BF194A66C4001BEDFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1AB445B6194A66C4001BEDFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../TableSchemerExamples/AppDelegate.swift; sourceTree = "<group>"; };
+		1AB445B8194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdvancedTableSchemeViewController.swift; path = TableSchemerExamples/AdvancedTableSchemeViewController.swift; sourceTree = SOURCE_ROOT; };
+		1AB445BF194A66C4001BEDFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../TableSchemerExamples/Images.xcassets; sourceTree = "<group>"; };
 		1AB445C5194A66C4001BEDFF /* TableSchemerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TableSchemerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB445CA194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InferrableRowAnimatableScheme.swift; path = ../../Sources/InferrableRowAnimatableScheme.swift; sourceTree = "<group>"; };
-		1AD4F4A519895C14004D3676 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewExtensions.swift; path = ../../Sources/ViewExtensions.swift; sourceTree = "<group>"; };
-		1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedTableSchemeViewController.swift; sourceTree = "<group>"; };
-		1AE06747194BB2C300873E8A /* SchemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeCell.swift; path = ../../Sources/SchemeCell.swift; sourceTree = "<group>"; };
+		1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferrableRowAnimatableScheme.swift; sourceTree = "<group>"; };
+		1AD4F4A519895C14004D3676 /* ViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		1AE06747194BB2C300873E8A /* SchemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeCell.swift; sourceTree = "<group>"; };
 		1AE0674A194BBA4E00873E8A /* TableSchemerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TableSchemerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme_Tests.swift; sourceTree = "<group>"; };
-		1AF584E6194A6D520090529C /* Scheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Scheme.swift; path = ../../Sources/Scheme.swift; sourceTree = "<group>"; };
-		1AF584E8194A72810090529C /* BasicScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BasicScheme.swift; path = ../../Sources/BasicScheme.swift; sourceTree = "<group>"; };
-		1AF584EA194A75900090529C /* AccordionScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccordionScheme.swift; path = ../../Sources/AccordionScheme.swift; sourceTree = "<group>"; };
-		1AF584EC194A807A0090529C /* ArrayScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayScheme.swift; path = ../../Sources/ArrayScheme.swift; sourceTree = "<group>"; };
-		1AF584EE194B6F0E0090529C /* RadioScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RadioScheme.swift; path = ../../Sources/RadioScheme.swift; sourceTree = "<group>"; };
-		1AF584F1194B7A8C0090529C /* SchemeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeSet.swift; path = ../../Sources/SchemeSet.swift; sourceTree = "<group>"; };
-		1AF584F3194B817F0090529C /* SchemeSetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchemeSetBuilder.swift; path = ../../Sources/SchemeSetBuilder.swift; sourceTree = "<group>"; };
-		1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSchemeBuilder.swift; path = ../../Sources/TableSchemeBuilder.swift; sourceTree = "<group>"; };
-		1AF584F7194BA14A0090529C /* TableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableScheme.swift; path = ../../Sources/TableScheme.swift; sourceTree = "<group>"; };
+		1AF584E6194A6D520090529C /* Scheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheme.swift; sourceTree = "<group>"; };
+		1AF584E8194A72810090529C /* BasicScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme.swift; sourceTree = "<group>"; };
+		1AF584EA194A75900090529C /* AccordionScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme.swift; sourceTree = "<group>"; };
+		1AF584EC194A807A0090529C /* ArrayScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme.swift; sourceTree = "<group>"; };
+		1AF584EE194B6F0E0090529C /* RadioScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioScheme.swift; sourceTree = "<group>"; };
+		1AF584F1194B7A8C0090529C /* SchemeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet.swift; sourceTree = "<group>"; };
+		1AF584F3194B817F0090529C /* SchemeSetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder.swift; sourceTree = "<group>"; };
+		1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBuilder.swift; sourceTree = "<group>"; };
+		1AF584F7194BA14A0090529C /* TableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme.swift; sourceTree = "<group>"; };
 		1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme_Tests.swift; sourceTree = "<group>"; };
 		5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		61E259621ABCD958005297C9 /* StaticScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaticScheme.swift; path = ../../Sources/StaticScheme.swift; sourceTree = "<group>"; };
+		61E259621ABCD958005297C9 /* StaticScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticScheme.swift; sourceTree = "<group>"; };
 		CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.release.xcconfig"; sourceTree = "<group>"; };
 		E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TableSchemerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1A84FFE61B5DCD5B00F187B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1AB445AE194A66C4001BEDFF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A8400011B5DCD5C00F187B6 /* TableSchemer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,21 +131,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A57B9231A1D7FE200846EAD /* Samples */ = {
+		1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */ = {
 			isa = PBXGroup;
 			children = (
-				1AB445B8194A66C4001BEDFF /* MasterViewController.swift */,
-				1AD4F4A719895DD5004D3676 /* AdvancedTableSchemeViewController.swift */,
-				1A57B9241A1D809000846EAD /* AnimationsViewController.swift */,
+				1AE06749194BB2C800873E8A /* Cells */,
+				1AF584F0194B7A5C0090529C /* Collections */,
+				1ACFAFE01A1AB2650065ADB9 /* Protocols */,
+				1AF584E3194A6CEF0090529C /* Scheme Builders */,
+				1AF584E4194A6CF70090529C /* Schemes */,
+				1A84FFEC1B5DCD5B00F187B6 /* Supporting Files */,
+				1AF584E5194A6D200090529C /* Table Scheme */,
+				1A84FFEE1B5DCD5B00F187B6 /* TableSchemer.h */,
+				1AD4F4A419895C05004D3676 /* Utility */,
 			);
-			name = Samples;
+			path = TableSchemer;
+			sourceTree = "<group>";
+		};
+		1A84FFEC1B5DCD5B00F187B6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1A84FFED1B5DCD5B00F187B6 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1AB445A8194A66C4001BEDFF = {
 			isa = PBXGroup;
 			children = (
-				1AB445B3194A66C4001BEDFF /* TableSchemer */,
+				1AB445B3194A66C4001BEDFF /* TableSchemerExamples */,
 				1AB445C8194A66C4001BEDFF /* TableSchemerTests */,
+				1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */,
 				1AB445B2194A66C4001BEDFF /* Products */,
 				28908D06FC3B48DC92E4BCC3 /* Frameworks */,
 				94280D9A2C4E6C197B615B6F /* Pods */,
@@ -127,27 +170,24 @@
 		1AB445B2194A66C4001BEDFF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1AB445B1194A66C4001BEDFF /* TableSchemer.app */,
+				1AB445B1194A66C4001BEDFF /* TableSchemerExamples.app */,
 				1AB445C5194A66C4001BEDFF /* TableSchemerTests.xctest */,
+				1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1AB445B3194A66C4001BEDFF /* TableSchemer */ = {
+		1AB445B3194A66C4001BEDFF /* TableSchemerExamples */ = {
 			isa = PBXGroup;
 			children = (
-				1A57B9231A1D7FE200846EAD /* Samples */,
-				1ACFAFE01A1AB2650065ADB9 /* Protocols */,
-				1AD4F4A419895C05004D3676 /* Utility */,
-				1AE06749194BB2C800873E8A /* Cells */,
-				1AF584F0194B7A5C0090529C /* Collections */,
-				1AF584E5194A6D200090529C /* Table Scheme */,
-				1AF584E4194A6CF70090529C /* Schemes */,
-				1AF584E3194A6CEF0090529C /* Scheme Builders */,
+				1AB445B8194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift */,
+				1A84001B1B5DD0CB00F187B6 /* AnimationsViewController.swift */,
 				1AB445B6194A66C4001BEDFF /* AppDelegate.swift */,
 				1AB445BF194A66C4001BEDFF /* Images.xcassets */,
+				1A8400191B5DD0BF00F187B6 /* MasterViewController.swift */,
 				1AB445B4194A66C4001BEDFF /* Supporting Files */,
 			);
+			name = TableSchemerExamples;
 			path = TableSchemer;
 			sourceTree = "<group>";
 		};
@@ -162,13 +202,13 @@
 		1AB445C8194A66C4001BEDFF /* TableSchemerTests */ = {
 			isa = PBXGroup;
 			children = (
-				1AB445C9194A66C4001BEDFF /* Supporting Files */,
-				1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */,
 				1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */,
 				1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */,
+				1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */,
 				1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */,
 				1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */,
 				1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */,
+				1AB445C9194A66C4001BEDFF /* Supporting Files */,
 				1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */,
 			);
 			path = TableSchemerTests;
@@ -219,11 +259,11 @@
 		1AF584E4194A6CF70090529C /* Schemes */ = {
 			isa = PBXGroup;
 			children = (
-				1AF584E6194A6D520090529C /* Scheme.swift */,
-				1AF584E8194A72810090529C /* BasicScheme.swift */,
 				1AF584EA194A75900090529C /* AccordionScheme.swift */,
 				1AF584EC194A807A0090529C /* ArrayScheme.swift */,
+				1AF584E8194A72810090529C /* BasicScheme.swift */,
 				1AF584EE194B6F0E0090529C /* RadioScheme.swift */,
+				1AF584E6194A6D520090529C /* Scheme.swift */,
 				61E259621ABCD958005297C9 /* StaticScheme.swift */,
 			);
 			name = Schemes;
@@ -266,14 +306,26 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		1A84FFE71B5DCD5B00F187B6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A84FFEF1B5DCD5B00F187B6 /* TableSchemer.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		1AB445B0194A66C4001BEDFF /* TableSchemer */ = {
+		1A84FFE91B5DCD5B00F187B6 /* TableSchemer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1AB445CF194A66C4001BEDFF /* Build configuration list for PBXNativeTarget "TableSchemer" */;
+			buildConfigurationList = 1A8400031B5DCD5C00F187B6 /* Build configuration list for PBXNativeTarget "TableSchemer" */;
 			buildPhases = (
-				1AB445AD194A66C4001BEDFF /* Sources */,
-				1AB445AE194A66C4001BEDFF /* Frameworks */,
-				1AB445AF194A66C4001BEDFF /* Resources */,
+				1A84FFE51B5DCD5B00F187B6 /* Sources */,
+				1A84FFE61B5DCD5B00F187B6 /* Frameworks */,
+				1A84FFE71B5DCD5B00F187B6 /* Headers */,
+				1A84FFE81B5DCD5B00F187B6 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -281,7 +333,26 @@
 			);
 			name = TableSchemer;
 			productName = TableSchemer;
-			productReference = 1AB445B1194A66C4001BEDFF /* TableSchemer.app */;
+			productReference = 1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		1AB445B0194A66C4001BEDFF /* TableSchemerExamples */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AB445CF194A66C4001BEDFF /* Build configuration list for PBXNativeTarget "TableSchemerExamples" */;
+			buildPhases = (
+				1AB445AD194A66C4001BEDFF /* Sources */,
+				1AB445AE194A66C4001BEDFF /* Frameworks */,
+				1AB445AF194A66C4001BEDFF /* Resources */,
+				1A8400061B5DCD5C00F187B6 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1A8400001B5DCD5C00F187B6 /* PBXTargetDependency */,
+			);
+			name = TableSchemerExamples;
+			productName = TableSchemer;
+			productReference = 1AB445B1194A66C4001BEDFF /* TableSchemerExamples.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1AB445C4194A66C4001BEDFF /* TableSchemerTests */ = {
@@ -297,7 +368,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1AB445C7194A66C4001BEDFF /* PBXTargetDependency */,
 			);
 			name = TableSchemerTests;
 			productName = TableSchemerTests;
@@ -313,12 +383,14 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Weebly;
 				TargetAttributes = {
+					1A84FFE91B5DCD5B00F187B6 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 					1AB445B0194A66C4001BEDFF = {
 						CreatedOnToolsVersion = 6.0;
 					};
 					1AB445C4194A66C4001BEDFF = {
 						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 1AB445B0194A66C4001BEDFF;
 					};
 				};
 			};
@@ -335,13 +407,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1AB445B0194A66C4001BEDFF /* TableSchemer */,
+				1AB445B0194A66C4001BEDFF /* TableSchemerExamples */,
+				1A84FFE91B5DCD5B00F187B6 /* TableSchemer */,
 				1AB445C4194A66C4001BEDFF /* TableSchemerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1A84FFE81B5DCD5B00F187B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1AB445AF194A66C4001BEDFF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -393,29 +473,36 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1A84FFE51B5DCD5B00F187B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A84000B1B5DCF4600F187B6 /* ViewExtensions.swift in Sources */,
+				1A8400101B5DCF4600F187B6 /* SchemeRowAnimators.swift in Sources */,
+				1A84000A1B5DCF4600F187B6 /* InferrableRowAnimatableScheme.swift in Sources */,
+				1A8400141B5DCF4600F187B6 /* ArrayScheme.swift in Sources */,
+				1A8400151B5DCF4600F187B6 /* RadioScheme.swift in Sources */,
+				1A8400181B5DCF4600F187B6 /* TableSchemeBuilder.swift in Sources */,
+				1A8400161B5DCF4600F187B6 /* StaticScheme.swift in Sources */,
+				1A8400131B5DCF4600F187B6 /* AccordionScheme.swift in Sources */,
+				1A84000E1B5DCF4600F187B6 /* TableScheme.swift in Sources */,
+				1A8400111B5DCF4600F187B6 /* Scheme.swift in Sources */,
+				1A8400171B5DCF4600F187B6 /* SchemeSetBuilder.swift in Sources */,
+				1A84000F1B5DCF4600F187B6 /* TableSchemeBatchAnimator.swift in Sources */,
+				1A84000C1B5DCF4600F187B6 /* SchemeCell.swift in Sources */,
+				1A8400121B5DCF4600F187B6 /* BasicScheme.swift in Sources */,
+				1A84000D1B5DCF4600F187B6 /* SchemeSet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1AB445AD194A66C4001BEDFF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A47434C1A1C35D500B5AD13 /* SchemeRowAnimators.swift in Sources */,
-				1AF584EF194B6F0E0090529C /* RadioScheme.swift in Sources */,
-				1AF584F2194B7A8C0090529C /* SchemeSet.swift in Sources */,
-				1A57B9251A1D809000846EAD /* AnimationsViewController.swift in Sources */,
-				61E259641ABCDD6C005297C9 /* StaticScheme.swift in Sources */,
-				1AF584ED194A807A0090529C /* ArrayScheme.swift in Sources */,
-				1A47434A1A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift in Sources */,
-				1AF584E9194A72810090529C /* BasicScheme.swift in Sources */,
-				1AF584E7194A6D520090529C /* Scheme.swift in Sources */,
-				1AE06748194BB2C300873E8A /* SchemeCell.swift in Sources */,
-				1AF584EB194A75900090529C /* AccordionScheme.swift in Sources */,
-				1AD4F4A619895C14004D3676 /* ViewExtensions.swift in Sources */,
-				1AD4F4A819895DD5004D3676 /* AdvancedTableSchemeViewController.swift in Sources */,
-				1ACFAFE21A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift in Sources */,
-				1AF584F4194B817F0090529C /* SchemeSetBuilder.swift in Sources */,
-				1AB445B9194A66C4001BEDFF /* MasterViewController.swift in Sources */,
-				1AF584F8194BA14A0090529C /* TableScheme.swift in Sources */,
+				1AB445B9194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift in Sources */,
 				1AB445B7194A66C4001BEDFF /* AppDelegate.swift in Sources */,
-				1AF584F6194B9F6D0090529C /* TableSchemeBuilder.swift in Sources */,
+				1A84001A1B5DD0BF00F187B6 /* MasterViewController.swift in Sources */,
+				1A84001C1B5DD0CB00F187B6 /* AnimationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,14 +522,65 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1AB445C7194A66C4001BEDFF /* PBXTargetDependency */ = {
+		1A8400001B5DCD5C00F187B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1AB445B0194A66C4001BEDFF /* TableSchemer */;
-			targetProxy = 1AB445C6194A66C4001BEDFF /* PBXContainerItemProxy */;
+			target = 1A84FFE91B5DCD5B00F187B6 /* TableSchemer */;
+			targetProxy = 1A84FFFF1B5DCD5C00F187B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1A8400041B5DCD5C00F187B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TableSchemer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		1A8400051B5DCD5C00F187B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = TableSchemer/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		1AB445CD194A66C4001BEDFF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -546,7 +684,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TableSchemer.app/TableSchemer";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -562,7 +699,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TableSchemerTests/TableSchemerTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
 		};
@@ -570,7 +706,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TableSchemer.app/TableSchemer";
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -581,13 +716,21 @@
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TableSchemerTests/TableSchemerTests-Bridging-Header.h";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1A8400031B5DCD5C00F187B6 /* Build configuration list for PBXNativeTarget "TableSchemer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A8400041B5DCD5C00F187B6 /* Debug */,
+				1A8400051B5DCD5C00F187B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1AB445AC194A66C4001BEDFF /* Build configuration list for PBXProject "TableSchemer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -597,7 +740,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1AB445CF194A66C4001BEDFF /* Build configuration list for PBXNativeTarget "TableSchemer" */ = {
+		1AB445CF194A66C4001BEDFF /* Build configuration list for PBXNativeTarget "TableSchemerExamples" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AB445D0194A66C4001BEDFF /* Debug */,
