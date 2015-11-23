@@ -129,16 +129,16 @@ public class TableScheme: NSObject, UITableViewDataSource {
         var offset = 0
         var priorHiddenSchemes = 0
         
-        for (idx, scheme) in schemeSet.schemes.enumerate() {
-            if scheme.hidden {
+        for (idx, schemeItem) in schemeSet.schemeItems.enumerate() {
+            if schemeItem.hidden {
                 priorHiddenSchemes++
                 continue
             }
 
-            if row >= (idx + offset - priorHiddenSchemes) && row < (idx + offset + scheme.numberOfCells - priorHiddenSchemes) {
-                return scheme
+            if row >= (idx + offset - priorHiddenSchemes) && row < (idx + offset + schemeItem.scheme.numberOfCells - priorHiddenSchemes) {
+                return schemeItem.scheme
             } else {
-                offset += scheme.numberOfCells - 1
+                offset += schemeItem.scheme.numberOfCells - 1
             }
         }
         
@@ -219,7 +219,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
-        scheme._hidden = true
+        schemeItemWithScheme(scheme).hidden = true
         tableView.deleteRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
     }
     
@@ -236,7 +236,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
-        scheme._hidden = false
+        schemeItemWithScheme(scheme).hidden = false
         tableView.insertRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
     }
     
@@ -254,7 +254,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
         
-        if !scheme.hidden {
+        if !schemeItemWithScheme(scheme).hidden {
             tableView.reloadRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
         }
     }
@@ -362,7 +362,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         - parameter     changeHandler:   A closure with a SchemeRowAnimator that you give your animation instructions to.
     */
     public func animateChangesToScheme(scheme: Scheme, inTableView tableView: UITableView, @noescape withChangeHandler changeHandler: (animator: SchemeRowAnimator) -> Void) {
-        let animator = SchemeRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
+        let animator = SchemeRowAnimator(tableScheme: self, withSchemeItem: schemeItemWithScheme(scheme), inTableView: tableView)
         changeHandler(animator: animator)
         animator.performAnimations()
     }
@@ -382,7 +382,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
         - parameter     changeHandler:   A closure that you perform the changes to your scheme in.
     */
     public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, @noescape withChangeHandler changeHandler: () -> Void) {
-        let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, inTableView: tableView)
+        let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, ownedBySchemeItem: schemeItemWithScheme(scheme), inTableView: tableView)
         assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells before the changes")
         changeHandler()
         assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells after the changes")
@@ -420,16 +420,16 @@ public class TableScheme: NSObject, UITableViewDataSource {
         let schemeSet = schemeSetWithScheme(scheme)
         
         var count = 0
-        for scanScheme in schemeSet.schemes {
-            if scanScheme === scheme {
+        for scanSchemeItem in schemeSet.schemeItems {
+            if scanSchemeItem.scheme === scheme {
                 break
             }
             
-            if scanScheme.hidden {
+            if scanSchemeItem.hidden {
                 continue
             }
             
-            count += scanScheme.numberOfCells
+            count += scanSchemeItem.scheme.numberOfCells
         }
         
         return count
@@ -450,6 +450,23 @@ public class TableScheme: NSObject, UITableViewDataSource {
         assert(foundSet != nil)
         
         return foundSet!
+    }
+
+    func schemeItemWithScheme(scheme: Scheme) -> SchemeItem {
+        var foundItem: SchemeItem?
+
+        for schemeSet in schemeSets {
+            for scanSchemeItem in schemeSet.schemeItems {
+                if scanSchemeItem.scheme === scheme {
+                    foundItem = scanSchemeItem
+                    break
+                }
+            }
+        }
+
+        assert(foundItem != nil)
+
+        return foundItem!
     }
     
     // MARK: - Private methods

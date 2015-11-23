@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import TableSchemer
+@testable import TableSchemer
 import UIKit
 
 let TableSchemeTestsReuseIdentifier = "ReuseIdentifier"
@@ -315,7 +315,7 @@ class TableScheme_Tests: XCTestCase {
     func testHideScheme_marksSchemeHidden() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
-        XCTAssertTrue(schemeSet1Scheme1.hidden)
+        XCTAssertTrue(subject.schemeItemWithScheme(schemeSet1Scheme1).hidden)
     }
     
     func testHideScheme_performsHideAnimationForEachCellInScheme() {
@@ -364,7 +364,7 @@ class TableScheme_Tests: XCTestCase {
       
         subject.showScheme(schemeSet1Scheme1, inTableView: tableView)
         
-        XCTAssertFalse(schemeSet1Scheme1.hidden)
+        XCTAssertFalse(subject.schemeItemWithScheme(schemeSet1Scheme1).hidden)
     }
     
     func testShowScheme_performsShowAnimationForEachCellInScheme() {
@@ -415,7 +415,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView: AnimationRecordingTableView = configuredTableView()
         // Hide a scheme set and scheme to test that it handles hidden objects
         schemeSet1.hidden = true
-        schemeSet4Scheme1.hidden = true
+        subject.schemeItemWithScheme(schemeSet4Scheme1).hidden = true
         subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
         
         XCTAssert(tableView.callsToReloadRows.count == 1)
@@ -435,7 +435,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testReloadScheme_ifSchemeIsHidden_doesntReloadScheme() {
         let tableView: AnimationRecordingTableView = configuredTableView()
-        schemeSet4Scheme3.hidden = true
+        subject.schemeItemWithScheme(schemeSet4Scheme3).hidden = true
         subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
         XCTAssert(tableView.callsToReloadRows.count == 0)
     }

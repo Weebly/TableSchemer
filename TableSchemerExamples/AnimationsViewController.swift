@@ -98,9 +98,9 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme) in
+                hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme, inout hidden: Bool) in
                     scheme.reuseIdentifier = ReuseIdentifier
-                    scheme.hidden = true
+                    hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
@@ -111,9 +111,9 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme) in
+                hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme, inout hidden: Bool) in
                     scheme.reuseIdentifier = ReuseIdentifier
-                    scheme.hidden = true
+                    hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)

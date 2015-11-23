@@ -21,7 +21,11 @@ public final class SchemeSetBuilder {
     public var footerText: String?
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
-    public var schemes = [Scheme]()
+    public var schemes: [Scheme] {
+        return schemeItems.map { $0.scheme }
+    }
+
+    var schemeItems = [SchemeItem]()
     
     /// This is used to identify if the scheme is initially hidden or not
     public var hidden = false
@@ -41,14 +45,26 @@ public final class SchemeSetBuilder {
      *  @param handler The closure to configure the scheme.
      *  @return The created Scheme instance
      */
+    public func buildScheme<T: Scheme>(@noescape handler: (scheme: T, inout hidden: Bool) -> Void) -> T {
+        let scheme = T()
+        var hidden = false
+        handler(scheme: scheme, hidden: &hidden)
+        
+        if scheme.isValid() {
+            schemeItems.append(SchemeItem(scheme: scheme, hidden: hidden))
+        }
+        
+        return scheme
+    }
+
     public func buildScheme<T: Scheme>(@noescape handler: (scheme: T) -> Void) -> T {
         let scheme = T()
         handler(scheme: scheme)
-        
+
         if scheme.isValid() {
-            schemes.append(scheme)
+            schemeItems.append(SchemeItem(scheme: scheme, hidden: false))
         }
-        
+
         return scheme
     }
     

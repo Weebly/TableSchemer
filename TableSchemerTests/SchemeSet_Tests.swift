@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import TableSchemer
+@testable import TableSchemer
 
 class SchemeSet_Tests: XCTestCase {
     // MARK: Initializers
@@ -64,10 +64,10 @@ class SchemeSet_Tests: XCTestCase {
     // MARK: Visibility
     func testVisibleSchemes_onlyIncludeVisibleSchemes() {
         let scheme1 = Scheme()
-        scheme1.hidden = true
         let scheme2 = Scheme()
         let schemes = [scheme1, scheme2]
         let subject = SchemeSet(schemes: schemes)
+        subject.schemeItems[0].hidden = true
         XCTAssertEqual(subject.visibleSchemes, [scheme2])
     }
     

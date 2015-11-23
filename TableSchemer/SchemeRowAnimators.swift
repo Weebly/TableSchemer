@@ -25,15 +25,18 @@ public class SchemeRowAnimator {
     
     private final let tableScheme: TableScheme
     private final let tableView: UITableView
-    public final let scheme: Scheme
+    final let schemeItem: SchemeItem
+    public final var scheme: Scheme {
+        return schemeItem.scheme
+    }
     
     private var moves = [Move]()
     private var insertions = [AddRemove]()
     private var deletions = [AddRemove]()
     
-    init(tableScheme: TableScheme, withScheme scheme: Scheme, inTableView tableView: UITableView) {
+    init(tableScheme: TableScheme, withSchemeItem schemeItem: SchemeItem, inTableView tableView: UITableView) {
         self.tableScheme = tableScheme
-        self.scheme = scheme
+        self.schemeItem = schemeItem
         self.tableView = tableView
     }
     
@@ -151,21 +154,22 @@ public class SchemeRowAnimator {
     }
 }
 
-final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableScheme>: SchemeRowAnimator {
-    private let originalRowIdentifiers: [T.IdentifierType]
-    private var animatableScheme: T {
-        return scheme as! T
+final class InferringRowAnimator<AnimatableScheme: Scheme where AnimatableScheme: InferrableRowAnimatableScheme>: SchemeRowAnimator {
+    private let originalRowIdentifiers: [AnimatableScheme.IdentifierType]
+    private var animatableScheme: AnimatableScheme {
+        return scheme as! AnimatableScheme
     }
-    
-    init(tableScheme: TableScheme, withScheme scheme: T, inTableView tableView: UITableView) {
+
+    init(tableScheme: TableScheme, withScheme scheme: AnimatableScheme, ownedBySchemeItem schemeItem: SchemeItem, inTableView tableView: UITableView) {
+        assert(scheme === schemeItem.scheme)
         originalRowIdentifiers = scheme.rowIdentifiers
-        super.init(tableScheme: tableScheme, withScheme: scheme, inTableView: tableView)
+        super.init(tableScheme: tableScheme, withSchemeItem: schemeItem, inTableView: tableView)
     }
     
     func guessRowAnimationsWithAnimation(animation: UITableViewRowAnimation) {
         let updatedRowIdentifiers = animatableScheme.rowIdentifiers
         var addedIdentifiers = updatedRowIdentifiers // Will remove objects when they are found in the original identifiers
-        var immovableIndexes = Dictionary<Array<T.IdentifierType>.Index, Void>() // To help with multiple equal objects
+        var immovableIndexes = Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>() // To help with multiple equal objects
         
         for (index, identifier) in originalRowIdentifiers.enumerate() {
             if let newIndex = findIdentifier(identifier, inIdentifiers: updatedRowIdentifiers, excludingIndexes: immovableIndexes) {
@@ -192,8 +196,8 @@ final class InferringRowAnimator<T: Scheme where T: InferrableRowAnimatableSchem
         }
     }
     
-    private func findIdentifier(identifier: T.IdentifierType, inIdentifiers identifiers: [T.IdentifierType], excludingIndexes excludedIndexes: Dictionary<Array<T.IdentifierType>.Index, Void>) -> Array<T.IdentifierType>.Index? {
-        var foundIndex: Array<T.IdentifierType>.Index?
+    private func findIdentifier(identifier: AnimatableScheme.IdentifierType, inIdentifiers identifiers: [AnimatableScheme.IdentifierType], excludingIndexes excludedIndexes: Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>) -> Array<AnimatableScheme.IdentifierType>.Index? {
+        var foundIndex: Array<AnimatableScheme.IdentifierType>.Index?
         
         for (index, ident) in identifiers.enumerate() {
             if excludedIndexes[index] == nil && ident == identifier {
