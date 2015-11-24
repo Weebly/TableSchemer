@@ -272,7 +272,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Reuse Identifier For Relative Index
     func testReuseIdentifierForRelativeIndex_whenUnexpanded_isUnexpandedReuseIdentifier() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0)!, ReuseIdentifier0)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier0)
     }
     
     func testReuseIdentifierForRelativeIndex_whenExpanded_isCorrectExpandedReuseIdentifier() {
@@ -283,7 +283,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1)!, ReuseIdentifier2)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), ReuseIdentifier2)
     }
     
     // MARK: Height For Relative Index

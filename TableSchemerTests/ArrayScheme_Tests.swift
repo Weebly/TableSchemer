@@ -80,7 +80,7 @@ class ArrayScheme_Tests: XCTestCase {
     
     func testReuseIdentifierForRelativeIndex_isReuseIdentifier() {
         configureSubjectWithObjects()
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0)!, ReuseIdentifier)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier)
     }
     
     func testHeightForRelativeIndex_usesCallbackHeight() {

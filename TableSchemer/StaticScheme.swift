@@ -17,7 +17,7 @@ public class StaticScheme<T: UITableViewCell>: BasicScheme<T> {
         super.init()
     }
 
-    public override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         return cell!
     }
 

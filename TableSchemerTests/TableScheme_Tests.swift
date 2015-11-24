@@ -920,27 +920,25 @@ public class TestableScheme: Scheme {
     var height: CGFloat = 44.0
     var identifiers: [Int]?
     
-    override public var numberOfCells: Int {
+    public var numberOfCells: Int {
         return definedNumberOfCells
     }
     
-    public required init() {
-        super.init()
-    }
+    public required init() { }
     
-    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
+    public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         lastConfigureCall = (cell: cell, relativeIndex: relativeIndex)
     }
     
-    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         lastSelectCall = (cell: cell, tableView: tableView, section: section, rowsBeforeScheme: rowsBeforeScheme, relativeIndex: relativeIndex)
     }
     
-    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String? {
+    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
         return TableSchemeTestsReuseIdentifier
     }
     
-    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return .Custom(height)
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 
 public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
+    
     public typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
     public typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
     
@@ -39,17 +40,17 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
     
     // MARK: Property Overrides
-    override public var numberOfCells: Int {
+    public var numberOfCells: Int {
         return expanded ? numberOfItems : 1
     }
     
     public var numberOfItems: Int {
         return accordionReuseIdentifiers.count
     }
-    
-    // MARK: Abstract Overrides
+
+    // MARK: Public Instance Methods
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
-        if (expanded) {
+        if expanded {
             accordionConfigurationHandler(cell: cell as! U, index: relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
@@ -62,7 +63,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
         
         tableView.beginUpdates()
         
-        if (expanded) {
+        if expanded {
             if let ash = accordionSelectionHandler {
                 ash(cell: cell as! U, scheme: self, selectedIndex: relativeIndex)
             }
@@ -116,7 +117,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
         tableView.endUpdates()
     }
     
-    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String?  {
+    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
         if expanded {
             return accordionReuseIdentifiers![relativeIndex]
         } else {
@@ -142,22 +143,15 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
         
         return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
     }
-}
 
-public func ==<T: UITableViewCell, U: UITableViewCell>(lhs: AccordionScheme<T, U>, rhs: AccordionScheme<T, U>) -> Bool {
-    let reuseIdentifiersEqual = lhs.reuseIdentifier == rhs.reuseIdentifier
-    let heightsEqual = lhs.height == rhs.height
-    let selectedIndexesEqual = lhs.selectedIndex == rhs.selectedIndex
-    let expandedEqual = lhs.expanded == rhs.expanded
-    let accordionReuseIdentifiersEqual = lhs.accordionReuseIdentifiers == rhs.accordionReuseIdentifiers
-
-    return reuseIdentifiersEqual && heightsEqual && selectedIndexesEqual && expandedEqual && accordionReuseIdentifiersEqual
 }
 
 extension AccordionScheme: InferrableRowAnimatableScheme {
+
     public typealias IdentifierType = String
 
     public var rowIdentifiers: [IdentifierType] {
         return expanded ? accordionReuseIdentifiers : [reuseIdentifier]
     }
+
 }

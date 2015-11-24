@@ -8,10 +8,10 @@
 
 import UIKit
 
-/** This class facilitates building the contents of a WBLCellSchemeSet.
- *
- *  An instance of this object is passed into the build handler from WBLSchemeDataSourceBuilder.buildSchemeSet(handler:).
- *  It's used to set a section title and to add schemes to the scheme set.
+/** This class facilitates building the contents of a `SchemeSet`.
+
+    An instance of this object is passed into the build handler from `TableSchemeBuilder.buildSchemeSet(handler:)`.
+    It's used to set a section title and to add schemes to the scheme set.
  */
 public final class SchemeSetBuilder {
     /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
@@ -33,17 +33,17 @@ public final class SchemeSetBuilder {
     public init() { } // Compiler won't compile without this. Not sure why.
     
     /** Build a scheme within the closure.
-     *
-     *  This method will instantiate a Scheme object, and then pass it into handler. The type of Scheme object
-     *  that is instantiated will be inferred from the type passed into the handler.
-     *
-     *  The created Scheme object will be validated before being added to the list of schemes to be created. 
-     *
-     *  The created Scheme object will be returned if you need a reference to it, but it will be added
-     *  to the TableScheme automatically.
-     *
-     *  @param handler The closure to configure the scheme.
-     *  @return The created Scheme instance
+
+        This method will instantiate a `Scheme` object, and then pass it into handler. The type of Scheme object
+        that is instantiated will be inferred from the type passed into the handler.
+
+        The created `Scheme` object will be validated before being added to the list of schemes to be created.
+
+        The created `Scheme` object will be returned if you need a reference to it, but it will be added
+        to the `TableScheme` automatically.
+
+        - parameter     handler:    The closure to configure the scheme.
+        - returns:                  The created Scheme instance.
      */
     public func buildScheme<T: Scheme>(@noescape handler: (scheme: T, inout hidden: Bool) -> Void) -> T {
         let scheme = T()
@@ -68,7 +68,7 @@ public final class SchemeSetBuilder {
         return scheme
     }
     
-    /** Create the SchemeSet with the currently added Schemes. This method should not be called except from TableSchemeBuilder */
+    /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */
     internal func createSchemeSet() -> SchemeSet {
         return SchemeSet(name: name, footerText: footerText, hidden: hidden, withSchemes: schemes)
     }

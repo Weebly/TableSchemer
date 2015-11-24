@@ -101,13 +101,3 @@ public class SchemeSet {
         return schemes[index]
     }
 }
-
-extension SchemeSet: Equatable { }
-
-public func ==(lhs: SchemeSet, rhs: SchemeSet) -> Bool {
-    if lhs === rhs {
-        return true
-    }
-    
-    return lhs.name == rhs.name && lhs.footerText == rhs.footerText && lhs.schemes == rhs.schemes
-}

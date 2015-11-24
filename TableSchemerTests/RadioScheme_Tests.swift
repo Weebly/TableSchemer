@@ -129,8 +129,8 @@ class RadioScheme_Tests: XCTestCase {
     func testReuseIdentifierForRelativeIndex_matchesReuseIdentifiers() {
         configureSubjectWithConfigurationHandler()
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0)!, ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1)!, ReuseIdentifier2)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier1)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), ReuseIdentifier2)
     }
     
     // MARK: Height For Relative Index
