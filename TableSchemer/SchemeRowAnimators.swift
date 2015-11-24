@@ -25,18 +25,18 @@ public class SchemeRowAnimator {
     
     private final let tableScheme: TableScheme
     private final let tableView: UITableView
-    final let schemeItem: SchemeItem
+    final let attributedScheme: AttributedScheme
     public final var scheme: Scheme {
-        return schemeItem.scheme
+        return attributedScheme.scheme
     }
     
     private var moves = [Move]()
     private var insertions = [AddRemove]()
     private var deletions = [AddRemove]()
     
-    init(tableScheme: TableScheme, withSchemeItem schemeItem: SchemeItem, inTableView tableView: UITableView) {
+    init(tableScheme: TableScheme, withAttributedScheme attributedScheme: AttributedScheme, inTableView tableView: UITableView) {
         self.tableScheme = tableScheme
-        self.schemeItem = schemeItem
+        self.attributedScheme = attributedScheme
         self.tableView = tableView
     }
     
@@ -160,10 +160,10 @@ final class InferringRowAnimator<AnimatableScheme: Scheme where AnimatableScheme
         return scheme as! AnimatableScheme
     }
 
-    init(tableScheme: TableScheme, withScheme scheme: AnimatableScheme, ownedBySchemeItem schemeItem: SchemeItem, inTableView tableView: UITableView) {
-        assert(scheme === schemeItem.scheme)
+    init(tableScheme: TableScheme, withScheme scheme: AnimatableScheme, ownedByAttributedScheme attributedScheme: AttributedScheme, inTableView tableView: UITableView) {
+        assert(scheme === attributedScheme.scheme)
         originalRowIdentifiers = scheme.rowIdentifiers
-        super.init(tableScheme: tableScheme, withSchemeItem: schemeItem, inTableView: tableView)
+        super.init(tableScheme: tableScheme, withAttributedScheme: attributedScheme, inTableView: tableView)
     }
     
     func guessRowAnimationsWithAnimation(animation: UITableViewRowAnimation) {

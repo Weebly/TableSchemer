@@ -44,10 +44,10 @@ class TableScheme_Tests: XCTestCase {
         schemeSet4Scheme3 = TestableScheme()
         schemeSet4Scheme3.definedNumberOfCells = 4
         
-        schemeSet1 = SchemeSet(name: "Test Scheme Set", withSchemes: [schemeSet1Scheme1, schemeSet1Scheme2])
+        schemeSet1 = SchemeSet(schemes: [schemeSet1Scheme1, schemeSet1Scheme2], headerText: "Test Scheme Set")
         schemeSet2 = SchemeSet(schemes: [schemeSet2Scheme1])
         schemeSet3 = SchemeSet(schemes: [schemeSet3Scheme1])
-        schemeSet4 = SchemeSet(name: "Second Test Scheme Set", footerText: "Foo Bar", withSchemes: [schemeSet4Scheme1, schemeSet4Scheme2, schemeSet4Scheme3])
+        schemeSet4 = SchemeSet(schemes: [schemeSet4Scheme1, schemeSet4Scheme2, schemeSet4Scheme3], headerText: "Second Test Scheme Set", footerText: "Foo Bar")
         
         subject = TableScheme(schemeSets: [schemeSet1, schemeSet2, schemeSet3, schemeSet4])
         tableView = UITableView()
@@ -156,7 +156,7 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Title For Header In Section
     func testTitleForHeaderInSection_whenProvided_isCorrect() {
-        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 0) == schemeSet1.name)
+        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 0) == schemeSet1.headerText)
     }
     
     func testTitleForHeaderInSection_whenNotProvided_isNil() {
@@ -165,7 +165,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testTitleForHeaderInSection_accountsForHiddenSchemeSets() {
         subject.hideSchemeSet(schemeSet2, inTableView: tableView)
-        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 2) == schemeSet4.name)
+        XCTAssert(subject.tableView(tableView, titleForHeaderInSection: 2) == schemeSet4.headerText)
     }
     
     // MARK: Title For Footer In Section
@@ -315,7 +315,8 @@ class TableScheme_Tests: XCTestCase {
     func testHideScheme_marksSchemeHidden() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
-        XCTAssertTrue(subject.schemeItemWithScheme(schemeSet1Scheme1).hidden)
+        let indexes = subject.attributedSchemeIndexesWithScheme(schemeSet1Scheme1)!
+        XCTAssertTrue(subject.attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden)
     }
     
     func testHideScheme_performsHideAnimationForEachCellInScheme() {
@@ -363,8 +364,8 @@ class TableScheme_Tests: XCTestCase {
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
       
         subject.showScheme(schemeSet1Scheme1, inTableView: tableView)
-        
-        XCTAssertFalse(subject.schemeItemWithScheme(schemeSet1Scheme1).hidden)
+        let indexes = subject.attributedSchemeIndexesWithScheme(schemeSet1Scheme1)!
+        XCTAssertFalse(subject.attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden)
     }
     
     func testShowScheme_performsShowAnimationForEachCellInScheme() {
@@ -414,8 +415,10 @@ class TableScheme_Tests: XCTestCase {
     func testReloadScheme_reloadsEachCellInScheme() {
         let tableView: AnimationRecordingTableView = configuredTableView()
         // Hide a scheme set and scheme to test that it handles hidden objects
-        schemeSet1.hidden = true
-        subject.schemeItemWithScheme(schemeSet4Scheme1).hidden = true
+        subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden = true
+
+        let indexes = subject.attributedSchemeIndexesWithScheme(schemeSet4Scheme1)!
+        subject.attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden = true
         subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
         
         XCTAssert(tableView.callsToReloadRows.count == 1)
@@ -435,7 +438,8 @@ class TableScheme_Tests: XCTestCase {
     
     func testReloadScheme_ifSchemeIsHidden_doesntReloadScheme() {
         let tableView: AnimationRecordingTableView = configuredTableView()
-        subject.schemeItemWithScheme(schemeSet4Scheme3).hidden = true
+        let indexes = subject.attributedSchemeIndexesWithScheme(schemeSet4Scheme3)!
+        subject.attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden = true
         subject.reloadScheme(schemeSet4Scheme3, inTableView: tableView, withRowAnimation: .Fade)
         XCTAssert(tableView.callsToReloadRows.count == 0)
     }
@@ -443,7 +447,7 @@ class TableScheme_Tests: XCTestCase {
     func testHideSchemeSet_marksSchemeSetHidden() {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, inTableView: tableView)
-        XCTAssertTrue(schemeSet1.hidden)
+        XCTAssertTrue(subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden)
     }
     
     func testHideSchemeSet_performsHideAnimationForSchemeSet() {
@@ -480,7 +484,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, inTableView: tableView)
         subject.showSchemeSet(schemeSet1, inTableView: tableView)
-        XCTAssertFalse(schemeSet1.hidden)
+        XCTAssertFalse(subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden)
     }
     
     func testShowSchemeSet_performsShowAnimationForSchemeSet() {
@@ -518,7 +522,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testReloadSchemeSet_reloadsSection() {
         let tableView: AnimationRecordingTableView = configuredTableView()
-        schemeSet1.hidden = true // Hide a scheme set to test that it handles hidden scheme sets
+        subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden = true // Hide a scheme set to test that it handles hidden scheme sets
         subject.reloadSchemeSet(schemeSet4, inTableView: tableView, withRowAnimation: .Fade)
         
         XCTAssert(tableView.callsToReloadSections.count == 1)
@@ -534,7 +538,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testReloadSchemeSet_ifSchemeSetIsHidden_doesntReloadSchemeSet() {
         let tableView: AnimationRecordingTableView = configuredTableView()
-        schemeSet4.hidden = true
+        subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet4)!].hidden = true
         subject.reloadSchemeSet(schemeSet4, inTableView: tableView, withRowAnimation: .Fade)
         XCTAssert(tableView.callsToReloadSections.count == 0)
     }

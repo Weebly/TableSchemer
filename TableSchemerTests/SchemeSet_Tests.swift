@@ -13,7 +13,7 @@ class SchemeSet_Tests: XCTestCase {
     // MARK: Initializers
     func testInitWithNameAndSchemes_setsSchemes() {
         let schemes: [Scheme] = [TestableScheme()]
-        let subject = SchemeSet(name: "Foo Bar", withSchemes: schemes)
+        let subject = SchemeSet(schemes: schemes, headerText: "Foo Bar")
         XCTAssertTrue(subject.schemes.isEqualToSchemes(schemes))
     }
 
@@ -24,17 +24,17 @@ class SchemeSet_Tests: XCTestCase {
     }
 
     func testInitWithNameAndSchemes_setsName() {
-        let subject: SchemeSet = SchemeSet(name: "Foo Bar", withSchemes: [TestableScheme()])
-        XCTAssert(subject.name == "Foo Bar")
+        let subject: SchemeSet = SchemeSet(schemes: [TestableScheme()], headerText: "Foo Bar")
+        XCTAssert(subject.headerText == "Foo Bar")
     }
     
     func testInitWithNameFooterTextAndSchemes_setsFooterText() {
-        let subject: SchemeSet = SchemeSet(name: "Foo Bar", footerText: "Buzz", withSchemes: [TestableScheme()])
+        let subject: SchemeSet = SchemeSet(schemes: [TestableScheme()], headerText: "Foo Bar", footerText: "Buzz")
         XCTAssert(subject.footerText == "Buzz")
     }
     
     func testInitWithFooterTextAndSchemes_setsFooterText() {
-        let subject: SchemeSet = SchemeSet(footerText: "Buzz", withSchemes: [TestableScheme()])
+        let subject: SchemeSet = SchemeSet(schemes: [TestableScheme()], footerText: "Buzz")
         XCTAssert(subject.footerText == "Buzz")
     }
 
@@ -65,7 +65,7 @@ class SchemeSet_Tests: XCTestCase {
         let scheme2 = TestableScheme()
         let schemes: [Scheme] = [scheme1, scheme2]
         let subject = SchemeSet(schemes: schemes)
-        subject.schemeItems[0].hidden = true
+        subject.attributedSchemes[0].hidden = true
         XCTAssertTrue(subject.visibleSchemes.isEqualToSchemes([scheme2] as [Scheme]))
     }
     

@@ -48,7 +48,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     func buildAndSetTableScheme() {
         tableScheme = TableScheme { builder in
             builder.buildSchemeSet { builder in
-                builder.name = "Switches"
+                builder.headerText = "Switches"
                 
                 firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
                     scheme.reuseIdentifier = SwitchReuseIdentifier
@@ -79,7 +79,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Text Input"
+                builder.headerText = "Text Input"
                 builder.footerText = "Section footer text"
                 
                 firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
@@ -110,7 +110,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Buttons!"
+                builder.headerText = "Buttons!"
                 
                 buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
                     scheme.reuseIdentifier = BasicReuseIdentifier

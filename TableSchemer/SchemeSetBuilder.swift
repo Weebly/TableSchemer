@@ -14,18 +14,18 @@ import UIKit
     It's used to set a section title and to add schemes to the scheme set.
  */
 public final class SchemeSetBuilder {
-    /** This will be used as the SchemeSet's name. If left nil, the SchemeSet will not have a title. */
-    public var name: String?
+    /** This will be used as the SchemeSet's header text. If left nil, the SchemeSet will not have a title. */
+    public var headerText: String?
     
     /** This will be used as the SchemeSet's footer text. If left nil, it will not have a footer label */
     public var footerText: String?
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
     public var schemes: [Scheme] {
-        return schemeItems.map { $0.scheme }
+        return attributedSchemes.map { $0.scheme }
     }
 
-    var schemeItems = [SchemeItem]()
+    var attributedSchemes = [AttributedScheme]()
     
     /// This is used to identify if the scheme is initially hidden or not
     public var hidden = false
@@ -51,7 +51,7 @@ public final class SchemeSetBuilder {
         handler(scheme: scheme, hidden: &hidden)
         
         if scheme.isValid() {
-            schemeItems.append(SchemeItem(scheme: scheme, hidden: hidden))
+            attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
         }
         
         return scheme
@@ -62,7 +62,7 @@ public final class SchemeSetBuilder {
         handler(scheme: scheme)
 
         if scheme.isValid() {
-            schemeItems.append(SchemeItem(scheme: scheme, hidden: false))
+            attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))
         }
 
         return scheme
@@ -70,6 +70,6 @@ public final class SchemeSetBuilder {
     
     /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */
     internal func createSchemeSet() -> SchemeSet {
-        return SchemeSet(name: name, footerText: footerText, hidden: hidden, withSchemes: schemes)
+        return SchemeSet(attributedSchemes: attributedSchemes, headerText: headerText, footerText: footerText, hidden: hidden)
     }
 }

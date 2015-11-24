@@ -35,6 +35,8 @@
 		1AB445B9194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB445B8194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift */; };
 		1AB445C0194A66C4001BEDFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB445BF194A66C4001BEDFF /* Images.xcassets */; };
 		1AE0674C194BBA4E00873E8A /* BasicScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */; };
+		1AE3EB291C04C55200BA9D99 /* AttributedScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */; };
+		1AE3EB2B1C04C69200BA9D99 /* AttributedSchemeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */; };
 		1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */; };
 		65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */; };
 /* End PBXBuildFile section */
@@ -88,6 +90,8 @@
 		1AE06747194BB2C300873E8A /* SchemeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeCell.swift; sourceTree = "<group>"; };
 		1AE0674A194BBA4E00873E8A /* TableSchemerTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TableSchemerTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme_Tests.swift; sourceTree = "<group>"; };
+		1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedScheme.swift; sourceTree = "<group>"; };
+		1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedSchemeSet.swift; sourceTree = "<group>"; };
 		1AF584E6194A6D520090529C /* Scheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheme.swift; sourceTree = "<group>"; };
 		1AF584E8194A72810090529C /* BasicScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme.swift; sourceTree = "<group>"; };
 		1AF584EA194A75900090529C /* AccordionScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 			children = (
 				1AE06749194BB2C800873E8A /* Cells */,
 				1AF584F0194B7A5C0090529C /* Collections */,
+				1AE3EB271C04C53D00BA9D99 /* Models */,
 				1ACFAFE01A1AB2650065ADB9 /* Protocols */,
 				1AF584E3194A6CEF0090529C /* Scheme Builders */,
 				1AF584E4194A6CF70090529C /* Schemes */,
@@ -245,6 +250,15 @@
 				1AE06747194BB2C300873E8A /* SchemeCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		1AE3EB271C04C53D00BA9D99 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */,
+				1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 		1AF584E3194A6CEF0090529C /* Scheme Builders */ = {
@@ -483,6 +497,7 @@
 				1A84000A1B5DCF4600F187B6 /* InferrableRowAnimatableScheme.swift in Sources */,
 				1A8400141B5DCF4600F187B6 /* ArrayScheme.swift in Sources */,
 				1A8400151B5DCF4600F187B6 /* RadioScheme.swift in Sources */,
+				1AE3EB2B1C04C69200BA9D99 /* AttributedSchemeSet.swift in Sources */,
 				1A8400181B5DCF4600F187B6 /* TableSchemeBuilder.swift in Sources */,
 				1A8400161B5DCF4600F187B6 /* StaticScheme.swift in Sources */,
 				1A8400131B5DCF4600F187B6 /* AccordionScheme.swift in Sources */,
@@ -492,6 +507,7 @@
 				1A84000F1B5DCF4600F187B6 /* TableSchemeBatchAnimator.swift in Sources */,
 				1A84000C1B5DCF4600F187B6 /* SchemeCell.swift in Sources */,
 				1A8400121B5DCF4600F187B6 /* BasicScheme.swift in Sources */,
+				1AE3EB291C04C55200BA9D99 /* AttributedScheme.swift in Sources */,
 				1A84000D1B5DCF4600F187B6 /* SchemeSet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

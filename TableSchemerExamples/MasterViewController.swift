@@ -69,7 +69,7 @@ class MasterViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Accordion Sample"
+                builder.headerText = "Accordion Sample"
                 
                 builder.buildScheme { (scheme: AccordionScheme) in
                     scheme.reuseIdentifier = ReuseIdentifier
@@ -99,7 +99,7 @@ class MasterViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Array Sample"
+                builder.headerText = "Array Sample"
                 
                 builder.buildScheme { (scheme: ArrayScheme<String, UITableViewCell>) in
                     scheme.reuseIdentifier = ReuseIdentifier
@@ -126,7 +126,7 @@ class MasterViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.name = "Radio Sample"
+                builder.headerText = "Radio Sample"
                 
                 builder.buildScheme { (scheme: RadioScheme) in
                     scheme.useReuseIdentifier(ReuseIdentifier, withNumberOfOptions: 5)

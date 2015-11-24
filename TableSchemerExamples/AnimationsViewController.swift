@@ -80,7 +80,7 @@ class AnimationsViewController: UITableViewController {
             }
             
             hiddenSchemeSet = builder.buildSchemeSet { builder in
-                builder.name = "Hidden Sample"
+                builder.headerText = "Hidden Sample"
                 builder.hidden = true
                 
                 toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
@@ -126,7 +126,7 @@ class AnimationsViewController: UITableViewController {
         
         
             builder.buildSchemeSet { builder in
-                builder.name = "Intrascheme Animations"
+                builder.headerText = "Intrascheme Animations"
                 
                 /* 
                 The following two schemes are an example of explicitly giving the animations the table view
@@ -250,7 +250,11 @@ class AnimationsViewController: UITableViewController {
     func buttonPressed(button: UIButton) {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
             if tuple.scheme === toggleHiddenSchemeSetScheme {
-                if hiddenSchemeSet.hidden {
+                guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === self.hiddenSchemeSet }) else {
+                    return
+                }
+
+                if tableScheme.attributedSchemeSets[index].hidden {
                     tableScheme.showSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Bottom)
                 } else {
                     tableScheme.hideSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Top)

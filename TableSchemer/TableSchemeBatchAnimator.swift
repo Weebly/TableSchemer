@@ -16,12 +16,13 @@ import UIKit
 public final class TableSchemeBatchAnimator {
     private struct Row {
         let animation: UITableViewRowAnimation
-        let schemeItem: SchemeItem
+        let attributedSchemeSetIndex: Array<AttributedSchemeSet>.Index
+        let attributedSchemeIndex: Array<AttributedScheme>.Index
     }
     
     private struct Section {
         let animation: UITableViewRowAnimation
-        let schemeSet: SchemeSet
+        let attributedSchemeSetIndex: Array<AttributedSchemeSet>.Index
     }
     
     private var rowInsertions = [Row]()
@@ -48,7 +49,8 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        rowInsertions.append(Row(animation: rowAnimation, schemeItem: tableScheme.schemeItemWithScheme(scheme)))
+        let indexes = tableScheme.attributedSchemeIndexesWithScheme(scheme)!
+        rowInsertions.append(Row(animation: rowAnimation, attributedSchemeSetIndex: indexes.schemeSetIndex, attributedSchemeIndex: indexes.schemeIndex))
     }
     
     /**
@@ -60,7 +62,8 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        rowDeletions.append(Row(animation: rowAnimation, schemeItem: tableScheme.schemeItemWithScheme(scheme)))
+        let indexes = tableScheme.attributedSchemeIndexesWithScheme(scheme)!
+        rowDeletions.append(Row(animation: rowAnimation, attributedSchemeSetIndex: indexes.schemeSetIndex, attributedSchemeIndex: indexes.schemeIndex))
     }
     
     /**
@@ -72,7 +75,8 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadScheme(scheme: Scheme, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        rowReloads.append(Row(animation: rowAnimation, schemeItem: tableScheme.schemeItemWithScheme(scheme)))
+        let indexes = tableScheme.attributedSchemeIndexesWithScheme(scheme)!
+        rowReloads.append(Row(animation: rowAnimation, attributedSchemeSetIndex: indexes.schemeSetIndex, attributedSchemeIndex: indexes.schemeIndex))
     }
     
     /**
@@ -84,7 +88,12 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func showSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        sectionInsertions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
+        guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+            NSLog("ERROR: Could not locate \(schemeSet) within \(tableScheme)")
+            return
+        }
+
+        sectionInsertions.append(Section(animation: rowAnimation, attributedSchemeSetIndex: index))
     }
     
     /**
@@ -96,7 +105,12 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func hideSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        sectionDeletions.append(Section(animation: rowAnimation, schemeSet: schemeSet))
+        guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+            NSLog("ERROR: Could not locate \(schemeSet) within \(tableScheme)")
+            return
+        }
+
+        sectionDeletions.append(Section(animation: rowAnimation, attributedSchemeSetIndex: index))
     }
     
     /**
@@ -108,25 +122,33 @@ public final class TableSchemeBatchAnimator {
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
     public func reloadSchemeSet(schemeSet: SchemeSet, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
-        sectionReloads.append(Section(animation: rowAnimation, schemeSet: schemeSet))
+        guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+            NSLog("ERROR: Could not locate \(schemeSet) within \(tableScheme)")
+            return
+        }
+
+        sectionReloads.append(Section(animation: rowAnimation, attributedSchemeSetIndex: index))
     }
     
     // MARK: - Internal methods
     func performVisibilityChanges() {
         // Don't notify table view of changes in hidden scheme sets, or scheme sets we're already notifying about.
-        let ignoredSchemeSets = tableScheme.schemeSets.filter { $0.hidden } + (sectionDeletions + sectionInsertions + sectionReloads).map { $0.schemeSet }
+        let hiddenSchemeSets = tableScheme.attributedSchemeSets.filter({ $0.hidden }).map({ $0.schemeSet })
+        let mutatedSchemeSets = (sectionDeletions + sectionInsertions + sectionReloads).map { self.tableScheme.attributedSchemeSets[$0.attributedSchemeSetIndex].schemeSet }
+        let ignoredSchemeSets: [SchemeSet] = hiddenSchemeSets + mutatedSchemeSets
 
         // Get the index paths of the schemes we are deleting. This will give us the deletion index paths. We need to do
         // this before marking them as hidden so indexPathForScheme doesn't skip it
 
         let deleteRows = rowDeletions.filter { row in
-            ignoredSchemeSets.indexOf { self.tableScheme.schemeSetWithScheme(row.schemeItem.scheme) === $0 } == nil
+            ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
-            
-            memo[change.animation]! += self.tableScheme.indexPathsForScheme(change.schemeItem.scheme)
+
+            let scheme = self.tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet.attributedSchemes[change.attributedSchemeIndex].scheme
+            memo[change.animation]! += self.tableScheme.indexPathsForScheme(scheme)
             
             return memo
         }
@@ -135,8 +157,10 @@ public final class TableSchemeBatchAnimator {
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }
-            
-            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(change.schemeSet))
+
+            let schemeSet = tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet
+
+            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(schemeSet))
             
             return memo
         }
@@ -144,13 +168,14 @@ public final class TableSchemeBatchAnimator {
         // We also need the index paths of the reloaded schemes and sections before making changes to the table.
         
         let reloadRows = rowReloads.filter { row in
-            ignoredSchemeSets.indexOf { self.tableScheme.schemeSetWithScheme(row.schemeItem.scheme) === $0 } == nil
+            ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
-            
-            memo[change.animation]! += self.tableScheme.indexPathsForScheme(change.schemeItem.scheme)
+
+            let scheme = self.tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet.attributedSchemes[change.attributedSchemeIndex].scheme
+            memo[change.animation]! += self.tableScheme.indexPathsForScheme(scheme)
             
             return memo
         }
@@ -159,8 +184,10 @@ public final class TableSchemeBatchAnimator {
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }
+
+            let schemeSet = tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet
             
-            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(change.schemeSet))
+            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(schemeSet))
             
             return memo
         }
@@ -168,32 +195,33 @@ public final class TableSchemeBatchAnimator {
         // Now update the visibility of all our batches
         
         for change in rowInsertions {
-            change.schemeItem.hidden = false
+            tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet.attributedSchemes[change.attributedSchemeIndex].hidden = false
         }
         
         for change in rowDeletions {
-            change.schemeItem.hidden = true
+            tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet.attributedSchemes[change.attributedSchemeIndex].hidden = true
         }
         
         for change in sectionDeletions {
-            change.schemeSet._hidden = true
+            tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].hidden = true
         }
         
         for change in sectionInsertions {
-            change.schemeSet._hidden = false
+            tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].hidden = false
         }
         
         // Now obtain the index paths for the inserted schemes. These will have their inserted index paths, skipping ones removed,
         // and correctly finding the ones that are visible
         
         let insertRows = rowInsertions.filter { row in
-            ignoredSchemeSets.indexOf { self.tableScheme.schemeSetWithScheme(row.schemeItem.scheme) === $0 } == nil
+            ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
         }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
-            
-            memo[change.animation]! += self.tableScheme.indexPathsForScheme(change.schemeItem.scheme)
+
+            let scheme = self.tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet.attributedSchemes[change.attributedSchemeIndex].scheme
+            memo[change.animation]! += self.tableScheme.indexPathsForScheme(scheme)
             
             return memo
         }
@@ -202,8 +230,10 @@ public final class TableSchemeBatchAnimator {
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }
+
+            let schemeSet = tableScheme.attributedSchemeSets[change.attributedSchemeSetIndex].schemeSet
             
-            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(change.schemeSet))
+            memo[change.animation]!.addIndex(self.tableScheme.sectionForSchemeSet(schemeSet))
             
             return memo
         }
