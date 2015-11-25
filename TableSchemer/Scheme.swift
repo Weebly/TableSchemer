@@ -97,17 +97,11 @@ public protocol Scheme: class {
     func heightForRelativeIndex(relativeIndex: Int) -> RowHeight
 }
 
-private var uniqueSchemeIdentifier = 0
-
 extension Scheme {
 
     public final func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)
         return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
-    }
-
-    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return "ts-def-id-\(uniqueSchemeIdentifier++)"
     }
 
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
