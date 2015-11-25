@@ -22,18 +22,9 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     public typealias ConfigurationHandler = (cell: U, object: T) -> Void
     public typealias SelectionHandler = (cell: U, scheme: ArrayScheme<T, U>, object: T) -> Void
     public typealias HeightHandler = (object: T) -> RowHeight
-    
-    /** The reuseIdentifier for this scheme. 
 
-        Unlike other `Scheme` implementations that have an identifier
-        for each cell that is being generated, this class takes a single
-        reuse identifier for all cells. This is because this scheme is
-        meant to be used with closely related cells.
-     */
-    public var reuseIdentifier: String!
-    
     /** The objects this scheme is representing */
-    public var objects: [T]!
+    public var objects: [T]
     
     /** The closure called to determine the height of this cell.
      *
@@ -62,36 +53,32 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
         return objects.count
     }
     
-    required public init() { }
+    public init(objects: [T], configurationHandler: ConfigurationHandler) {
+        self.objects = objects
+        self.configurationHandler = configurationHandler
+    }
     
     // MARK: Public Instance Methods
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as! U, object: objects![relativeIndex])
+        configurationHandler(cell: cell as! U, object: objects[relativeIndex])
     }
     
     public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as! U, scheme: self, object: objects![relativeIndex])
+            sh(cell: cell as! U, scheme: self, object: objects[relativeIndex])
         }
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return reuseIdentifier
+        return String(U.self)
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         if let hh = heightHandler {
-            return hh(object: objects![relativeIndex])
+            return hh(object: objects[relativeIndex])
         } else {
             return .UseTable
         }
-    }
-    
-    public func isValid() -> Bool {
-        assert(reuseIdentifier != nil)
-        assert(objects != nil)
-        assert(configurationHandler != nil)
-        return reuseIdentifier != nil && objects != nil && configurationHandler != nil
     }
 
 }
@@ -101,7 +88,15 @@ extension ArrayScheme: InferrableRowAnimatableScheme {
     public typealias IdentifierType = T
     
     public var rowIdentifiers: [IdentifierType] {
-        return objects!
+        return objects
+    }
+
+}
+
+extension ArrayScheme: InferrableReuseIdentifierScheme {
+
+    public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(U.self), cellType: U.self)]
     }
 
 }

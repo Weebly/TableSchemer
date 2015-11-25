@@ -20,13 +20,7 @@ class RadioScheme_Tests: XCTestCase {
         subject = nil
         super.tearDown()
     }
-    
-    // MARK: Validation
-    func testValidate_withAllRequiredProperties_returnsTrue() {
-        configureSubjectWithConfigurationHandler()
-        XCTAssertTrue(subject.isValid())
-    }
-    
+
     // MARK: Configuring Cell
     func testConfigureCell_configuresCellWithCellAndRelativeIndex() {
         var passedCell: UITableViewCell?
@@ -147,23 +141,10 @@ class RadioScheme_Tests: XCTestCase {
         
         XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
     }
-    
-    func testUsingReuseIdentifierWithNumberOfOptions_setsReuseIdentifiersToSameReuseIdentifierXTimes() {
-        configureSubjectWithConfigurationHandler()
-        subject.useReuseIdentifier(ReuseIdentifier1, withNumberOfOptions: 5)
         
-        XCTAssertEqual(subject.reuseIdentifiers![0], ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifiers![1], ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifiers![2], ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifiers![3], ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifiers![4], ReuseIdentifier1)
-    }
-    
     // MARK: Test Configuration
     func configureSubjectWithConfigurationHandler(configurationHandler: RadioScheme<UITableViewCell>.ConfigurationHandler = {(cell, index) in }, selectionHandler: RadioScheme<UITableViewCell>.SelectionHandler = {(cell, scheme, index) in}) {
-        subject = RadioScheme()
-        subject.reuseIdentifiers = [ReuseIdentifier1, ReuseIdentifier2]
-        subject.configurationHandler = configurationHandler
+        subject = RadioScheme(expandedCellTypes: [MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier1),MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier2)], configurationHandler: configurationHandler)
         subject.selectionHandler = selectionHandler
     }
 }

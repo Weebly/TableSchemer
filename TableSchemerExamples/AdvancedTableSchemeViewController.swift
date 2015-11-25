@@ -46,13 +46,11 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func buildAndSetTableScheme() {
-        tableScheme = TableScheme { builder in
+        tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
                 builder.headerText = "Switches"
                 
-                firstSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = SwitchReuseIdentifier
-                    
+                firstSwitchScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "First Switch"
                         cell.selectionStyle = .None
@@ -63,9 +61,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
                 
-                secondSwitchScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = SwitchReuseIdentifier
-                    
+                secondSwitchScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "Second Switch"
                         cell.selectionStyle = .None
@@ -82,9 +78,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 builder.headerText = "Text Input"
                 builder.footerText = "Section footer text"
                 
-                firstFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
-                    scheme.reuseIdentifier = InputReuseIdentifier
-                    
+                firstFieldScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<InputFieldCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "First Input:"
@@ -95,9 +89,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     }
                 }
                 
-                secondFieldScheme = builder.buildScheme { (scheme: BasicScheme<InputFieldCell>) in
-                    scheme.reuseIdentifier = InputReuseIdentifier
-                    
+                secondFieldScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<InputFieldCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.selectionStyle = .None
                         cell.label.text = "Email:"
@@ -112,8 +104,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.headerText = "Buttons!"
                 
-                buttonsScheme = builder.buildScheme { (scheme: ArrayScheme<String, SchemeCell>) in
-                    scheme.reuseIdentifier = BasicReuseIdentifier
+                buttonsScheme = builder.buildScheme { (scheme: ArraySchemeBuilder<String, SchemeCell>) in
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
                     
                     scheme.configurationHandler = { [unowned self] cell, object in
@@ -158,7 +149,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     func buttonPressed(button: UIButton) {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
             if tuple.scheme === buttonsScheme {
-                let object = buttonsScheme.objects![tuple.index]
+                let object = buttonsScheme.objects[tuple.index]
                 print("You pressed the button with object: \(object)")
             }
         }

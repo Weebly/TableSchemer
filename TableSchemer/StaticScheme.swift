@@ -11,19 +11,14 @@ import UIKit
 public class StaticScheme<T: UITableViewCell>: BasicScheme<T> {
 
     /** The precreated cell to use. */
-    public var cell: T?
+    public var cell: T
 
-    required public init() {
-        super.init()
+    public init(cell: T, configurationHandler: ConfigurationHandler) {
+        self.cell = cell
+        super.init(configurationHandler: configurationHandler)
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
-        return cell!
+        return cell
     }
-
-    override public func isValid() -> Bool  {
-        assert(cell != nil)
-        return cell != nil
-    }
-
 }

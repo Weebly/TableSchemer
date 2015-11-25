@@ -11,7 +11,7 @@ import UIKit
 import TableSchemer
 
 class BasicScheme_Tests: XCTestCase {
-    let ReuseIdentifier = "ReuseIdentifier"
+    let ReuseIdentifier = "UITableViewCell"
     var subject: BasicScheme<UITableViewCell>!
     
     // MARK: Setup and Teardown
@@ -22,16 +22,10 @@ class BasicScheme_Tests: XCTestCase {
 
     // MARK: Instantiation
     func testInitDefaultsRowHeightToUseTableView() {
-        subject = BasicScheme()
+        configureSubjectWithHandler()
         XCTAssert(subject.height == RowHeight.UseTable)
     }
-    
-    // MARK: Validation
-    func testValidate_withAllRequiredProperties_returnsTrue() {
-        configureSubjectWithHandler()
-        XCTAssertTrue(subject.isValid())
-    }
-    
+
     // MARK: Scheme Abstract Method Overrides
     func testConfigureCell_callsConfigurationBlockWithCell() {
         var passedCell: UITableViewCell?
@@ -80,8 +74,6 @@ class BasicScheme_Tests: XCTestCase {
     
     // MARK: Test Configuration
     func configureSubjectWithHandler(handler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }) {
-        subject = BasicScheme()
-        subject.reuseIdentifier = ReuseIdentifier
-        subject.configurationHandler = handler
+        subject = BasicScheme(configurationHandler: handler)
     }
 }

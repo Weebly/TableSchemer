@@ -49,8 +49,8 @@ class TableScheme_Tests: XCTestCase {
         schemeSet3 = SchemeSet(schemes: [schemeSet3Scheme1])
         schemeSet4 = SchemeSet(schemes: [schemeSet4Scheme1, schemeSet4Scheme2, schemeSet4Scheme3], headerText: "Second Test Scheme Set", footerText: "Foo Bar")
         
-        subject = TableScheme(schemeSets: [schemeSet1, schemeSet2, schemeSet3, schemeSet4])
         tableView = UITableView()
+        subject = TableScheme(tableView: tableView, schemeSets: [schemeSet1, schemeSet2, schemeSet3, schemeSet4])
     }
     
     override func tearDown() {

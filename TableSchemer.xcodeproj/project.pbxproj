@@ -37,6 +37,14 @@
 		1AE0674C194BBA4E00873E8A /* BasicScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */; };
 		1AE3EB291C04C55200BA9D99 /* AttributedScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */; };
 		1AE3EB2B1C04C69200BA9D99 /* AttributedSchemeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */; };
+		1AE3EB2D1C05007900BA9D99 /* SchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2C1C05007900BA9D99 /* SchemeBuilder.swift */; };
+		1AE3EB2F1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2E1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift */; };
+		1AE3EB311C06405E00BA9D99 /* MultipleCellTypePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */; };
+		1AE3EB331C064FB200BA9D99 /* BasicSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB321C064FB200BA9D99 /* BasicSchemeBuilder.swift */; };
+		1AE3EB351C06502700BA9D99 /* AccordionSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB341C06502700BA9D99 /* AccordionSchemeBuilder.swift */; };
+		1AE3EB371C06504300BA9D99 /* ArraySchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB361C06504300BA9D99 /* ArraySchemeBuilder.swift */; };
+		1AE3EB391C06505900BA9D99 /* RadioSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB381C06505900BA9D99 /* RadioSchemeBuilder.swift */; };
+		1AE3EB3B1C06507100BA9D99 /* StaticSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB3A1C06507100BA9D99 /* StaticSchemeBuilder.swift */; };
 		1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */; };
 		65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */; };
 /* End PBXBuildFile section */
@@ -92,6 +100,14 @@
 		1AE0674B194BBA4E00873E8A /* BasicScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme_Tests.swift; sourceTree = "<group>"; };
 		1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedScheme.swift; sourceTree = "<group>"; };
 		1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedSchemeSet.swift; sourceTree = "<group>"; };
+		1AE3EB2C1C05007900BA9D99 /* SchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeBuilder.swift; sourceTree = "<group>"; };
+		1AE3EB2E1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferrableReuseIdentifierScheme.swift; sourceTree = "<group>"; };
+		1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleCellTypePair.swift; sourceTree = "<group>"; };
+		1AE3EB321C064FB200BA9D99 /* BasicSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicSchemeBuilder.swift; sourceTree = "<group>"; };
+		1AE3EB341C06502700BA9D99 /* AccordionSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionSchemeBuilder.swift; sourceTree = "<group>"; };
+		1AE3EB361C06504300BA9D99 /* ArraySchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySchemeBuilder.swift; sourceTree = "<group>"; };
+		1AE3EB381C06505900BA9D99 /* RadioSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioSchemeBuilder.swift; sourceTree = "<group>"; };
+		1AE3EB3A1C06507100BA9D99 /* StaticSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticSchemeBuilder.swift; sourceTree = "<group>"; };
 		1AF584E6194A6D520090529C /* Scheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheme.swift; sourceTree = "<group>"; };
 		1AF584E8194A72810090529C /* BasicScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicScheme.swift; sourceTree = "<group>"; };
 		1AF584EA194A75900090529C /* AccordionScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme.swift; sourceTree = "<group>"; };
@@ -231,7 +247,10 @@
 		1ACFAFE01A1AB2650065ADB9 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				1AE3EB2E1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift */,
 				1ACFAFE11A1AB2960065ADB9 /* InferrableRowAnimatableScheme.swift */,
+				1AF584E6194A6D520090529C /* Scheme.swift */,
+				1AE3EB2C1C05007900BA9D99 /* SchemeBuilder.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -257,6 +276,7 @@
 			children = (
 				1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */,
 				1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */,
+				1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -264,7 +284,12 @@
 		1AF584E3194A6CEF0090529C /* Scheme Builders */ = {
 			isa = PBXGroup;
 			children = (
+				1AE3EB341C06502700BA9D99 /* AccordionSchemeBuilder.swift */,
+				1AE3EB361C06504300BA9D99 /* ArraySchemeBuilder.swift */,
+				1AE3EB321C064FB200BA9D99 /* BasicSchemeBuilder.swift */,
+				1AE3EB381C06505900BA9D99 /* RadioSchemeBuilder.swift */,
 				1AF584F3194B817F0090529C /* SchemeSetBuilder.swift */,
+				1AE3EB3A1C06507100BA9D99 /* StaticSchemeBuilder.swift */,
 				1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */,
 			);
 			name = "Scheme Builders";
@@ -277,7 +302,6 @@
 				1AF584EC194A807A0090529C /* ArrayScheme.swift */,
 				1AF584E8194A72810090529C /* BasicScheme.swift */,
 				1AF584EE194B6F0E0090529C /* RadioScheme.swift */,
-				1AF584E6194A6D520090529C /* Scheme.swift */,
 				61E259621ABCD958005297C9 /* StaticScheme.swift */,
 			);
 			name = Schemes;
@@ -494,18 +518,26 @@
 			files = (
 				1A84000B1B5DCF4600F187B6 /* ViewExtensions.swift in Sources */,
 				1A8400101B5DCF4600F187B6 /* SchemeRowAnimators.swift in Sources */,
+				1AE3EB3B1C06507100BA9D99 /* StaticSchemeBuilder.swift in Sources */,
 				1A84000A1B5DCF4600F187B6 /* InferrableRowAnimatableScheme.swift in Sources */,
+				1AE3EB311C06405E00BA9D99 /* MultipleCellTypePair.swift in Sources */,
 				1A8400141B5DCF4600F187B6 /* ArrayScheme.swift in Sources */,
 				1A8400151B5DCF4600F187B6 /* RadioScheme.swift in Sources */,
+				1AE3EB391C06505900BA9D99 /* RadioSchemeBuilder.swift in Sources */,
 				1AE3EB2B1C04C69200BA9D99 /* AttributedSchemeSet.swift in Sources */,
+				1AE3EB2F1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift in Sources */,
 				1A8400181B5DCF4600F187B6 /* TableSchemeBuilder.swift in Sources */,
 				1A8400161B5DCF4600F187B6 /* StaticScheme.swift in Sources */,
 				1A8400131B5DCF4600F187B6 /* AccordionScheme.swift in Sources */,
+				1AE3EB331C064FB200BA9D99 /* BasicSchemeBuilder.swift in Sources */,
 				1A84000E1B5DCF4600F187B6 /* TableScheme.swift in Sources */,
 				1A8400111B5DCF4600F187B6 /* Scheme.swift in Sources */,
 				1A8400171B5DCF4600F187B6 /* SchemeSetBuilder.swift in Sources */,
 				1A84000F1B5DCF4600F187B6 /* TableSchemeBatchAnimator.swift in Sources */,
+				1AE3EB2D1C05007900BA9D99 /* SchemeBuilder.swift in Sources */,
+				1AE3EB351C06502700BA9D99 /* AccordionSchemeBuilder.swift in Sources */,
 				1A84000C1B5DCF4600F187B6 /* SchemeCell.swift in Sources */,
+				1AE3EB371C06504300BA9D99 /* ArraySchemeBuilder.swift in Sources */,
 				1A8400121B5DCF4600F187B6 /* BasicScheme.swift in Sources */,
 				1AE3EB291C04C55200BA9D99 /* AttributedScheme.swift in Sources */,
 				1A84000D1B5DCF4600F187B6 /* SchemeSet.swift in Sources */,

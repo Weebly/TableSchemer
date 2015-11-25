@@ -37,11 +37,10 @@ class MasterViewController: UITableViewController {
     }
     
     func createTableScheme() {
-        tableScheme = TableScheme { builder in
+        tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
-                builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                builder.buildScheme { (scheme: BasicSchemeBuilder) in
+
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for animation examples."
                         cell.accessoryType = .DisclosureIndicator
@@ -53,9 +52,7 @@ class MasterViewController: UITableViewController {
                     }
                 }
                 
-                builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for an advanced example."
                         cell.accessoryType = .DisclosureIndicator
@@ -71,19 +68,18 @@ class MasterViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.headerText = "Accordion Sample"
                 
-                builder.buildScheme { (scheme: AccordionScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    scheme.accordionReuseIdentifiers = [String](count: 3, repeatedValue: ReuseIdentifier)
+                builder.buildScheme { (scheme: AccordionSchemeBuilder) in
+                    scheme.expandedCellTypes = [MultipleCellTypePair](count: 3, repeatedValue: MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier))
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
-                    scheme.configurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned(unsafe) references for the config/selection handlers
+                    scheme.collapsedCellConfigurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned(unsafe) references for the config/selection handlers
                         _ = cell.textLabel?.text = "Selected Index: \(self.accordionSelection)"
                     }
                     
-                    scheme.selectionHandler = { cell, scheme in
+                    scheme.collapsedCellSelectionHandler = { cell, scheme in
                         print("Opening Accordion!")
                     }
                     
-                    scheme.accordionConfigurationHandler = { [unowned self] cell, index in
+                    scheme.expandedCellConfigurationHandler = { [unowned self] cell, index in
                         cell.textLabel?.text = "Accordion Expanded Cell \(index + 1)"
                         if index == self.accordionSelection {
                             cell.accessoryType = .Checkmark
@@ -92,7 +88,7 @@ class MasterViewController: UITableViewController {
                         }
                     }
                     
-                    scheme.accordionSelectionHandler = { [unowned self] cell, scheme, selectedIndex in
+                    scheme.expandedCellSelectionHandler = { [unowned self] cell, scheme, selectedIndex in
                         self.accordionSelection = selectedIndex
                     }
                 }
@@ -101,8 +97,7 @@ class MasterViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.headerText = "Array Sample"
                 
-                builder.buildScheme { (scheme: ArrayScheme<String, UITableViewCell>) in
-                    scheme.reuseIdentifier = ReuseIdentifier
+                builder.buildScheme { (scheme: ArraySchemeBuilder<String, UITableViewCell>) in
                     scheme.objects = arrayObjects
                     
                     scheme.heightHandler = { object in
@@ -128,11 +123,11 @@ class MasterViewController: UITableViewController {
             builder.buildSchemeSet { builder in
                 builder.headerText = "Radio Sample"
                 
-                builder.buildScheme { (scheme: RadioScheme) in
-                    scheme.useReuseIdentifier(ReuseIdentifier, withNumberOfOptions: 5)
+                builder.buildScheme { (scheme: RadioSchemeBuilder) in
+                    scheme.expandedCellTypes = [MultipleCellTypePair](count: 5, repeatedValue: MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier))
                     
                     scheme.configurationHandler = { cell, index in
-                        _ = cell.textLabel?.text = "Radio Button \(index + 1)"
+                        cell.textLabel?.text = "Radio Button \(index + 1)"
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, scheme, index in

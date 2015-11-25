@@ -45,16 +45,6 @@ public protocol Scheme: class {
      */
     var numberOfCells: Int { get }
 
-    init()
-
-    /** 
-     *  This method verifies that the `Scheme` has all the required properties to be used in a `TableScheme`.
-     *  This method is used by `SchemeSetBuilder`. You should not call this method yourself.
-     *
-     *  - returns:   true if the Scheme is configured with the minimally required properties, or false.
-     */
-    func isValid() -> Bool
-
     /**
         This method is called by `TableScheme` when the cell needs
         to be configured. It will be passed the cell being created and
@@ -111,21 +101,13 @@ private var uniqueSchemeIdentifier = 0
 
 extension Scheme {
 
-    public var numberOfCells: Int {
-        return 1
-    }
-
-    public func isValid() -> Bool {
-        return true
-    }
-
     public final func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)
         return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
     }
 
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return String(uniqueSchemeIdentifier++)
+        return "ts-def-id-\(uniqueSchemeIdentifier++)"
     }
 
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {

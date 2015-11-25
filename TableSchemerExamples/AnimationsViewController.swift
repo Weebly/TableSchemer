@@ -28,10 +28,10 @@ class AnimationsViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Schemes Animations and More"
-        createTableScheme()
-        
-        tableView.rowHeight = 44.0
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
+        createTableScheme()
+
+        tableView.rowHeight = 44.0
         tableView.dataSource = tableScheme
     }
     
@@ -45,12 +45,10 @@ class AnimationsViewController: UITableViewController {
     }
     
     func createTableScheme() {
-        tableScheme = TableScheme { builder in
+        tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
                 // Demonstrate cell reloading by using a random number in each configuration
-                randomNumberScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                randomNumberScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<SchemeCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
@@ -59,13 +57,11 @@ class AnimationsViewController: UITableViewController {
                     }
                     
                     scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
-                        _ = self.tableScheme.reloadScheme(self.randomNumberScheme, inTableView: self.tableView, withRowAnimation: .Fade)
+                        self.tableScheme.reloadScheme(self.randomNumberScheme, inTableView: self.tableView, withRowAnimation: .Fade)
                     }
                 }
                 
-                self.toggleHiddenSchemeSetScheme = builder.buildScheme { (scheme: BasicScheme<SchemeCell>) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                self.toggleHiddenSchemeSetScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<SchemeCell>) in
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
@@ -83,9 +79,8 @@ class AnimationsViewController: UITableViewController {
                 builder.headerText = "Hidden Sample"
                 builder.hidden = true
                 
-                toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                toggleHiddenSchemesScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
+
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
@@ -98,8 +93,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme1 = builder.buildScheme { (scheme: BasicScheme, inout hidden: Bool) in
-                    scheme.reuseIdentifier = ReuseIdentifier
+                hiddenScheme1 = builder.buildScheme { (scheme: BasicSchemeBuilder, inout hidden: Bool) in
                     hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
@@ -111,8 +105,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme2 = builder.buildScheme { (scheme: BasicScheme, inout hidden: Bool) in
-                    scheme.reuseIdentifier = ReuseIdentifier
+                hiddenScheme2 = builder.buildScheme { (scheme: BasicSchemeBuilder, inout hidden: Bool) in
                     hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
@@ -137,9 +130,7 @@ class AnimationsViewController: UITableViewController {
                 Note that you still need to update the objects array, otherwise you'll get errors when the cells
                 get configured.
                 */
-                builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
@@ -177,8 +168,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                toggledArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
+                toggledArrayScheme = builder.buildScheme { (scheme: ArraySchemeBuilder<Int, SchemeCell>) in
                     scheme.objects = [1,2,3,4,5,6,7,8,9]
                     
                     scheme.configurationHandler = { [unowned self] cell, object in
@@ -196,9 +186,8 @@ class AnimationsViewController: UITableViewController {
                 The one requirement to support inferred animations is that the scheme conform to InferrableRowAnimatableScheme. The builtin 
                 ArrayScheme conforms to it, so for most cases it should be free to use!
                 */
-                builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = ReuseIdentifier
-                    
+                builder.buildScheme { (scheme: BasicSchemeBuilder) in
+
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.selectionStyle = .None
@@ -212,8 +201,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                randomizedArrayScheme = builder.buildScheme { (scheme: ArrayScheme<Int, SchemeCell>) in
-                    scheme.reuseIdentifier = ReuseIdentifier
+                randomizedArrayScheme = builder.buildScheme { (scheme: ArraySchemeBuilder<Int, SchemeCell>) in
                     scheme.objects = generateRandomizedArray()
                     
                     scheme.configurationHandler = { [unowned self] cell, object in

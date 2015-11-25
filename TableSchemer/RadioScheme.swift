@@ -29,7 +29,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     public var selectedIndex = 0
     
     /** The reuse identifiers that each cell will use. */
-    public var reuseIdentifiers: [String]!
+    public var expandedCellTypes: [MultipleCellTypePair]
     
     /** The heights that the cells should have if asked. */
     public var heights: [RowHeight]?
@@ -43,18 +43,18 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
      *  by the table view delegate.
     */
     public var selectionHandler: SelectionHandler?
-    
-    required public init() { }
+
+    public init(expandedCellTypes: [MultipleCellTypePair], configurationHandler: ConfigurationHandler) {
+        self.expandedCellTypes = expandedCellTypes
+        self.configurationHandler = configurationHandler
+    }
     
     // MARK: Property Overrides
     public var numberOfCells: Int {
-        return reuseIdentifiers.count
+        return reusePairs.count
     }
     
     // MARK: Public Instance Methods
-    public func useReuseIdentifier(reuseIdentifier: String, withNumberOfOptions numberOfOptions: Int) {
-        reuseIdentifiers = [String](count: numberOfOptions, repeatedValue: reuseIdentifier)
-    }
     
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         configurationHandler(cell: cell as! T, index: relativeIndex)
@@ -87,7 +87,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return reuseIdentifiers[relativeIndex]
+        return expandedCellTypes[relativeIndex].identifier
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
@@ -101,12 +101,13 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
         
         return height
     }
-    
-    public func isValid() -> Bool {
-        assert(reuseIdentifiers != nil)
-        assert(configurationHandler != nil)
 
-        return reuseIdentifiers != nil && configurationHandler != nil
+}
+
+extension RadioScheme: InferrableReuseIdentifierScheme {
+
+    public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return expandedCellTypes.map { (identifier: $0.identifier, cellType: $0.cellType) }
     }
 
 }

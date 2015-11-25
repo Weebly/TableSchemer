@@ -16,7 +16,7 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class BasicScheme<T: UITableViewCell>: Scheme {
+public class BasicScheme<T: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
 
     public typealias ConfigurationHandler = (cell: T) -> Void
     public typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
@@ -36,8 +36,12 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
         by the table view delegate.
      */
     public var selectionHandler: SelectionHandler?
-    
-    required public init() { }
+
+    public var numberOfCells: Int { return 1 }
+
+    public init(configurationHandler: ConfigurationHandler) {
+        self.configurationHandler = configurationHandler
+    }
     
     // MARK: Public Instance Methods
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
@@ -51,17 +55,15 @@ public class BasicScheme<T: UITableViewCell>: Scheme {
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
-        return reuseIdentifier
+        return String(T.self)
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         return height
     }
-    
-    public func isValid() -> Bool  {
-        assert(reuseIdentifier != nil)
-        assert(configurationHandler != nil)
-        return reuseIdentifier != nil && configurationHandler != nil
+
+    public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(T.self), cellType: T.self)]
     }
 
 }

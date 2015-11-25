@@ -45,27 +45,35 @@ public final class SchemeSetBuilder {
         - parameter     handler:    The closure to configure the scheme.
         - returns:                  The created Scheme instance.
      */
-    public func buildScheme<T: Scheme>(@noescape handler: (scheme: T, inout hidden: Bool) -> Void) -> T {
-        let scheme = T()
+    public func buildScheme<T: SchemeBuilder>(@noescape handler: (builder: T, inout hidden: Bool) -> Void) -> T.SchemeType? {
+        let builder = T()
         var hidden = false
-        handler(scheme: scheme, hidden: &hidden)
-        
-        if scheme.isValid() {
+        handler(builder: builder, hidden: &hidden)
+
+        do {
+            let scheme = try builder.createScheme()
             attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
+            return scheme
+        } catch let error {
+            NSLog("ERROR: Unable to add scheme due to error: \(error)")
         }
-        
-        return scheme
+
+        return nil
     }
 
-    public func buildScheme<T: Scheme>(@noescape handler: (scheme: T) -> Void) -> T {
-        let scheme = T()
-        handler(scheme: scheme)
+    public func buildScheme<T: SchemeBuilder>(@noescape handler: (builder: T) -> Void) -> T.SchemeType? {
+        let builder = T()
+        handler(builder: builder)
 
-        if scheme.isValid() {
+        do {
+            let scheme = try builder.createScheme()
             attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))
+            return scheme
+        } catch let error {
+            NSLog("ERROR: Unable to add scheme due to error: \(error)")
         }
 
-        return scheme
+        return nil
     }
     
     /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */

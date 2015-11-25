@@ -11,7 +11,7 @@ import UIKit
 import TableSchemer
 
 class ArrayScheme_Tests: XCTestCase {
-    let ReuseIdentifier = "ReuseIdentifier"
+    let ReuseIdentifier = "UITableViewCell"
     var subject: ArrayScheme<String, UITableViewCell>!
     
     // MARK: Setup and Teardown
@@ -19,13 +19,7 @@ class ArrayScheme_Tests: XCTestCase {
         subject = nil
         super.tearDown()
     }
-    
-    // MARK: Validation
-    func testValidate_withAllRequiredProperties_returnsYES() {
-        configureSubjectWithObjects()
-        XCTAssertTrue(subject.isValid())
-    }
-    
+
     // MARK: Abstract Method Overrides
     func testConfigureCell_callsConfigurationBlockWithCellAndObject() {
         var passedCell1: UITableViewCell?
@@ -115,10 +109,7 @@ class ArrayScheme_Tests: XCTestCase {
     
     // MARK: Test Configuration
     func configureSubjectWithObjects(objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
-        subject = ArrayScheme<String, UITableViewCell>()
-        subject.reuseIdentifier = ReuseIdentifier
-        subject.objects = objects
-        subject.configurationHandler = configurationHandler
+        subject = ArrayScheme<String, UITableViewCell>(objects: objects, configurationHandler: configurationHandler)
         subject.selectionHandler = selectionHandler
     }
 }

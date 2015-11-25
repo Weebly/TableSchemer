@@ -12,10 +12,9 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     public typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
     public typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
-    
-    /** The reuse identifiers used by the accordion cells. */
-    public var accordionReuseIdentifiers: [String]!
-    
+
+    public var expandedCellTypes: [MultipleCellTypePair]
+
     /** The height used for each accordion cell if asked. */
     public var accordionHeights: [RowHeight]?
     
@@ -23,7 +22,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     public var selectedIndex = 0
     
     /** The closure called to handle accordion cells when the accordion is expanded. */
-    public var accordionConfigurationHandler: AccordionConfigurationHandler!
+    public var accordionConfigurationHandler: AccordionConfigurationHandler
     
     /** The closure called when an accordion cell is selected.
      *
@@ -33,19 +32,21 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     public var accordionSelectionHandler: AccordionSelectionHandler?
     
     /** Whether the accordion is expanded or not. */
-    private var expanded = false
-    
-    required public init() {
-        super.init()
+    public var expanded = false
+
+    public init(expandedCellTypes: [MultipleCellTypePair], collapsedCellConfigurationHandler: ConfigurationHandler, expandedCellConfigurationHandler: AccordionConfigurationHandler) {
+        accordionConfigurationHandler = expandedCellConfigurationHandler
+        self.expandedCellTypes = expandedCellTypes
+        super.init(configurationHandler: collapsedCellConfigurationHandler)
     }
     
     // MARK: Property Overrides
-    public var numberOfCells: Int {
+    public override var numberOfCells: Int {
         return expanded ? numberOfItems : 1
     }
     
     public var numberOfItems: Int {
-        return accordionReuseIdentifiers.count
+        return expandedCellTypes.count
     }
 
     // MARK: Public Instance Methods
@@ -119,7 +120,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
         if expanded {
-            return accordionReuseIdentifiers![relativeIndex]
+            return expandedCellTypes[relativeIndex].identifier
         } else {
             return super.reuseIdentifierForRelativeIndex(relativeIndex)
         }
@@ -136,12 +137,9 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
             return super.heightForRelativeIndex(relativeIndex)
         }
     }
-    
-    override public func isValid() -> Bool {
-        assert(accordionReuseIdentifiers != nil)
-        assert(accordionConfigurationHandler != nil)
-        
-        return super.isValid() && accordionReuseIdentifiers != nil && accordionConfigurationHandler != nil
+
+    override public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(T.self), cellType: T.self)] + expandedCellTypes.map { (identifier: $0.identifier, cellType: $0.cellType) }
     }
 
 }
@@ -151,7 +149,8 @@ extension AccordionScheme: InferrableRowAnimatableScheme {
     public typealias IdentifierType = String
 
     public var rowIdentifiers: [IdentifierType] {
-        return expanded ? accordionReuseIdentifiers : [reuseIdentifier]
+        return expanded ? expandedCellTypes.map { $0.identifier } : [reuseIdentifier]
     }
 
 }
+

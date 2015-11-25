@@ -24,18 +24,33 @@ public class TableScheme: NSObject, UITableViewDataSource {
     private var buildingBatchAnimations = false
     #endif
     
-    public convenience init(schemeSets: [SchemeSet]) {
-        self.init(attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
+    public convenience init(tableView: UITableView, schemeSets: [SchemeSet]) {
+        self.init(tableView: tableView, attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
     }
 
-    public init(attributedSchemeSets: [AttributedSchemeSet]) {
+    public init(tableView: UITableView, attributedSchemeSets: [AttributedSchemeSet]) {
         self.attributedSchemeSets = attributedSchemeSets
+        super.init()
+
+        for attributedSchemeSet in attributedSchemeSets {
+            for attributedScheme in attributedSchemeSet.schemeSet.attributedSchemes {
+                guard let scheme = attributedScheme.scheme as? InferrableReuseIdentifierScheme else {
+                    continue
+                }
+
+                for pair in scheme.reusePairs {
+                    tableView.registerClass(pair.cellType, forCellReuseIdentifier: pair.identifier)
+                }
+            }
+        }
+
+        tableView.dataSource = self
     }
     
-    public convenience init(@noescape buildHandler: BuildHandler) {
+    public convenience init(tableView: UITableView, @noescape buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder: builder)
-        self.init(schemeSets: builder.schemeSets)
+        self.init(tableView: tableView, schemeSets: builder.schemeSets)
     }
     
     // MARK: UITableViewDataSource methods

@@ -11,7 +11,7 @@ import UIKit
 import TableSchemer
 
 class AccordionScheme_Tests: XCTestCase {
-    let ReuseIdentifier0 = "ReuseIdentifier0"
+    let ReuseIdentifier0 = "UITableViewCell"
     let ReuseIdentifier1 = "ReuseIdentifier1"
     let ReuseIdentifier2 = "ReuseIdentifier2"
     let ReuseIdentifier3 = "ReuseIdentifier3"
@@ -23,12 +23,6 @@ class AccordionScheme_Tests: XCTestCase {
         super.tearDown()
     }
 
-    // MARK: Validation
-    func testValidate_withAllRequiredProperties_returnsTrue() {
-        configureSubjectWithConfigurationHandler()
-        XCTAssertTrue(subject.isValid())
-    }
-    
     // MARK: Items
     func testItems_matchesReuseIdentifierCount() {
         configureSubjectWithConfigurationHandler()
@@ -314,10 +308,7 @@ class AccordionScheme_Tests: XCTestCase {
     
     // MARK: Test Configuration
     func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
-        subject = AccordionScheme()
-        subject.reuseIdentifier = ReuseIdentifier0
-        subject.accordionReuseIdentifiers = [ReuseIdentifier1, ReuseIdentifier2, ReuseIdentifier3]
-        subject.configurationHandler = configurationHandler
-        subject.accordionConfigurationHandler = accordionConfigurationHandler
+        let expandedCells = [MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier1), MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier2), MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier3)]
+        subject = AccordionScheme(expandedCellTypes: expandedCells, collapsedCellConfigurationHandler: configurationHandler, expandedCellConfigurationHandler: accordionConfigurationHandler)
     }
 }
