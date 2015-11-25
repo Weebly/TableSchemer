@@ -14,7 +14,7 @@ public class RadioSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public var configurationHandler: SchemeType.ConfigurationHandler?
     public var selectionHandler: SchemeType.SelectionHandler?
-    public var expandedCellTypes: [MultipleCellTypePair]?
+    public var expandedCellTypes: [UITableViewCell.Type]?
     public var selectedIndex = 0
     public var heights: [RowHeight]?
 

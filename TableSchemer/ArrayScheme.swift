@@ -17,14 +17,14 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
+public class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Scheme {
     
-    public typealias ConfigurationHandler = (cell: U, object: T) -> Void
-    public typealias SelectionHandler = (cell: U, scheme: ArrayScheme<T, U>, object: T) -> Void
-    public typealias HeightHandler = (object: T) -> RowHeight
+    public typealias ConfigurationHandler = (cell: CellType, object: ElementType) -> Void
+    public typealias SelectionHandler = (cell: CellType, scheme: ArrayScheme<ElementType, CellType>, object: ElementType) -> Void
+    public typealias HeightHandler = (object: ElementType) -> RowHeight
 
     /** The objects this scheme is representing */
-    public var objects: [T]
+    public var objects: [ElementType]
     
     /** The closure called to determine the height of this cell.
      *
@@ -39,7 +39,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
     public var heightHandler: HeightHandler?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler!
+    public var configurationHandler: ConfigurationHandler
     
     /** The closure called when a cell representing this scheme is selected.
      *
@@ -53,24 +53,24 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
         return objects.count
     }
     
-    public init(objects: [T], configurationHandler: ConfigurationHandler) {
+    public init(objects: [ElementType], configurationHandler: ConfigurationHandler) {
         self.objects = objects
         self.configurationHandler = configurationHandler
     }
     
     // MARK: Public Instance Methods
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as! U, object: objects[relativeIndex])
+        configurationHandler(cell: cell as! CellType, object: objects[relativeIndex])
     }
     
     public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as! U, scheme: self, object: objects[relativeIndex])
+            sh(cell: cell as! CellType, scheme: self, object: objects[relativeIndex])
         }
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return String(U.self)
+        return String(CellType.self)
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
@@ -85,7 +85,7 @@ public class ArrayScheme<T: Equatable, U: UITableViewCell>: Scheme {
 
 extension ArrayScheme: InferrableRowAnimatableScheme {
 
-    public typealias IdentifierType = T
+    public typealias IdentifierType = ElementType
     
     public var rowIdentifiers: [IdentifierType] {
         return objects
@@ -96,7 +96,7 @@ extension ArrayScheme: InferrableRowAnimatableScheme {
 extension ArrayScheme: InferrableReuseIdentifierScheme {
 
     public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(U.self), cellType: U.self)]
+        return [(identifier: String(CellType.self), cellType: CellType.self)]
     }
 
 }

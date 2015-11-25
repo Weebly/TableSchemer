@@ -69,7 +69,7 @@ class MasterViewController: UITableViewController {
                 builder.headerText = "Accordion Sample"
                 
                 builder.buildScheme { (scheme: AccordionSchemeBuilder) in
-                    scheme.expandedCellTypes = [MultipleCellTypePair](count: 3, repeatedValue: MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier))
+                    scheme.expandedCellTypes = [UITableViewCell.Type](count: 3, repeatedValue: UITableViewCell.self)
                     scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
                     scheme.collapsedCellConfigurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned(unsafe) references for the config/selection handlers
                         _ = cell.textLabel?.text = "Selected Index: \(self.accordionSelection)"
@@ -124,7 +124,7 @@ class MasterViewController: UITableViewController {
                 builder.headerText = "Radio Sample"
                 
                 builder.buildScheme { (scheme: RadioSchemeBuilder) in
-                    scheme.expandedCellTypes = [MultipleCellTypePair](count: 5, repeatedValue: MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier))
+                    scheme.expandedCellTypes = [UITableViewCell.Type](count: 5, repeatedValue: UITableViewCell.self)
                     
                     scheme.configurationHandler = { cell, index in
                         cell.textLabel?.text = "Radio Button \(index + 1)"

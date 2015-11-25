@@ -11,10 +11,8 @@ import UIKit
 import TableSchemer
 
 class AccordionScheme_Tests: XCTestCase {
-    let ReuseIdentifier0 = "UITableViewCell"
-    let ReuseIdentifier1 = "ReuseIdentifier1"
-    let ReuseIdentifier2 = "ReuseIdentifier2"
-    let ReuseIdentifier3 = "ReuseIdentifier3"
+    let ReuseIdentifier = "UITableViewCell"
+
     var subject: AccordionScheme<UITableViewCell, UITableViewCell>!
     
     // MARK: Setup and Teardown
@@ -266,7 +264,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Reuse Identifier For Relative Index
     func testReuseIdentifierForRelativeIndex_whenUnexpanded_isUnexpandedReuseIdentifier() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier0)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier)
     }
     
     func testReuseIdentifierForRelativeIndex_whenExpanded_isCorrectExpandedReuseIdentifier() {
@@ -277,7 +275,7 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), ReuseIdentifier2)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), "TestCell")
     }
     
     // MARK: Height For Relative Index
@@ -308,7 +306,9 @@ class AccordionScheme_Tests: XCTestCase {
     
     // MARK: Test Configuration
     func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
-        let expandedCells = [MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier1), MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier2), MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier3)]
+        let expandedCells = [UITableViewCell.self, TestCell.self, UITableViewCell.self]
         subject = AccordionScheme(expandedCellTypes: expandedCells, collapsedCellConfigurationHandler: configurationHandler, expandedCellConfigurationHandler: accordionConfigurationHandler)
     }
 }
+
+class TestCell: UITableViewCell { }

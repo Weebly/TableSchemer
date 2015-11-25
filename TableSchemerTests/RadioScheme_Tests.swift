@@ -11,8 +11,6 @@ import UIKit
 import TableSchemer
 
 class RadioScheme_Tests: XCTestCase {
-    let ReuseIdentifier1 = "ReuseIdentifier1"
-    let ReuseIdentifier2 = "ReuseIdentifier2"
     var subject: RadioScheme<UITableViewCell>!
 
     // MARK: Setup and Teardown
@@ -123,8 +121,8 @@ class RadioScheme_Tests: XCTestCase {
     func testReuseIdentifierForRelativeIndex_matchesReuseIdentifiers() {
         configureSubjectWithConfigurationHandler()
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier1)
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), ReuseIdentifier2)
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), "UITableViewCell")
+        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), "UITableViewCell")
     }
     
     // MARK: Height For Relative Index
@@ -144,7 +142,7 @@ class RadioScheme_Tests: XCTestCase {
         
     // MARK: Test Configuration
     func configureSubjectWithConfigurationHandler(configurationHandler: RadioScheme<UITableViewCell>.ConfigurationHandler = {(cell, index) in }, selectionHandler: RadioScheme<UITableViewCell>.SelectionHandler = {(cell, scheme, index) in}) {
-        subject = RadioScheme(expandedCellTypes: [MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier1),MultipleCellTypePair(cellType: UITableViewCell.self, identifier: ReuseIdentifier2)], configurationHandler: configurationHandler)
+        subject = RadioScheme(expandedCellTypes: [UITableViewCell.self, UITableViewCell.self], configurationHandler: configurationHandler)
         subject.selectionHandler = selectionHandler
     }
 }

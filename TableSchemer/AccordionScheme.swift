@@ -8,12 +8,12 @@
 
 import UIKit
 
-public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicScheme<T> {
+public class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellType: UITableViewCell>: BasicScheme<CollapsedCellType> {
     
-    public typealias AccordionConfigurationHandler = (cell: U, index: Int) -> Void
-    public typealias AccordionSelectionHandler = (cell: U, scheme: AccordionScheme, selectedIndex: Int) -> Void
+    public typealias AccordionConfigurationHandler = (cell: ExpandedCellType, index: Int) -> Void
+    public typealias AccordionSelectionHandler = (cell: ExpandedCellType, scheme: AccordionScheme, selectedIndex: Int) -> Void
 
-    public var expandedCellTypes: [MultipleCellTypePair]
+    public var expandedCellTypes: [UITableViewCell.Type]
 
     /** The height used for each accordion cell if asked. */
     public var accordionHeights: [RowHeight]?
@@ -34,7 +34,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     /** Whether the accordion is expanded or not. */
     public var expanded = false
 
-    public init(expandedCellTypes: [MultipleCellTypePair], collapsedCellConfigurationHandler: ConfigurationHandler, expandedCellConfigurationHandler: AccordionConfigurationHandler) {
+    public init(expandedCellTypes: [UITableViewCell.Type], collapsedCellConfigurationHandler: ConfigurationHandler, expandedCellConfigurationHandler: AccordionConfigurationHandler) {
         accordionConfigurationHandler = expandedCellConfigurationHandler
         self.expandedCellTypes = expandedCellTypes
         super.init(configurationHandler: collapsedCellConfigurationHandler)
@@ -52,7 +52,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     // MARK: Public Instance Methods
     override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if expanded {
-            accordionConfigurationHandler(cell: cell as! U, index: relativeIndex)
+            accordionConfigurationHandler(cell: cell as! ExpandedCellType, index: relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
         }
@@ -66,7 +66,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
         
         if expanded {
             if let ash = accordionSelectionHandler {
-                ash(cell: cell as! U, scheme: self, selectedIndex: relativeIndex)
+                ash(cell: cell as! ExpandedCellType, scheme: self, selectedIndex: relativeIndex)
             }
             
             selectedIndex = relativeIndex
@@ -120,7 +120,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     
     override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
         if expanded {
-            return expandedCellTypes[relativeIndex].identifier
+            return String(expandedCellTypes[relativeIndex])
         } else {
             return super.reuseIdentifierForRelativeIndex(relativeIndex)
         }
@@ -139,7 +139,7 @@ public class AccordionScheme<T: UITableViewCell, U: UITableViewCell>: BasicSchem
     }
 
     override public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(T.self), cellType: T.self)] + expandedCellTypes.map { (identifier: $0.identifier, cellType: $0.cellType) }
+        return [(identifier: String(CollapsedCellType.self), cellType: CollapsedCellType.self)] + expandedCellTypes.map { (identifier: String($0), cellType: $0) }
     }
 
 }
@@ -149,7 +149,7 @@ extension AccordionScheme: InferrableRowAnimatableScheme {
     public typealias IdentifierType = String
 
     public var rowIdentifiers: [IdentifierType] {
-        return expanded ? expandedCellTypes.map { $0.identifier } : [reuseIdentifier]
+        return expanded ? expandedCellTypes.map { String($0) } : [super.reuseIdentifierForRelativeIndex(0)]
     }
 
 }

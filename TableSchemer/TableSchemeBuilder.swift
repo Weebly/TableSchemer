@@ -14,6 +14,7 @@ import UIKit
  * It's used to create SchemeSet objects, which correspond directly to table view sections.
  */
 public final class TableSchemeBuilder {
+    
     /** The scheme sets that have been added to the builder. */
     public var schemeSets = [SchemeSet]();
     
@@ -36,4 +37,5 @@ public final class TableSchemeBuilder {
         schemeSets.append(schemeSet)
         return schemeSet
     }
+
 }

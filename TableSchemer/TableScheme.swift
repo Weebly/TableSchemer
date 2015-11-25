@@ -177,15 +177,11 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *      @return The Scheme that contains the view, or nil if the view does not have a scheme.
      */
     public func schemeContainingView(view: UIView) -> Scheme? {
-        if let cell = view.TSR_containingTableViewCell() {
-            if let tableView = cell.TSR_containingTableView() {
-                assert(tableView.dataSource === self)
-                if let indexPath = tableView.indexPathForCell(cell) {
-                    if let scheme = schemeAtIndexPath(indexPath) {
-                        return scheme
-                    }
-                }
-            }
+        if let cell = view.TSR_containingTableViewCell(),
+            tableView = cell.TSR_containingTableView(),
+            indexPath = tableView.indexPathForCell(cell),
+            scheme = schemeAtIndexPath(indexPath) {
+                return scheme
         }
         
         return nil
@@ -207,17 +203,13 @@ public class TableScheme: NSObject, UITableViewDataSource {
     *              the view does not have a scheme.
     */
     public func schemeWithIndexContainingView(view: UIView) -> (scheme: Scheme, index: Int)? {
-        if let cell = view.TSR_containingTableViewCell() {
-            if let tableView = cell.TSR_containingTableView() {
-                assert(tableView.dataSource === self)
-                if let indexPath = tableView.indexPathForCell(cell) {
-                    if let scheme = schemeAtIndexPath(indexPath) {
-                        let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
-                        let offset = indexPath.row - numberOfRowsBeforeScheme
-                        return (scheme: scheme, index: offset)
-                    }
-                }
-            }
+        if let cell = view.TSR_containingTableViewCell(),
+            tableView = cell.TSR_containingTableView(),
+            indexPath = tableView.indexPathForCell(cell),
+            scheme = schemeAtIndexPath(indexPath) {
+                let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
+                let offset = indexPath.row - numberOfRowsBeforeScheme
+                return (scheme: scheme, index: offset)
         }
         
         return nil
@@ -570,4 +562,5 @@ public class TableScheme: NSObject, UITableViewDataSource {
         
         return attributedSchemeSets[schemeSetIndex].schemeSet
     }
+
 }

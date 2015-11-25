@@ -20,22 +20,22 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class RadioScheme<T: UITableViewCell>: Scheme {
+public class RadioScheme<CellType: UITableViewCell>: Scheme {
     
-    public typealias ConfigurationHandler = (cell: T, index: Int) -> Void
-    public typealias SelectionHandler = (cell: T, scheme: RadioScheme, index: Int) -> Void
+    public typealias ConfigurationHandler = (cell: CellType, index: Int) -> Void
+    public typealias SelectionHandler = (cell: CellType, scheme: RadioScheme, index: Int) -> Void
     
     /** The currently selected index. */
     public var selectedIndex = 0
     
     /** The reuse identifiers that each cell will use. */
-    public var expandedCellTypes: [MultipleCellTypePair]
+    public var expandedCellTypes: [UITableViewCell.Type]
     
     /** The heights that the cells should have if asked. */
     public var heights: [RowHeight]?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler!
+    public var configurationHandler: ConfigurationHandler
     
     /** The closure called when the cell is selected.
      *
@@ -44,7 +44,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     */
     public var selectionHandler: SelectionHandler?
 
-    public init(expandedCellTypes: [MultipleCellTypePair], configurationHandler: ConfigurationHandler) {
+    public init(expandedCellTypes: [UITableViewCell.Type], configurationHandler: ConfigurationHandler) {
         self.expandedCellTypes = expandedCellTypes
         self.configurationHandler = configurationHandler
     }
@@ -57,7 +57,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     // MARK: Public Instance Methods
     
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
-        configurationHandler(cell: cell as! T, index: relativeIndex)
+        configurationHandler(cell: cell as! CellType, index: relativeIndex)
         
         if selectedIndex == relativeIndex {
             cell.accessoryType = .Checkmark
@@ -68,7 +68,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     
     public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as! T, scheme: self, index: relativeIndex)
+            sh(cell: cell as! CellType, scheme: self, index: relativeIndex)
         }
         
         let oldSelectedIndex = selectedIndex
@@ -87,16 +87,14 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return expandedCellTypes[relativeIndex].identifier
+        return String(expandedCellTypes[relativeIndex])
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
         var height = RowHeight.UseTable
         
-        if let rowHeights = heights {
-            if rowHeights.count > relativeIndex {
-                height = rowHeights[relativeIndex]
-            }
+        if let rowHeights = heights where rowHeights.count > relativeIndex {
+            height = rowHeights[relativeIndex]
         }
         
         return height
@@ -107,7 +105,7 @@ public class RadioScheme<T: UITableViewCell>: Scheme {
 extension RadioScheme: InferrableReuseIdentifierScheme {
 
     public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return expandedCellTypes.map { (identifier: $0.identifier, cellType: $0.cellType) }
+        return expandedCellTypes.map { (identifier: String($0), cellType: $0) }
     }
 
 }

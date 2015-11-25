@@ -37,10 +37,10 @@ public class AccordionSchemeBuilder<CollapsedCellType: UITableViewCell, Expanded
         return scheme
     }
 
-    public var expandedCellTypes: [MultipleCellTypePair]?
+    public var expandedCellTypes: [UITableViewCell.Type]?
     public var accordionHeights: [RowHeight]?
     public var selectedIndex = 0
-    public private(set) var expanded = false
+    public var expanded = false
     public var height: RowHeight = .UseTable
     public var collapsedCellConfigurationHandler: SchemeType.ConfigurationHandler?
     public var collapsedCellSelectionHandler: SchemeType.SelectionHandler?

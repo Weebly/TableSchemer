@@ -39,7 +39,6 @@
 		1AE3EB2B1C04C69200BA9D99 /* AttributedSchemeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */; };
 		1AE3EB2D1C05007900BA9D99 /* SchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2C1C05007900BA9D99 /* SchemeBuilder.swift */; };
 		1AE3EB2F1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB2E1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift */; };
-		1AE3EB311C06405E00BA9D99 /* MultipleCellTypePair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */; };
 		1AE3EB331C064FB200BA9D99 /* BasicSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB321C064FB200BA9D99 /* BasicSchemeBuilder.swift */; };
 		1AE3EB351C06502700BA9D99 /* AccordionSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB341C06502700BA9D99 /* AccordionSchemeBuilder.swift */; };
 		1AE3EB371C06504300BA9D99 /* ArraySchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB361C06504300BA9D99 /* ArraySchemeBuilder.swift */; };
@@ -102,7 +101,6 @@
 		1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedSchemeSet.swift; sourceTree = "<group>"; };
 		1AE3EB2C1C05007900BA9D99 /* SchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeBuilder.swift; sourceTree = "<group>"; };
 		1AE3EB2E1C0526B500BA9D99 /* InferrableReuseIdentifierScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InferrableReuseIdentifierScheme.swift; sourceTree = "<group>"; };
-		1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleCellTypePair.swift; sourceTree = "<group>"; };
 		1AE3EB321C064FB200BA9D99 /* BasicSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicSchemeBuilder.swift; sourceTree = "<group>"; };
 		1AE3EB341C06502700BA9D99 /* AccordionSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionSchemeBuilder.swift; sourceTree = "<group>"; };
 		1AE3EB361C06504300BA9D99 /* ArraySchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraySchemeBuilder.swift; sourceTree = "<group>"; };
@@ -276,7 +274,6 @@
 			children = (
 				1AE3EB281C04C55200BA9D99 /* AttributedScheme.swift */,
 				1AE3EB2A1C04C69200BA9D99 /* AttributedSchemeSet.swift */,
-				1AE3EB301C06405E00BA9D99 /* MultipleCellTypePair.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -520,7 +517,6 @@
 				1A8400101B5DCF4600F187B6 /* SchemeRowAnimators.swift in Sources */,
 				1AE3EB3B1C06507100BA9D99 /* StaticSchemeBuilder.swift in Sources */,
 				1A84000A1B5DCF4600F187B6 /* InferrableRowAnimatableScheme.swift in Sources */,
-				1AE3EB311C06405E00BA9D99 /* MultipleCellTypePair.swift in Sources */,
 				1A8400141B5DCF4600F187B6 /* ArrayScheme.swift in Sources */,
 				1A8400151B5DCF4600F187B6 /* RadioScheme.swift in Sources */,
 				1AE3EB391C06505900BA9D99 /* RadioSchemeBuilder.swift in Sources */,

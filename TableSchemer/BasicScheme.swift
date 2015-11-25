@@ -16,19 +16,16 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class BasicScheme<T: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
+public class BasicScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
 
-    public typealias ConfigurationHandler = (cell: T) -> Void
-    public typealias SelectionHandler = (cell: T, scheme: BasicScheme) -> Void
-    
-    /** The reuseIdentifier for this scheme. */
-    public var reuseIdentifier: String!
-    
+    public typealias ConfigurationHandler = (cell: CellType) -> Void
+    public typealias SelectionHandler = (cell: CellType, scheme: BasicScheme) -> Void
+
     /** The height the cell should be if asked. */
     public var height: RowHeight = .UseTable
     
     /** The closure called to configure the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler!
+    public var configurationHandler: ConfigurationHandler
     
     /** The closure called when the cell is selected. 
 
@@ -45,17 +42,17 @@ public class BasicScheme<T: UITableViewCell>: Scheme, InferrableReuseIdentifierS
     
     // MARK: Public Instance Methods
     public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as! T)
+        configurationHandler(cell: cell as! CellType)
     }
     
     public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
-            sh(cell: cell as! T, scheme: self)
+            sh(cell: cell as! CellType, scheme: self)
         }
     }
     
     public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
-        return String(T.self)
+        return String(CellType.self)
     }
     
     public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
@@ -63,7 +60,7 @@ public class BasicScheme<T: UITableViewCell>: Scheme, InferrableReuseIdentifierS
     }
 
     public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(T.self), cellType: T.self)]
+        return [(identifier: String(CellType.self), cellType: CellType.self)]
     }
 
 }

@@ -8,12 +8,12 @@
 
 import UIKit
 
-public class StaticScheme<T: UITableViewCell>: BasicScheme<T> {
+public class StaticScheme<CellType: UITableViewCell>: BasicScheme<CellType> {
 
     /** The precreated cell to use. */
-    public var cell: T
+    public var cell: CellType
 
-    public init(cell: T, configurationHandler: ConfigurationHandler) {
+    public init(cell: CellType, configurationHandler: ConfigurationHandler) {
         self.cell = cell
         super.init(configurationHandler: configurationHandler)
     }
@@ -21,4 +21,5 @@ public class StaticScheme<T: UITableViewCell>: BasicScheme<T> {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         return cell
     }
+    
 }

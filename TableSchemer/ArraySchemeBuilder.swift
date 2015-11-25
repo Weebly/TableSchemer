@@ -28,14 +28,9 @@ public class ArraySchemeBuilder<ElementType: Equatable, CellType: UITableViewCel
         return scheme
     }
 
-
-    public typealias ConfigurationHandler = SchemeType.ConfigurationHandler
-    public typealias SelectionHandler = SchemeType.SelectionHandler
-    public typealias HeightHandler = SchemeType.HeightHandler
-
     public var objects: [ElementType]?
-    public var heightHandler: HeightHandler?
-    public var configurationHandler: ConfigurationHandler?
-    public var selectionHandler: SelectionHandler?
+    public var heightHandler: SchemeType.HeightHandler?
+    public var configurationHandler: SchemeType.ConfigurationHandler?
+    public var selectionHandler: SchemeType.SelectionHandler?
     
 }
