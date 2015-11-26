@@ -16,7 +16,7 @@ import UIKit
 public final class TableSchemeBuilder {
     
     /** The scheme sets that have been added to the builder. */
-    public var schemeSets = [SchemeSet]();
+    public var schemeSets = [SchemeSet]()
     
     /** Builds a SchemeSet object with the configured builder passed into the handler.
      *

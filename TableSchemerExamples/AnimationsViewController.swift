@@ -28,20 +28,7 @@ class AnimationsViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Schemes Animations and More"
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
         createTableScheme()
-
-        tableView.rowHeight = 44.0
-        tableView.dataSource = tableScheme
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func createTableScheme() {

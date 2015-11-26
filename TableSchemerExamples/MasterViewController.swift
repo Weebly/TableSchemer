@@ -20,22 +20,12 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Sample Schemes"
+
         createTableScheme()
-        
+
         tableView.rowHeight = 44.0
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
-        tableView.dataSource = tableScheme
     }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
+
     func createTableScheme() {
         tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
@@ -61,6 +51,7 @@ class MasterViewController: UITableViewController {
                     scheme.selectionHandler = { [unowned self] cell, scheme in
                         let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
                         self.navigationController!.pushViewController(advancedController, animated: true)
+                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }
@@ -78,7 +69,7 @@ class MasterViewController: UITableViewController {
                     scheme.collapsedCellSelectionHandler = { cell, scheme in
                         print("Opening Accordion!")
                     }
-                    
+
                     scheme.expandedCellConfigurationHandler = { [unowned self] cell, index in
                         cell.textLabel?.text = "Accordion Expanded Cell \(index + 1)"
                         if index == self.accordionSelection {
@@ -116,6 +107,7 @@ class MasterViewController: UITableViewController {
                     
                     scheme.selectionHandler = { cell, scheme, object in
                         print("Selected object in ArrayScheme: \(object)")
+                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }
@@ -133,6 +125,7 @@ class MasterViewController: UITableViewController {
                     scheme.selectionHandler = { [unowned self] cell, scheme, index in
                         print("You selected \(index)!")
                         self.radioSelection = index
+                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }

@@ -189,8 +189,8 @@ class TableScheme_Tests: XCTestCase {
         let cell = subject.tableView(tableView, cellForRowAtIndexPath: indexPath)
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
-        
-        subject.handleSelectionInTableView(tableView, forIndexPath: indexPath)
+
+        subject.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         let selectCall = schemeSet3Scheme1.lastSelectCall
         
         XCTAssert(selectCall.cell === cell)
@@ -207,7 +207,7 @@ class TableScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
         
-        subject.handleSelectionInTableView(tableView, forIndexPath: indexPath)
+        subject.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         let selectCall = schemeSet1Scheme2.lastSelectCall
         
         XCTAssert(selectCall.cell === cell)
@@ -224,7 +224,7 @@ class TableScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
         
-        subject.handleSelectionInTableView(tableView, forIndexPath: indexPath)
+        subject.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         let selectCall = schemeSet1Scheme1.lastSelectCall
         
         XCTAssert(selectCall.cell === cell)
@@ -243,7 +243,7 @@ class TableScheme_Tests: XCTestCase {
         let tableMock : AnyObject! = OCMockObject.partialMockForObject(tableView)
         tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
         
-        subject.handleSelectionInTableView(tableView, forIndexPath: indexPath)
+        subject.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         let selectCall = schemeSet4Scheme3.lastSelectCall
         
         XCTAssert(selectCall.cell === cell)
@@ -256,7 +256,7 @@ class TableScheme_Tests: XCTestCase {
     // MARK: Height In Table View
     func testHeightInTableView_returnsCorrectHeight() {
         let tableView = configuredTableView()
-        let height = subject.heightInTableView(tableView, forIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        let height = subject.tableView(tableView, heightForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
         XCTAssertEqual(height, CGFloat(44.0))
     }
     
@@ -264,7 +264,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet2, inTableView: tableView)
         subject.hideScheme(schemeSet4Scheme1, inTableView: tableView)
-        let height = subject.heightInTableView(tableView, forIndexPath: NSIndexPath(forRow: 0, inSection: 2))
+        let height = subject.tableView(tableView, heightForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 2))
         XCTAssertEqual(height, CGFloat(schemeSet4Scheme2.height))
     }
     

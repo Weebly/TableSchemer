@@ -30,21 +30,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
         super.viewDidLoad()
         title = "Advanced"
         tableView.rowHeight = 44.0
-        tableView.registerClass(SchemeCell.self, forCellReuseIdentifier: SwitchReuseIdentifier)
-        tableView.registerClass(InputFieldCell.self, forCellReuseIdentifier: InputReuseIdentifier)
-        tableView.registerClass(SchemeCell.self, forCellReuseIdentifier: BasicReuseIdentifier)
+
         buildAndSetTableScheme()
     }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-    }
-    
+
     func buildAndSetTableScheme() {
         tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in

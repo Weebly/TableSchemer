@@ -30,8 +30,6 @@ public final class SchemeSetBuilder {
     /// This is used to identify if the scheme is initially hidden or not
     public var hidden = false
     
-    public init() { } // Compiler won't compile without this. Not sure why.
-    
     /** Build a scheme within the closure.
 
         This method will instantiate a `Scheme` object, and then pass it into handler. The type of Scheme object
@@ -45,35 +43,23 @@ public final class SchemeSetBuilder {
         - parameter     handler:    The closure to configure the scheme.
         - returns:                  The created Scheme instance.
      */
-    public func buildScheme<T: SchemeBuilder>(@noescape handler: (builder: T, inout hidden: Bool) -> Void) -> T.SchemeType? {
-        let builder = T()
+    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType, inout hidden: Bool) -> Void) -> BuilderType.SchemeType {
+        let builder = BuilderType()
         var hidden = false
         handler(builder: builder, hidden: &hidden)
 
-        do {
-            let scheme = try builder.createScheme()
-            attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
-            return scheme
-        } catch let error {
-            NSLog("ERROR: Unable to add scheme due to error: \(error)")
-        }
-
-        return nil
+        let scheme = try! builder.createScheme()
+        attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
+        return scheme
     }
 
-    public func buildScheme<T: SchemeBuilder>(@noescape handler: (builder: T) -> Void) -> T.SchemeType? {
-        let builder = T()
+    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType) -> Void) -> BuilderType.SchemeType {
+        let builder = BuilderType()
         handler(builder: builder)
 
-        do {
-            let scheme = try builder.createScheme()
-            attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))
-            return scheme
-        } catch let error {
-            NSLog("ERROR: Unable to add scheme due to error: \(error)")
-        }
-
-        return nil
+        let scheme = try! builder.createScheme()
+        attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))
+        return scheme
     }
     
     /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */
