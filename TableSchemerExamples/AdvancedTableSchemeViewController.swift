@@ -106,8 +106,6 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 }
             }
         }
-        
-        tableView.dataSource = tableScheme
     }
 
     // MARK: Target-Action

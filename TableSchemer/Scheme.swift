@@ -76,9 +76,8 @@ public protocol Scheme: class {
     /**
         This method is called by `TableScheme` when the cell
         is being configured to determine which reuseIdentifier should
-        be used to query the table view. By default, this will return a unique
-        identifier for each scheme.
-
+        be used to query the table view. 
+     
         - parameter relativeIndex:    The index of the row from the schemes first cell.
         - returns:                    The reuse identifier to pass into the table views dequeue method.
      */
