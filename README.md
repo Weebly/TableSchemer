@@ -40,7 +40,7 @@ class MasterViewController: UITableViewController {
     }
     
     func createTableScheme() {
-        tableScheme = TableScheme(tableView: tableView) { (builder) in
+        tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
                 builder.buildScheme { (scheme: BasicScheme) in
                     
