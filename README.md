@@ -31,45 +31,30 @@ TableSchemer works by creating a TableScheme object and setting it as your UITab
 
 ```swift
 class MasterViewController: UITableViewController {
-    let ReuseIdentifier = "cell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         createTableScheme()
         
         tableView.rowHeight = 44.0
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: ReuseIdentifier)
-        tableView.dataSource = tableScheme
-    }
-    
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        return tableScheme.heightInTableView(tableView, forIndexPath: indexPath)
-    }
-    
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-        tableScheme.handleSelectionInTableView(tableView, forIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func createTableScheme() {
-        tableScheme = TableScheme() { (builder) in
-            builder.buildSchemeSet { (builder) in
+        tableScheme = TableScheme(tableView: tableView) { (builder) in
+            builder.buildSchemeSet { builder in
                 builder.buildScheme { (scheme: BasicScheme) in
-                    scheme.reuseIdentifier = self.ReuseIdentifier
                     
-                    scheme.configurationHandler = { (cell) in
+                    scheme.configurationHandler = { cell in
                         cell.textLabel.text = "Tap here for an advanced example."
                         cell.accessoryType = .DisclosureIndicator
                     }
 
-		            // We're specifying unowned(unsafe) self here because handlers are retained by the schemes. Without it, we'd have a retain cycle                    
-                    scheme.selectionHandler = { [unowned(unsafe) self] (cell, scheme) in
+		    // We're specifying unowned self here because handlers are retained by the schemes. Without it, we'd have a retain cycle                    
+                    scheme.selectionHandler = { [unowned self] cell, scheme in
                         let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
                         self.navigationController.pushViewController(advancedController, animated: true)
                     }
                 }
-                return // Trailing closures will attempt to return the SchemeSet without this since it's a "one line" expression
             }
         }
     }
@@ -77,7 +62,7 @@ class MasterViewController: UITableViewController {
 
 ```
 
-TableSchemer supports configuring selection handlers and height, but you need to be sure to forward delegate methods to the tableScheme object. Check out the [Using Table Schemer](https://github.com/Weebly/TableSchemer/wiki/Using-Table-Schemer) page for how to do that and more, and be sure to check out our sample app!
+TableSchemer will set itself as the data source and delegate of the table view. If you need to be the delegate to the table view update it after creating the scheme. To use the built-in selection and height handling you need to be sure to forward those delegate methods to the tableScheme object. The signatures are the same as in `UITableViewDelegate`. Check out the [Using Table Schemer](https://github.com/Weebly/TableSchemer/wiki/Using-Table-Schemer) page for more, and be sure to check out our sample app!
 
 ## Sample Project
 
@@ -99,7 +84,7 @@ We love to have your help to make TableSchemer better. Feel free to
 
 ## License
 
-Copyright (c) 2014, Weebly All rights reserved.
+Copyright (c) 2014, Weebly
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
