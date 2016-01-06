@@ -73,8 +73,7 @@ public class TableScheme: NSObject, UITableViewDataSource {
      *    @param indexPath The index path that was selected.
      */
     public func handleSelectionInTableView(tableView: UITableView, forIndexPath indexPath: NSIndexPath) {
-        let scheme = schemeAtIndexPath(indexPath)!
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!
+        guard let scheme = schemeAtIndexPath(indexPath), cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
         let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
         scheme.selectCell(cell, inTableView: tableView, inSection: indexPath.section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
