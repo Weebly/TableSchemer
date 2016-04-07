@@ -15,4 +15,9 @@ public struct AttributedScheme {
     public let scheme: Scheme
     public var hidden: Bool
 
+    public init(scheme: Scheme, hidden: Bool) {
+        self.scheme = scheme
+        self.hidden = hidden
+    }
+
 }
