@@ -532,6 +532,7 @@ extension TableScheme: UITableViewDelegate {
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
         let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
         scheme.selectCell(cell, inTableView: tableView, inSection: indexPath.section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
