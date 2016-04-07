@@ -45,7 +45,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.wifiEnabled
-                        switchView.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
+                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
                         cell.accessoryView = switchView
                     }
                 }
@@ -56,7 +56,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.selectionStyle = .None
                         let switchView = UISwitch()
                         switchView.on = self.bluetoothEnabled
-                        switchView.addTarget(self, action: "switcherUpdated:", forControlEvents: .ValueChanged)
+                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), forControlEvents: .ValueChanged)
                         cell.accessoryView = switchView
                     }
                 }
@@ -73,8 +73,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.label.text = "First Input:"
                         cell.input.text = self.firstFieldValue
                         cell.input.keyboardType = .Default // Since the other input cell changes this value, this cell must define what it wants to avoid reuse issues.
-                        cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), forControlEvents: .EditingDidEndOnExit)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), forControlEvents: .EditingDidEnd)
                     }
                 }
                 
@@ -84,8 +84,8 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.label.text = "Email:"
                         cell.input.text = self.secondFieldValue
                         cell.input.keyboardType = .EmailAddress
-                        cell.input.addTarget(self, action: "controlResigned:", forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self, action: "textFieldUpdated:", forControlEvents: .EditingDidEnd)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), forControlEvents: .EditingDidEndOnExit)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), forControlEvents: .EditingDidEnd)
                     }
                 }
             }
@@ -100,7 +100,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
                         cell.selectionStyle = .None
                         cell.textLabel?.text = object
                         let button = UIButton(type: .InfoDark)
-                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+                        button.addTarget(self, action: #selector(AdvancedTableSchemeViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
                         cell.accessoryView = button
                     }
                 }

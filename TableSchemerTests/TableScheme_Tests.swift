@@ -1011,12 +1011,12 @@ class AnimationRecordingTableView: UITableView {
     }
     
     override func beginUpdates() {
-        callsToBeginUpdates++
+        callsToBeginUpdates += 1
         super.beginUpdates()
     }
     
     override func endUpdates() {
-        callsToEndUpdates++
+        callsToEndUpdates += 1
         super.endUpdates()
     }
     

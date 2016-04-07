@@ -56,7 +56,7 @@ class AnimationsViewController: UITableViewController {
                         let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
                         button.setTitle("Tap to toggle hidden scheme set", forState: .Normal)
                         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
                         cell.contentView.addSubview(button)
                     }
                 }
@@ -75,7 +75,7 @@ class AnimationsViewController: UITableViewController {
                         let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
                         button.setTitle("Tap to toggle other schemes visibility", forState: .Normal)
                         button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: "buttonPressed:", forControlEvents: .TouchUpInside)
+                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
                         cell.contentView.addSubview(button)
                     }
                 }
