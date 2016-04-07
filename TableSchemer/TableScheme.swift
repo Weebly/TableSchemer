@@ -72,7 +72,7 @@ public class TableScheme: NSObject {
         
         for (idx, attributedScheme) in schemeSet.attributedSchemes.enumerate() {
             if attributedScheme.hidden {
-                priorHiddenSchemes++
+                priorHiddenSchemes += 1
                 continue
             }
 
@@ -413,7 +413,7 @@ public class TableScheme: NSObject {
                 return i
             } else {
                 if !scanSchemeSet.hidden {
-                    i++
+                    i += 1
                 }
             }
         }
@@ -469,7 +469,7 @@ public class TableScheme: NSObject {
             // the hidden scheme sets, we need to offset by our hidden schemes
             // before it.
             if schemeSet.hidden {
-                offset++
+                offset += 1
                 continue
             }
             

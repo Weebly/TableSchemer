@@ -8,7 +8,7 @@
 
 public protocol SchemeBuilder: class {
 
-    typealias SchemeType: Scheme
+    associatedtype SchemeType: Scheme
 
     init()
     func createScheme() throws -> SchemeType

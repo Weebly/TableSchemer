@@ -7,6 +7,6 @@
 //
 
 public protocol InferrableRowAnimatableScheme {
-    typealias IdentifierType: Equatable
+    associatedtype IdentifierType: Equatable
     var rowIdentifiers: [IdentifierType] { get }
 }

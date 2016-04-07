@@ -142,7 +142,8 @@ public final class TableSchemeBatchAnimator {
 
         let deleteRows = rowDeletions.filter { row in
             ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
-        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
@@ -153,7 +154,8 @@ public final class TableSchemeBatchAnimator {
             return memo
         }
         
-        let deleteSections = sectionDeletions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
+        let deleteSections = sectionDeletions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }
@@ -169,7 +171,8 @@ public final class TableSchemeBatchAnimator {
         
         let reloadRows = rowReloads.filter { row in
             ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
-        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
@@ -180,7 +183,8 @@ public final class TableSchemeBatchAnimator {
             return memo
         }
         
-        let reloadSections = sectionReloads.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
+        let reloadSections = sectionReloads.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }
@@ -215,7 +219,8 @@ public final class TableSchemeBatchAnimator {
         
         let insertRows = rowInsertions.filter { row in
             ignoredSchemeSets.indexOf { self.tableScheme.attributedSchemeSets[row.attributedSchemeSetIndex].schemeSet === $0 } == nil
-        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, change) in
+        }.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = [NSIndexPath]()
             }
@@ -226,7 +231,8 @@ public final class TableSchemeBatchAnimator {
             return memo
         }
         
-        let insertSections = sectionInsertions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { (var memo, change) in
+        let insertSections = sectionInsertions.reduce([UITableViewRowAnimation: NSMutableIndexSet]()) { memo, change in
+            var memo = memo
             if memo[change.animation] == nil {
                 memo[change.animation] = NSMutableIndexSet() as NSMutableIndexSet
             }

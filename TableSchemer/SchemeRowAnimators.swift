@@ -117,7 +117,8 @@ public class SchemeRowAnimator {
         tableView.beginUpdates()
         
         // Compact our insertions/deletions so we do as few table view animation calls as necessary
-        let insertRows = insertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, animation) in
+        let insertRows = insertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, animation in
+            var memo = memo
             if memo[animation.animation] == nil {
                 memo[animation.animation] = [NSIndexPath]()
             }
@@ -127,7 +128,8 @@ public class SchemeRowAnimator {
             return memo
         }
         
-        let deleteRows = deletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { (var memo, animation) in
+        let deleteRows = deletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, animation in
+            var memo = memo
             if memo[animation.animation] == nil {
                 memo[animation.animation] = [NSIndexPath]()
             }
