@@ -63,7 +63,7 @@ public final class SchemeSetBuilder {
     }
     
     /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */
-    internal func createSchemeSet() -> SchemeSet {
-        return SchemeSet(attributedSchemes: attributedSchemes, headerText: headerText, footerText: footerText, hidden: hidden)
+    internal func createSchemeSet() -> AttributedSchemeSet {
+        return AttributedSchemeSet(schemeSet: SchemeSet(attributedSchemes: attributedSchemes, headerText: headerText, footerText: footerText), hidden: hidden)
     }
 }

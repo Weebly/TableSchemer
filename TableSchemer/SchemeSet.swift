@@ -39,14 +39,14 @@ public class SchemeSet {
         return attributedSchemes.flatMap { $0.hidden ? nil : $0.scheme }
     }
     
-    public init(attributedSchemes: [AttributedScheme], headerText: String? = nil, footerText: String? = nil, hidden: Bool = false) {
+    public init(attributedSchemes: [AttributedScheme], headerText: String? = nil, footerText: String? = nil) {
         self.attributedSchemes = attributedSchemes
         self.headerText = headerText
         self.footerText = footerText
     }
 
-    public convenience init(schemes: [Scheme], headerText: String? = nil, footerText: String? = nil, hidden: Bool = false) {
-        self.init(attributedSchemes: schemes.map { AttributedScheme(scheme: $0, hidden: false) }, headerText: headerText, footerText: footerText, hidden: hidden)
+    public convenience init(schemes: [Scheme], headerText: String? = nil, footerText: String? = nil) {
+        self.init(attributedSchemes: schemes.map { AttributedScheme(scheme: $0, hidden: false) }, headerText: headerText, footerText: footerText)
     }
 
     public subscript(index: Int) -> Scheme {

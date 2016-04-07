@@ -51,7 +51,7 @@ public class TableScheme: NSObject {
     public convenience init(tableView: UITableView, @noescape buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder: builder)
-        self.init(tableView: tableView, schemeSets: builder.schemeSets)
+        self.init(tableView: tableView, attributedSchemeSets: builder.schemeSets)
     }
     
     // MARK: Public Instance Methods
