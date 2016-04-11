@@ -138,6 +138,42 @@ public class TableScheme: NSObject {
     }
     
     // MARK: Scheme Visibility
+
+    /**
+     Returns if the given `SchemeSet` is hidden. If the `SchemeSet` does not belong
+     to the `TableScheme` this will return `nil`.
+     
+     - parameter    schemeSet:  The `SchemeSet` to check visibility for.
+     - returns:     `true` if the `SchemeSet` is hidden, `false` if it is not, and `nil`
+                    if the given `SchemeSet` does not belong to this `TableScheme`.
+    */
+    public func isSchemeSetHidden(schemeSet: SchemeSet) -> Bool? {
+        guard let attributedSchemeSet = attributedSchemeSets.lazy.filter({ $0.schemeSet === schemeSet}).first else { return nil }
+        return attributedSchemeSet.hidden
+    }
+
+    /**
+     Returns if the given `Scheme` is hidden. If the `Scheme` does not belong
+     to the `TableScheme` this will return `nil`.
+     
+     If the `Scheme` is not marked as hidden, but the containing `SchemeSet` is, this
+     will return `false`.
+
+     - parameter    scheme:  The `Scheme` to check visibility for.
+     - returns:     `true` if the `Scheme` is hidden, `false` if it is not, and `nil`
+     if the given `Scheme` does not belong to this `TableScheme`.
+     */
+    public func isSchemeHidden(scheme: Scheme) -> Bool? {
+        for attributedSchemeSet in attributedSchemeSets {
+            for attributedScheme in attributedSchemeSet.schemeSet.attributedSchemes {
+                if attributedScheme.scheme === scheme {
+                    return attributedScheme.hidden
+                }
+            }
+        }
+
+        return nil
+    }
     
     /**
         Hides a Scheme in the provided table view using the given animation.

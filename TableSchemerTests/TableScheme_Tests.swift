@@ -312,6 +312,35 @@ class TableScheme_Tests: XCTestCase {
     }
     
     // MARK: Scheme Visibility
+
+    func testIsSchemeSetHidden_whenSetDoesntBelongToTableScheme_returnsNil() {
+        let schemeSet = SchemeSet(attributedSchemes: [])
+        XCTAssertNil(subject.isSchemeSetHidden(schemeSet))
+    }
+
+    func testIsSchemeSetHidden_whenSchemeSetBelongsToTableScheme_andIsHidden_returnsTrue() {
+        subject.hideSchemeSet(schemeSet1, inTableView: tableView)
+        XCTAssert(subject.isSchemeSetHidden(schemeSet1) == true)
+    }
+
+    func testIsSchemeSetHidden_whenSchemeSetBelongsToTableScheme_andIsNotHidden_returnsFalse() {
+        XCTAssert(subject.isSchemeSetHidden(schemeSet1) == false)
+    }
+
+    func testIsSchemeHidden_whenSchemeDoesntBelongToTableScheme_returnsNil() {
+        let scheme = TestableScheme()
+        XCTAssertNil(subject.isSchemeHidden(scheme))
+    }
+
+    func testIsSchemeHidden_whenSchemeBelongsToTableScheme_andIsHidden_returnsTrue() {
+        subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
+        XCTAssert(subject.isSchemeHidden(schemeSet1Scheme1) == true)
+    }
+
+    func testIsSchemeHidden_whenSchemeBelongsToTableScheme_andIsNotHidden_returnsFalse() {
+        XCTAssert(subject.isSchemeHidden(schemeSet1Scheme1) == false)
+    }
+
     func testHideScheme_marksSchemeHidden() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, inTableView: tableView)
