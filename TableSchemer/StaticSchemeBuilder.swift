@@ -13,22 +13,17 @@ public class StaticSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
     public required init() {}
 
     public func createScheme() throws -> SchemeType {
-        guard let configurationHandler = configurationHandler else {
-            throw SchemeBuilderError.MissingRequiredAttribute("configurationHandler")
-        }
-
         guard let cell = cell else {
             throw SchemeBuilderError.MissingRequiredAttribute("cell")
         }
 
-        let scheme = SchemeType(cell: cell, configurationHandler: configurationHandler)
+        let scheme = SchemeType(cell: cell)
         scheme.height = height
         scheme.selectionHandler = selectionHandler
         return scheme
     }
 
     public var cell: CellType?
-    public var configurationHandler: SchemeType.ConfigurationHandler?
     public var selectionHandler: SchemeType.SelectionHandler?
     public var height: RowHeight = .UseTable
     
