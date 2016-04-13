@@ -94,11 +94,24 @@ public protocol Scheme: class {
                                         a custom height.
      */
     func heightForRelativeIndex(relativeIndex: Int) -> RowHeight
+
+    /**
+        This method is called by `TableScheme` when we want to generate
+        a cell. This method has a default implementation that should generally 
+        be used, but in some situations it is desirable to manage cell creation
+        yourself.
+ 
+        - parameter     tableView:      The `UITableView` that contains the created `UITableViewCell`
+        - parameter     indexPath:      The `NSIndexPath` that the cell belongs at
+        - parameter     relativeIndex:  The relative index this cell has within the `Scheme`s cells
+        - returns:                      The `UITableViewCell` to be used in the `UITableView`
+     */
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell
 }
 
 extension Scheme {
 
-    public final func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
         let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)
         return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
     }
