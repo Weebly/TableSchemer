@@ -65,7 +65,7 @@ public class TableScheme: NSObject {
      *    @return The scheme at the index path.
      */
     public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme? {
-        let schemeSet = schemeSetForSection(indexPath.section)
+        guard let schemeSet = schemeSetForSection(indexPath.section) else { return nil }
         let row = indexPath.row
         var offset = 0
         var priorHiddenSchemes = 0
@@ -84,6 +84,39 @@ public class TableScheme: NSObject {
         }
         
         return nil
+    }
+
+    /**
+     Returns the `SchemeSet` located at the given index. If one cannot be found, returns nil.
+     
+     - parameter    section: The section the `SchemeSet` is located at.
+     - returns:     The `SchemeSet` at the given index, or nil if not found.
+    */
+    public func schemeSetForSection(section: Int) -> SchemeSet? {
+        var schemeSetIndex: Int?
+        var offset = 0
+        for (index, schemeSet) in attributedSchemeSets.enumerate() {
+            // Section indexes do not include our hidden scheme sets, so
+            // when we pull one from our schemeSets array, which does include
+            // the hidden scheme sets, we need to offset by our hidden schemes
+            // before it.
+            if schemeSet.hidden {
+                offset += 1
+                continue
+            }
+
+            // If our enumerated index minus our prior hidden scheme sets
+            // equals the section that we're looking for, we found our
+            // correct scheme set and can end the loop
+            if index - offset == section {
+                schemeSetIndex = index
+                break
+            }
+        }
+
+        guard let index = schemeSetIndex else { return nil }
+
+        return attributedSchemeSets[index].schemeSet
     }
     
     /**
@@ -494,33 +527,6 @@ public class TableScheme: NSObject {
         return foundSet!.schemeSet
     }
 
-    // MARK: - Private methods
-    
-    private func schemeSetForSection(section: Int) -> SchemeSet {
-        var schemeSetIndex = section // Default to the passed in section
-        var offset = 0
-        for (index, schemeSet) in attributedSchemeSets.enumerate() {
-            // Section indexes do not include our hidden scheme sets, so
-            // when we pull one from our schemeSets array, which does include
-            // the hidden scheme sets, we need to offset by our hidden schemes
-            // before it.
-            if schemeSet.hidden {
-                offset += 1
-                continue
-            }
-            
-            // If our enumerated index minus our prior hidden scheme sets
-            // equals the section that we're looking for, we found our
-            // correct scheme set and can end the loop
-            if index - offset == section {
-                schemeSetIndex = index
-                break
-            }
-        }
-        
-        return attributedSchemeSets[schemeSetIndex].schemeSet
-    }
-
 }
 
 // MARK: UITableViewDataSource methods
@@ -531,7 +537,7 @@ extension TableScheme: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let schemeSet = schemeSetForSection(section)
+        let schemeSet = schemeSetForSection(section)!
 
         return schemeSet.visibleSchemes.reduce(0) { (memo: Int, scheme: Scheme) in
             memo + scheme.numberOfCells
@@ -551,11 +557,11 @@ extension TableScheme: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return schemeSetForSection(section).headerText
+        return schemeSetForSection(section)?.headerText
     }
 
     public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return schemeSetForSection(section).footerText
+        return schemeSetForSection(section)?.footerText
     }
 
 }
