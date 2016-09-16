@@ -14,13 +14,13 @@
  *    have more than a single row), and the name property is used for the
  *    section name.
  */
-public class SchemeSet {
+open class SchemeSet {
 
     /** This property is the title for the table view section */
-    public let headerText: String?
+    open let headerText: String?
     
     /** The string returned for tableView:viewForFooterInSection */
-    public var footerText: String?
+    open var footerText: String?
     
     /** The schemes contained in the SchemeSet */
     var attributedSchemes: [AttributedScheme]
@@ -30,12 +30,12 @@ public class SchemeSet {
     }
     
     /** The number of schemes within the SchemeSet */
-    public final var count: Int {
+    public var count: Int {
         return schemes.count
     }
     
     /// Schemes that are currently visible
-    public final var visibleSchemes: [Scheme] {
+    public var visibleSchemes: [Scheme] {
         return attributedSchemes.flatMap { $0.hidden ? nil : $0.scheme }
     }
     

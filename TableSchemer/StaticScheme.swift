@@ -8,54 +8,54 @@
 
 import UIKit
 
-public class StaticScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
+open class StaticScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
 
-    public typealias SelectionHandler = (cell: CellType, scheme: StaticScheme) -> Void
+    public typealias SelectionHandler = (_ cell: CellType, _ scheme: StaticScheme) -> Void
 
     /// The precreated cell to use.
-    public var cell: CellType
+    open var cell: CellType
 
     /// The height the cell should be if asked.
-    public var height: RowHeight = .UseTable
+    open var height: RowHeight = .useTable
 
     /** The closure called when the cell is selected.
 
         NOTE: This is only called if the TableScheme is asked to handle selection
         by the table view delegate.
      */
-    public var selectionHandler: SelectionHandler?
+    open var selectionHandler: SelectionHandler?
 
     /// StaticScheme's always represent a single cell
-    public var numberOfCells: Int { return 1 }
+    open var numberOfCells: Int { return 1 }
 
     public init(cell: CellType) {
         self.cell = cell
     }
 
-    public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+    open func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
         // noop, static cells should be configured externally
     }
 
-    public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    open func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
-            sh(cell: cell as! CellType, scheme: self)
+            sh(cell as! CellType, self)
         }
     }
 
-    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
-        return String(CellType.self)
+    open func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String  {
+        return String(describing: CellType.self)
     }
 
-    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    open func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
         return height
     }
 
-    public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(CellType.self), cellType: CellType.self)]
+    open var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(describing: CellType.self), cellType: CellType.self)]
     }
 
     /// Overriding the default implementation to return our specific cell
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell {
         return cell
     }
     

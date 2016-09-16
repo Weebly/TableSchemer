@@ -30,9 +30,9 @@ public final class TableSchemeBuilder {
      *  @param handler The block to configure the builder.
      *  @return The created SchemeSet object.
      */
-    public func buildSchemeSet(@noescape handler: (builder: SchemeSetBuilder) -> Void) -> SchemeSet {
+    public func buildSchemeSet(_ handler: (_ builder: SchemeSetBuilder) -> Void) -> SchemeSet {
         let builder = SchemeSetBuilder()
-        handler(builder: builder)
+        handler(builder)
         let schemeSet = builder.createSchemeSet()
         schemeSets.append(schemeSet)
         return schemeSet.schemeSet

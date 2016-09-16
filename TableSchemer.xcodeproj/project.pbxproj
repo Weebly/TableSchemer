@@ -45,7 +45,7 @@
 		1AE3EB391C06505900BA9D99 /* RadioSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB381C06505900BA9D99 /* RadioSchemeBuilder.swift */; };
 		1AE3EB3B1C06507100BA9D99 /* StaticSchemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE3EB3A1C06507100BA9D99 /* StaticSchemeBuilder.swift */; };
 		1AFE0265194CF73500DA5027 /* AccordionScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */; };
-		65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */; };
+		CB214C650C15EA72CDDD66D5 /* libPods-TableSchemerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0D6EFEF754E9ED83EC4756 /* libPods-TableSchemerTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,10 +116,10 @@
 		1AF584F5194B9F6D0090529C /* TableSchemeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBuilder.swift; sourceTree = "<group>"; };
 		1AF584F7194BA14A0090529C /* TableScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableScheme.swift; sourceTree = "<group>"; };
 		1AFE0264194CF73500DA5027 /* AccordionScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccordionScheme_Tests.swift; sourceTree = "<group>"; };
-		5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		61E259621ABCD958005297C9 /* StaticScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticScheme.swift; sourceTree = "<group>"; };
-		CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.release.xcconfig"; sourceTree = "<group>"; };
-		E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TableSchemerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F0D6EFEF754E9ED83EC4756 /* libPods-TableSchemerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TableSchemerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1F48B61F6CC3034B9E06C36 /* Pods-TableSchemerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DAE2CE11C5EC6573D14D42FE /* Pods-TableSchemerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TableSchemerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65FF608D071A41EAB5F27E85 /* libPods-TableSchemerTests.a in Frameworks */,
+				CB214C650C15EA72CDDD66D5 /* libPods-TableSchemerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,8 +181,8 @@
 				1AB445C8194A66C4001BEDFF /* TableSchemerTests */,
 				1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */,
 				1AB445B2194A66C4001BEDFF /* Products */,
-				28908D06FC3B48DC92E4BCC3 /* Frameworks */,
-				94280D9A2C4E6C197B615B6F /* Pods */,
+				ABCE4C1D8E39800E672B5CCC /* Pods */,
+				76F70EF991349A0C22E40697 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -322,19 +322,19 @@
 			name = Collections;
 			sourceTree = "<group>";
 		};
-		28908D06FC3B48DC92E4BCC3 /* Frameworks */ = {
+		76F70EF991349A0C22E40697 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E872968DE4EE4963B09796F8 /* libPods-TableSchemerTests.a */,
+				9F0D6EFEF754E9ED83EC4756 /* libPods-TableSchemerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		94280D9A2C4E6C197B615B6F /* Pods */ = {
+		ABCE4C1D8E39800E672B5CCC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */,
-				CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */,
+				C1F48B61F6CC3034B9E06C36 /* Pods-TableSchemerTests.debug.xcconfig */,
+				DAE2CE11C5EC6573D14D42FE /* Pods-TableSchemerTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -394,11 +394,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1AB445D2194A66C4001BEDFF /* Build configuration list for PBXNativeTarget "TableSchemerTests" */;
 			buildPhases = (
-				B55D956B484A4C0391B564EF /* Check Pods Manifest.lock */,
+				50F2B8649C764381EE172915 /* [CP] Check Pods Manifest.lock */,
 				1AB445C1194A66C4001BEDFF /* Sources */,
 				1AB445C2194A66C4001BEDFF /* Frameworks */,
 				1AB445C3194A66C4001BEDFF /* Resources */,
-				F6932C8DE3A7440F937875DB /* Copy Pods Resources */,
+				1C03C5BB72AD728FCD61DD15 /* [CP] Embed Pods Frameworks */,
+				4D9C8C1ACB2BA8A768C6B069 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -416,17 +417,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Weebly;
 				TargetAttributes = {
 					1A84FFE91B5DCD5B00F187B6 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 					};
 					1AB445B0194A66C4001BEDFF = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 					};
 					1AB445C4194A66C4001BEDFF = {
 						CreatedOnToolsVersion = 6.0;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -476,34 +480,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B55D956B484A4C0391B564EF /* Check Pods Manifest.lock */ = {
+		1C03C5BB72AD728FCD61DD15 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F6932C8DE3A7440F937875DB /* Copy Pods Resources */ = {
+		4D9C8C1ACB2BA8A768C6B069 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TableSchemerTests/Pods-TableSchemerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		50F2B8649C764381EE172915 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -578,6 +597,7 @@
 		1A8400041B5DCD5C00F187B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -597,6 +617,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Weebly.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -606,6 +627,7 @@
 		1A8400051B5DCD5C00F187B6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -622,6 +644,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Weebly.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -641,8 +664,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -651,6 +676,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -684,8 +710,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -693,6 +721,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -702,6 +731,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -715,6 +745,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weebly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -727,12 +758,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weebly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		1AB445D3194A66C4001BEDFF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F23D84C7A8B866CBF2233FD /* Pods-TableSchemerTests.debug.xcconfig */;
+			baseConfigurationReference = C1F48B61F6CC3034B9E06C36 /* Pods-TableSchemerTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -750,12 +782,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TableSchemerTests/TableSchemerTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		1AB445D4194A66C4001BEDFF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCC183712CE7FCE8E17832C0 /* Pods-TableSchemerTests.release.xcconfig */;
+			baseConfigurationReference = DAE2CE11C5EC6573D14D42FE /* Pods-TableSchemerTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -768,6 +801,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weebly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "TableSchemerTests/TableSchemerTests-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

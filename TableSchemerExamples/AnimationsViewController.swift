@@ -80,7 +80,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme1 = builder.buildScheme { (scheme: BasicSchemeBuilder, inout hidden: Bool) in
+                hiddenScheme1 = builder.buildScheme { (scheme: BasicSchemeBuilder, hidden: inout Bool) in
                     hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
@@ -92,7 +92,7 @@ class AnimationsViewController: UITableViewController {
                     }
                 }
                 
-                hiddenScheme2 = builder.buildScheme { (scheme: BasicSchemeBuilder, inout hidden: Bool) in
+                hiddenScheme2 = builder.buildScheme { (scheme: BasicSchemeBuilder, hidden: inout Bool) in
                     hidden = true
                     
                     scheme.configurationHandler = { [unowned self] cell in
@@ -201,13 +201,13 @@ class AnimationsViewController: UITableViewController {
         }
     }
     
-    private func removeSubviewsInView(view: UIView) {
+    fileprivate func removeSubviewsInView(_ view: UIView) {
         for v in view.subviews {
             v.removeFromSuperview()
         }
     }
     
-    private func generateRandomizedArray() -> [Int] {
+    fileprivate func generateRandomizedArray() -> [Int] {
         let itemCount = Int(arc4random() % 20)
         var items = [Int]()
         
@@ -215,14 +215,14 @@ class AnimationsViewController: UITableViewController {
             items.append(i)
         }
         
-        items.sortInPlace { _, _ in
+        items.sort { _, _ in
             arc4random() % 2 == 1 ? true : false
         }
         
         return items
     }
     
-    func buttonPressed(button: UIButton) {
+    func buttonPressed(_ button: UIButton) {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
             if tuple.scheme === toggleHiddenSchemeSetScheme {
                 guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === self.hiddenSchemeSet }) else {

@@ -23,7 +23,7 @@ class BasicScheme_Tests: XCTestCase {
     // MARK: Instantiation
     func testInitDefaultsRowHeightToUseTableView() {
         configureSubjectWithHandler()
-        XCTAssert(subject.height == RowHeight.UseTable)
+        XCTAssert(subject.height == RowHeight.useTable)
     }
 
     // MARK: Scheme Abstract Method Overrides
@@ -58,22 +58,22 @@ class BasicScheme_Tests: XCTestCase {
     
     func testReuseIdentifierForRelativeIndex_isReuseIdentifier() {
         configureSubjectWithHandler()
-        XCTAssert(subject.reuseIdentifierForRelativeIndex(0) == ReuseIdentifier)
+        XCTAssert(subject.reuseIdentifier(forRelativeIndex:0) == ReuseIdentifier)
     }
     
     func testHeightForRelativeIndex_usesDefinedHeight() {
         configureSubjectWithHandler()
-        subject.height = .Custom(83.0)
-        XCTAssert(subject.heightForRelativeIndex(0) == .Custom(83.0))
+        subject.height = .custom(83.0)
+        XCTAssert(subject.height(forRelativeIndex: 0) == .custom(83.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithHandler()
-        XCTAssert(subject.heightForRelativeIndex(0) == .UseTable)
+        XCTAssert(subject.height(forRelativeIndex: 0) == .useTable)
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithHandler(handler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }) {
+    func configureSubjectWithHandler(_ handler: @escaping BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }) {
         subject = BasicScheme(configurationHandler: handler)
     }
 }

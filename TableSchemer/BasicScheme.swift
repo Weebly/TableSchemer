@@ -16,51 +16,51 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class BasicScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
+open class BasicScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdentifierScheme {
 
-    public typealias ConfigurationHandler = (cell: CellType) -> Void
-    public typealias SelectionHandler = (cell: CellType, scheme: BasicScheme) -> Void
+    public typealias ConfigurationHandler = (_ cell: CellType) -> Void
+    public typealias SelectionHandler = (_ cell: CellType, _ scheme: BasicScheme) -> Void
 
     /** The height the cell should be if asked. */
-    public var height: RowHeight = .UseTable
+    open var height: RowHeight = .useTable
     
     /** The closure called to configure the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler
+    open var configurationHandler: ConfigurationHandler
     
     /** The closure called when the cell is selected. 
 
         NOTE: This is only called if the TableScheme is asked to handle selection
         by the table view delegate.
      */
-    public var selectionHandler: SelectionHandler?
+    open var selectionHandler: SelectionHandler?
 
-    public var numberOfCells: Int { return 1 }
+    open var numberOfCells: Int { return 1 }
 
-    public init(configurationHandler: ConfigurationHandler) {
+    public init(configurationHandler: @escaping ConfigurationHandler) {
         self.configurationHandler = configurationHandler
     }
     
     // MARK: Public Instance Methods
-    public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as! CellType)
+    open func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+        configurationHandler(cell as! CellType)
     }
     
-    public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+    open func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
         if let sh = selectionHandler {
-            sh(cell: cell as! CellType, scheme: self)
+            sh(cell as! CellType, self)
         }
     }
     
-    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
-        return String(CellType.self)
+    open func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String  {
+        return String(describing: CellType.self)
     }
     
-    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    open func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
         return height
     }
 
-    public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(CellType.self), cellType: CellType.self)]
+    open var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(describing: CellType.self), cellType: CellType.self)]
     }
 
 }

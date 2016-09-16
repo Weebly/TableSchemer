@@ -71,9 +71,9 @@ class SchemeSet_Tests: XCTestCase {
     
 }
 
-extension SequenceType where Self.Generator.Element == Scheme {
-    func isEqualToSchemes<SchemeSequenceType: SequenceType where SchemeSequenceType.Generator.Element == Scheme>(schemes: SchemeSequenceType) -> Bool {
-        var gen = generate()
+extension Sequence where Self.Iterator.Element == Scheme {
+    func isEqualToSchemes<SchemeSequenceType: Sequence>(_ schemes: SchemeSequenceType) -> Bool where SchemeSequenceType.Iterator.Element == Scheme {
+        var gen = makeIterator()
         for scheme in schemes {
             guard let comp = gen.next() else {
                 return false

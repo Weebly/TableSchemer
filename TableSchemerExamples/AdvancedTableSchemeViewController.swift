@@ -109,19 +109,19 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
 
     // MARK: Target-Action
-    func switcherUpdated(switcher: UISwitch) {
+    func switcherUpdated(_ switcher: UISwitch) {
         if let scheme = tableScheme.schemeContainingView(switcher) {
             if scheme === self.firstSwitchScheme {
                 print("Toggle some feature, like allowing wifi!")
-                self.wifiEnabled = switcher.on
+                self.wifiEnabled = switcher.isOn
             } else if scheme === self.secondSwitchScheme {
                 print("Toggle some other feature, like bluetooth!")
-                self.bluetoothEnabled = switcher.on
+                self.bluetoothEnabled = switcher.isOn
             }
         }
     }
     
-    func textFieldUpdated(textField: UITextField) {
+    func textFieldUpdated(_ textField: UITextField) {
         if let scheme = tableScheme.schemeContainingView(textField) {
             if scheme === self.firstFieldScheme {
                 print("Storing \"\(textField.text)\" for first text field!")
@@ -133,7 +133,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         }
     }
     
-    func buttonPressed(button: UIButton) {
+    func buttonPressed(_ button: UIButton) {
         if let tuple = tableScheme.schemeWithIndexContainingView(button) {
             if tuple.scheme === buttonsScheme {
                 let object = buttonsScheme.objects[tuple.index]
@@ -142,7 +142,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         }
     }
     
-    func controlResigned(control: UIResponder) {
+    func controlResigned(_ control: UIResponder) {
         control.resignFirstResponder()
     }
 }

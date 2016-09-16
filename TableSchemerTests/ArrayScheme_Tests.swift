@@ -74,7 +74,7 @@ class ArrayScheme_Tests: XCTestCase {
     
     func testReuseIdentifierForRelativeIndex_isReuseIdentifier() {
         configureSubjectWithObjects()
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier)
+        XCTAssertEqual(subject.reuseIdentifier(forRelativeIndex:0), ReuseIdentifier)
     }
     
     func testHeightForRelativeIndex_usesCallbackHeight() {
@@ -84,16 +84,16 @@ class ArrayScheme_Tests: XCTestCase {
         configureSubjectWithObjects([string1, string2])
         subject.heightHandler = {(object) in
             if object == string1 {
-                return .Custom(44.0)
+                return .custom(44.0)
             } else if object == string2 {
-                return .Custom(80.0)
+                return .custom(80.0)
             }
             
-            return .UseTable
+            return .useTable
         }
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(44))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(80.0))
+        XCTAssertEqual(subject.height(forRelativeIndex: 0), RowHeight.custom(44))
+        XCTAssertEqual(subject.height(forRelativeIndex: 1), RowHeight.custom(80.0))
     }
     
     // MARK: InferrableRowAnimatableScheme
@@ -108,7 +108,7 @@ class ArrayScheme_Tests: XCTestCase {
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithObjects(objects: [String] = [], configurationHandler: ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
+    func configureSubjectWithObjects(_ objects: [String] = [], configurationHandler: @escaping ArrayScheme<String, UITableViewCell>.ConfigurationHandler = {(cell, object) in}, selectionHandler: @escaping ArrayScheme<String, UITableViewCell>.SelectionHandler = {(cell, scheme, object) in})  {
         subject = ArrayScheme<String, UITableViewCell>(objects: objects, configurationHandler: configurationHandler)
         subject.selectionHandler = selectionHandler
     }

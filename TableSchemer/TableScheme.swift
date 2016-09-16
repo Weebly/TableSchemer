@@ -15,10 +15,10 @@ import UIKit
  *    schemes provide varying functionlity and allow you to encapsulate all
  *    information about a particular cell, such as a configuration block or row height, in an object.
  */
-public class TableScheme: NSObject {
+open class TableScheme: NSObject {
     
-    public typealias BuildHandler = (builder: TableSchemeBuilder) -> Void
-    public internal(set) var attributedSchemeSets: [AttributedSchemeSet]
+    public typealias BuildHandler = (_ builder: TableSchemeBuilder) -> Void
+    open internal(set) var attributedSchemeSets: [AttributedSchemeSet]
     
     #if DEBUG
     private var buildingBatchAnimations = false
@@ -39,7 +39,7 @@ public class TableScheme: NSObject {
                 }
 
                 for pair in scheme.reusePairs {
-                    tableView.registerClass(pair.cellType, forCellReuseIdentifier: pair.identifier)
+                    tableView.register(pair.cellType, forCellReuseIdentifier: pair.identifier)
                 }
             }
         }
@@ -48,9 +48,9 @@ public class TableScheme: NSObject {
         tableView.delegate = self
     }
     
-    public convenience init(tableView: UITableView, @noescape buildHandler: BuildHandler) {
+    public convenience init(tableView: UITableView, buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
-        buildHandler(builder: builder)
+        buildHandler(builder)
         self.init(tableView: tableView, attributedSchemeSets: builder.schemeSets)
     }
     
@@ -64,13 +64,13 @@ public class TableScheme: NSObject {
      *
      *    @return The scheme at the index path.
      */
-    public func schemeAtIndexPath(indexPath: NSIndexPath) -> Scheme? {
-        guard let schemeSet = schemeSetForSection(indexPath.section) else { return nil }
-        let row = indexPath.row
+    public func schemeAtIndexPath(_ indexPath: IndexPath) -> Scheme? {
+        guard let schemeSet = schemeSet(forSection: (indexPath as NSIndexPath).section) else { return nil }
+        let row = (indexPath as NSIndexPath).row
         var offset = 0
         var priorHiddenSchemes = 0
         
-        for (idx, attributedScheme) in schemeSet.attributedSchemes.enumerate() {
+        for (idx, attributedScheme) in schemeSet.attributedSchemes.enumerated() {
             if attributedScheme.hidden {
                 priorHiddenSchemes += 1
                 continue
@@ -92,10 +92,10 @@ public class TableScheme: NSObject {
      - parameter    section: The section the `SchemeSet` is located at.
      - returns:     The `SchemeSet` at the given index, or nil if not found.
     */
-    public func schemeSetForSection(section: Int) -> SchemeSet? {
+    public func schemeSet(forSection section: Int) -> SchemeSet? {
         var schemeSetIndex: Int?
         var offset = 0
-        for (index, schemeSet) in attributedSchemeSets.enumerate() {
+        for (index, schemeSet) in attributedSchemeSets.enumerated() {
             // Section indexes do not include our hidden scheme sets, so
             // when we pull one from our schemeSets array, which does include
             // the hidden scheme sets, we need to offset by our hidden schemes
@@ -131,11 +131,11 @@ public class TableScheme: NSObject {
      *     
      *      @return The Scheme that contains the view, or nil if the view does not have a scheme.
      */
-    public func schemeContainingView(view: UIView) -> Scheme? {
+    public func scheme(containing view: UIView) -> Scheme? {
         if let cell = view.TSR_containingTableViewCell(),
-            tableView = cell.TSR_containingTableView(),
-            indexPath = tableView.indexPathForCell(cell),
-            scheme = schemeAtIndexPath(indexPath) {
+            let tableView = cell.TSR_containingTableView(),
+            let indexPath = tableView.indexPath(for: cell),
+            let scheme = schemeAtIndexPath(indexPath) {
                 return scheme
         }
         
@@ -157,13 +157,13 @@ public class TableScheme: NSObject {
     *      @return A tuple with the Scheme and Index of the cell within the scheme, or nil if 
     *              the view does not have a scheme.
     */
-    public func schemeWithIndexContainingView(view: UIView) -> (scheme: Scheme, index: Int)? {
+    public func schemeWithIndex(containing view: UIView) -> (scheme: Scheme, index: Int)? {
         if let cell = view.TSR_containingTableViewCell(),
-            tableView = cell.TSR_containingTableView(),
-            indexPath = tableView.indexPathForCell(cell),
-            scheme = schemeAtIndexPath(indexPath) {
+            let tableView = cell.TSR_containingTableView(),
+            let indexPath = tableView.indexPath(for: cell),
+            let scheme = schemeAtIndexPath(indexPath) {
                 let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
-                let offset = indexPath.row - numberOfRowsBeforeScheme
+                let offset = (indexPath as NSIndexPath).row - numberOfRowsBeforeScheme
                 return (scheme: scheme, index: offset)
         }
         
@@ -180,7 +180,7 @@ public class TableScheme: NSObject {
      - returns:     `true` if the `SchemeSet` is hidden, `false` if it is not, and `nil`
                     if the given `SchemeSet` does not belong to this `TableScheme`.
     */
-    public func isSchemeSetHidden(schemeSet: SchemeSet) -> Bool? {
+    public func isSchemeSetHidden(_ schemeSet: SchemeSet) -> Bool? {
         guard let attributedSchemeSet = attributedSchemeSets.lazy.filter({ $0.schemeSet === schemeSet}).first else { return nil }
         return attributedSchemeSet.hidden
     }
@@ -196,7 +196,7 @@ public class TableScheme: NSObject {
      - returns:     `true` if the `Scheme` is hidden, `false` if it is not, and `nil`
      if the given `Scheme` does not belong to this `TableScheme`.
      */
-    public func isSchemeHidden(scheme: Scheme) -> Bool? {
+    public func isSchemeHidden(_ scheme: Scheme) -> Bool? {
         for attributedSchemeSet in attributedSchemeSets {
             for attributedScheme in attributedSchemeSet.schemeSet.attributedSchemes {
                 if attributedScheme.scheme === scheme {
@@ -217,7 +217,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func hideScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func hideScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -228,7 +228,7 @@ public class TableScheme: NSObject {
         }
 
         attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden = true
-        tableView.deleteRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+        tableView.deleteRows(at: indexPathsForScheme(scheme), with: rowAnimation)
     }
     
     /**
@@ -240,7 +240,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func showScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func showScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -251,7 +251,7 @@ public class TableScheme: NSObject {
         }
 
         attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden = false
-        tableView.insertRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+        tableView.insertRows(at: indexPathsForScheme(scheme), with: rowAnimation)
     }
     
     /**
@@ -263,7 +263,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func reloadScheme(scheme: Scheme, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func reloadScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -274,7 +274,7 @@ public class TableScheme: NSObject {
         }
 
         if !attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden {
-            tableView.reloadRowsAtIndexPaths(indexPathsForScheme(scheme), withRowAnimation: rowAnimation)
+            tableView.reloadRows(at: indexPathsForScheme(scheme), with: rowAnimation)
         }
     }
     
@@ -282,25 +282,25 @@ public class TableScheme: NSObject {
         Hides a SchemeSet in the provided table view using the given animation.
         
         The passed in SchemeSet must belong to the TableScheme. This method should not be used with batch updates. Instead, use
-        `hideSchemeSet(_:, withRowAnimation:)`.
+        `hideSchemeSet(_:, with:)`.
         
         - parameter     schemeSet:       The schemeSet to hide.
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func hideSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func hideSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
 
         let section = sectionForSchemeSet(schemeSet)
         attributedSchemeSets[index].hidden = true
-        tableView.deleteSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
+        tableView.deleteSections(IndexSet(integer: section), with: rowAnimation)
     }
     
     /**
@@ -312,19 +312,19 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func showSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func showSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
 
         let section = sectionForSchemeSet(schemeSet)
         attributedSchemeSets[index].hidden = false
-        tableView.insertSections(NSIndexSet(index: section), withRowAnimation: rowAnimation)
+        tableView.insertSections(IndexSet(integer: section), with: rowAnimation)
     }
     
     /**
@@ -336,18 +336,18 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func reloadSchemeSet(schemeSet: SchemeSet, inTableView tableView: UITableView, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public func reloadSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
         
         if !attributedSchemeSets[index].hidden {
-            tableView.reloadSections(NSIndexSet(index: sectionForSchemeSet(schemeSet)), withRowAnimation: rowAnimation)
+            tableView.reloadSections(IndexSet(integer: sectionForSchemeSet(schemeSet)), with: rowAnimation)
         }
     }
 
@@ -365,7 +365,7 @@ public class TableScheme: NSObject {
         - parameter     visibilityOperations:    A closure containing the animation operations to be performed on the UITableView. A BatchAnimator
                                             will be passed into the closure, which is where your batch operations should occur.
     */
-    public func batchSchemeVisibilityChangesInTableView(tableView: UITableView, @noescape visibilityOperations: (animator: TableSchemeBatchAnimator) -> Void) {
+    public func batchSchemeVisibilityChanges(in tableView: UITableView, visibilityOperations: (_ animator: TableSchemeBatchAnimator) -> Void) {
         let batchAnimator = TableSchemeBatchAnimator(tableScheme: self, withTableView: tableView)
         tableView.beginUpdates()
         
@@ -373,7 +373,7 @@ public class TableScheme: NSObject {
         buildingBatchAnimations = true
         #endif
         
-        visibilityOperations(animator: batchAnimator)
+        visibilityOperations(batchAnimator)
         
         #if DEBUG
         buildingBatchAnimations = false
@@ -397,14 +397,14 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView that the animations should be performed on.
         - parameter     changeHandler:   A closure with a SchemeRowAnimator that you give your animation instructions to.
     */
-    public func animateChangesToScheme(scheme: Scheme, inTableView tableView: UITableView, @noescape withChangeHandler changeHandler: (animator: SchemeRowAnimator) -> Void) {
+    public func animateChangesToScheme(_ scheme: Scheme, inTableView tableView: UITableView, withChangeHandler changeHandler: (_ animator: SchemeRowAnimator) -> Void) {
         guard let indexes = attributedSchemeIndexesWithScheme(scheme) else {
             NSLog("ERROR: Could not locate \(scheme) within \(self)")
             return
         }
         
-        let animator = SchemeRowAnimator(tableScheme: self, withAttributedScheme: attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex], inTableView: tableView)
-        changeHandler(animator: animator)
+        let animator = SchemeRowAnimator(tableScheme: self, with: attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex], in: tableView)
+        changeHandler(animator)
         animator.performAnimations()
     }
     
@@ -422,17 +422,17 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView that the animations should be performed on.
         - parameter     changeHandler:   A closure that you perform the changes to your scheme in.
     */
-    public func animateChangesToScheme<T: Scheme where T: InferrableRowAnimatableScheme>(scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .Automatic, @noescape withChangeHandler changeHandler: () -> Void) {
+    public func animateChangesToScheme<T: Scheme>(_ scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .automatic, withChangeHandler changeHandler: () -> Void) where T: InferrableRowAnimatableScheme {
         guard let indexes = attributedSchemeIndexesWithScheme(scheme) else {
             NSLog("ERROR: Could not locate \(scheme) within \(self)")
             return
         }
 
-        let animator = InferringRowAnimator(tableScheme: self, withScheme: scheme, ownedByAttributedScheme: attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex], inTableView: tableView)
+        let animator = InferringRowAnimator(tableScheme: self, with: scheme, ownedBy: attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex], in: tableView)
         assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells before the changes")
         changeHandler()
         assert(scheme.rowIdentifiers.count == scheme.numberOfCells, "The schemes number of row identifiers must equal its number of cells after the changes")
-        animator.guessRowAnimationsWithAnimation(animation)
+        animator.guessRowAnimations(with: animation)
         animator.performAnimations()
     }
 
@@ -442,8 +442,8 @@ public class TableScheme: NSObject {
      -  parameter   schemeSet:  The `SchemeSet` to locate the index for
      -  returns:                The index of the scheme set, or nil if it doesn't exist
     */
-    public func attributedSchemeSetIndexForSchemeSet(schemeSet: SchemeSet) -> Array<AttributedSchemeSet>.Index? {
-        return attributedSchemeSets.indexOf({ $0.schemeSet === schemeSet })
+    public func attributedSchemeSetIndexForSchemeSet(_ schemeSet: SchemeSet) -> Array<AttributedSchemeSet>.Index? {
+        return attributedSchemeSets.index(where: { $0.schemeSet === schemeSet })
     }
 
     /**
@@ -452,9 +452,9 @@ public class TableScheme: NSObject {
      -  parameter   scheme:     The `Scheme` to locate the indexes for
      -  returns:                The index of the scheme and scheme set, or nil if it doesn't exist
      */
-    public func attributedSchemeIndexesWithScheme(scheme: Scheme) -> (schemeSetIndex: Array<AttributedSchemeSet>.Index, schemeIndex: Array<AttributedScheme>.Index)? {
-        for (attributedSchemeSetIndex, attributedSchemeSet) in attributedSchemeSets.enumerate() {
-            for (attributedSchemeIndex, attributedScheme) in attributedSchemeSet.schemeSet.attributedSchemes.enumerate() {
+    public func attributedSchemeIndexesWithScheme(_ scheme: Scheme) -> (schemeSetIndex: Array<AttributedSchemeSet>.Index, schemeIndex: Array<AttributedScheme>.Index)? {
+        for (attributedSchemeSetIndex, attributedSchemeSet) in attributedSchemeSets.enumerated() {
+            for (attributedSchemeIndex, attributedScheme) in attributedSchemeSet.schemeSet.attributedSchemes.enumerated() {
                 if attributedScheme.scheme === scheme {
                     return (schemeSetIndex: attributedSchemeSetIndex, schemeIndex: attributedSchemeIndex)
                 }
@@ -467,14 +467,14 @@ public class TableScheme: NSObject {
     
     // MARK: - Internal methods
     
-    func indexPathsForScheme(scheme: Scheme) -> [NSIndexPath] {
+    func indexPathsForScheme(_ scheme: Scheme) -> [IndexPath] {
         let rbs = rowsBeforeScheme(scheme)
         let schemeSet = schemeSetWithScheme(scheme)
         let section = sectionForSchemeSet(schemeSet)
-        return (rbs..<(rbs + scheme.numberOfCells)).map { NSIndexPath(forRow: $0, inSection: section) }
+        return (rbs..<(rbs + scheme.numberOfCells)).map { IndexPath(row: $0, section: section) }
     }
     
-    func sectionForSchemeSet(schemeSet: SchemeSet) -> Int {
+    func sectionForSchemeSet(_ schemeSet: SchemeSet) -> Int {
         var i = 0
         
         for scanSchemeSet in attributedSchemeSets {
@@ -491,7 +491,7 @@ public class TableScheme: NSObject {
     }
     
     
-    func rowsBeforeScheme(scheme: Scheme) -> Int {
+    func rowsBeforeScheme(_ scheme: Scheme) -> Int {
         let schemeSet = schemeSetWithScheme(scheme)
         
         var count = 0
@@ -510,7 +510,7 @@ public class TableScheme: NSObject {
         return count
     }
     
-    func schemeSetWithScheme(scheme: Scheme) -> SchemeSet {
+    func schemeSetWithScheme(_ scheme: Scheme) -> SchemeSet {
         var foundSet: AttributedSchemeSet?
         
         for schemeSet in attributedSchemeSets {
@@ -532,22 +532,22 @@ public class TableScheme: NSObject {
 // MARK: UITableViewDataSource methods
 extension TableScheme: UITableViewDataSource {
 
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return attributedSchemeSets.reduce(0) { $1.hidden ? $0 : $0 + 1 }
     }
 
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let schemeSet = schemeSetForSection(section)!
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let set = schemeSet(forSection: section)!
 
-        return schemeSet.visibleSchemes.reduce(0) { (memo: Int, scheme: Scheme) in
+        return set.visibleSchemes.reduce(0) { (memo: Int, scheme: Scheme) in
             memo + scheme.numberOfCells
         }
     }
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let scheme = schemeAtIndexPath(indexPath)!
-        let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
-        let cell = scheme.tableView(tableView, cellForRowAtIndexPath: indexPath, relativeIndex: configurationIndex)
+        let configurationIndex = (indexPath as NSIndexPath).row - rowsBeforeScheme(scheme)
+        let cell = scheme.tableView(tableView, cellForRowAt: indexPath, relativeIndex: configurationIndex)
 
         (cell as? SchemeCell)?.scheme = scheme
 
@@ -556,36 +556,36 @@ extension TableScheme: UITableViewDataSource {
         return cell
     }
 
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return schemeSetForSection(section)?.headerText
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return schemeSet(forSection: section)?.headerText
     }
 
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return schemeSetForSection(section)?.footerText
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return schemeSet(forSection: section)?.footerText
     }
 
 }
 
 extension TableScheme: UITableViewDelegate {
 
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let scheme = schemeAtIndexPath(indexPath), cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let scheme = schemeAtIndexPath(indexPath), let cell = tableView.cellForRow(at: indexPath) else { return }
 
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
-        let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
-        scheme.selectCell(cell, inTableView: tableView, inSection: indexPath.section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let newSelectedIndex = (indexPath as NSIndexPath).row - numberOfRowsBeforeScheme
+        scheme.selectCell(cell, inTableView: tableView, inSection: (indexPath as NSIndexPath).section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let scheme = schemeAtIndexPath(indexPath)!
-        let relativeIndex = indexPath.row - rowsBeforeScheme(scheme)
-        let rowHeight = scheme.heightForRelativeIndex(relativeIndex)
+        let relativeIndex = (indexPath as NSIndexPath).row - rowsBeforeScheme(scheme)
+        let rowHeight = scheme.height(forRelativeIndex: relativeIndex)
 
         switch rowHeight {
-        case .UseTable:
+        case .useTable:
             return tableView.rowHeight
-        case .Custom(let h):
+        case .custom(let h):
             return CGFloat(h)
         }
     }

@@ -15,6 +15,6 @@ public protocol SchemeBuilder: class {
 
 }
 
-public enum SchemeBuilderError: ErrorType {
-    case MissingRequiredAttribute(String)
+public enum SchemeBuilderError: Error {
+    case missingRequiredAttribute(String)
 }

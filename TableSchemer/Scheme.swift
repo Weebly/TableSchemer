@@ -9,24 +9,24 @@
 import UIKit
 
 public enum RowHeight: Equatable {
-    case UseTable
-    case Custom(CGFloat)
+    case useTable
+    case custom(CGFloat)
 }
 
 public func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
     switch lhs {
-        case .UseTable:
+        case .useTable:
             switch rhs {
-                case .UseTable:
+                case .useTable:
                     return true
-                case .Custom(_):
+                case .custom(_):
                     return false
             }
-        case .Custom(let lhsHeight):
+        case .custom(let lhsHeight):
             switch rhs {
-                case .UseTable:
+                case .useTable:
                     return false
-                case .Custom(let rhsHeight):
+                case .custom(let rhsHeight):
                     return lhsHeight == rhsHeight
         }
     }
@@ -55,7 +55,7 @@ public protocol Scheme: class {
         - parameter   cell:          The UITableViewCell being created.
         - parameter   relativeIndex: The cell index from the start of the scheme being configured.
      */
-    func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)
+    func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int)
     
     /**
         This method is called by a `TableScheme` when the cell
@@ -71,7 +71,7 @@ public protocol Scheme: class {
         - parameter                 rowsBeforeScheme:   The number of rows before the scheme's first cell.
         - parameter                 relativeIndex:      The index of the row from the scheme's first cell.
      */
-    func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)
+    func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)
     
     /**
         This method is called by `TableScheme` when the cell
@@ -81,7 +81,7 @@ public protocol Scheme: class {
         - parameter relativeIndex:    The index of the row from the schemes first cell.
         - returns:                    The reuse identifier to pass into the table views dequeue method.
      */
-    func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String
+    func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String
     
     /**
         This method is called by `TableScheme` when the cell's
@@ -93,7 +93,7 @@ public protocol Scheme: class {
                                         tableView's height, otherwise provide TableHeight.Custom(CGFloat) to use
                                         a custom height.
      */
-    func heightForRelativeIndex(relativeIndex: Int) -> RowHeight
+    func height(forRelativeIndex relativeIndex: Int) -> RowHeight
 
     /**
         This method is called by `TableScheme` when we want to generate
@@ -106,18 +106,18 @@ public protocol Scheme: class {
         - parameter     relativeIndex:  The relative index this cell has within the `Scheme`s cells
         - returns:                      The `UITableViewCell` to be used in the `UITableView`
      */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell
 }
 
 extension Scheme {
 
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, relativeIndex: Int) -> UITableViewCell {
-        let reuseIdentifier = reuseIdentifierForRelativeIndex(relativeIndex)
-        return tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell {
+        let identifier = reuseIdentifier(forRelativeIndex: relativeIndex)
+        return tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
     }
 
-    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
-        return .UseTable
+    public func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
+        return .useTable
     }
 
 }

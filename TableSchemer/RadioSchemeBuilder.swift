@@ -6,25 +6,25 @@
 //  Copyright © 2015 Weebly. All rights reserved.
 //
 
-public class RadioSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
+open class RadioSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public typealias SchemeType = RadioScheme<CellType>
 
     public required init() {}
 
-    public var configurationHandler: SchemeType.ConfigurationHandler?
-    public var selectionHandler: SchemeType.SelectionHandler?
-    public var expandedCellTypes: [UITableViewCell.Type]?
-    public var selectedIndex = 0
-    public var heights: [RowHeight]?
+    open var configurationHandler: SchemeType.ConfigurationHandler?
+    open var selectionHandler: SchemeType.SelectionHandler?
+    open var expandedCellTypes: [UITableViewCell.Type]?
+    open var selectedIndex = 0
+    open var heights: [RowHeight]?
 
     public func createScheme() throws -> SchemeType {
         guard let configurationHandler = configurationHandler else {
-            throw SchemeBuilderError.MissingRequiredAttribute("configurationHandler")
+            throw SchemeBuilderError.missingRequiredAttribute("configurationHandler")
         }
 
         guard let expandedCellTypes = expandedCellTypes else {
-            throw SchemeBuilderError.MissingRequiredAttribute("expandedCellTypes")
+            throw SchemeBuilderError.missingRequiredAttribute("expandedCellTypes")
         }
 
         let scheme = SchemeType(expandedCellTypes: expandedCellTypes, configurationHandler: configurationHandler)

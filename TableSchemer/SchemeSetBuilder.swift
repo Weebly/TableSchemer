@@ -43,19 +43,19 @@ public final class SchemeSetBuilder {
         - parameter     handler:    The closure to configure the scheme.
         - returns:                  The created Scheme instance.
      */
-    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType, inout hidden: Bool) -> Void) -> BuilderType.SchemeType {
+    public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType, _ hidden: inout Bool) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
         var hidden = false
-        handler(builder: builder, hidden: &hidden)
+        handler(builder, &hidden)
 
         let scheme = try! builder.createScheme()
         attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
         return scheme
     }
 
-    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType) -> Void) -> BuilderType.SchemeType {
+    public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
-        handler(builder: builder)
+        handler(builder)
 
         let scheme = try! builder.createScheme()
         attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))
