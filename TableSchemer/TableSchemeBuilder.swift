@@ -30,6 +30,7 @@ public final class TableSchemeBuilder {
      *  @param handler The block to configure the builder.
      *  @return The created SchemeSet object.
      */
+    @discardableResult
     public func buildSchemeSet(_ handler: (_ builder: SchemeSetBuilder) -> Void) -> SchemeSet {
         let builder = SchemeSetBuilder()
         handler(builder)

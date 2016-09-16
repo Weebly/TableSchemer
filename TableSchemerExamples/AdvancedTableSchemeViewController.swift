@@ -42,10 +42,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 firstSwitchScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "First Switch"
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         let switchView = UISwitch()
-                        switchView.on = self.wifiEnabled
-                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), forControlEvents: .ValueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
+                        switchView.isOn = self.wifiEnabled
+                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), for: .valueChanged) // Don't worry about this being reapplied on reuse; it has checks =)
                         cell.accessoryView = switchView
                     }
                 }
@@ -53,10 +53,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 secondSwitchScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         cell.textLabel?.text = "Second Switch"
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         let switchView = UISwitch()
-                        switchView.on = self.bluetoothEnabled
-                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), forControlEvents: .ValueChanged)
+                        switchView.isOn = self.bluetoothEnabled
+                        switchView.addTarget(self, action: #selector(AdvancedTableSchemeViewController.switcherUpdated(_:)), for: .valueChanged)
                         cell.accessoryView = switchView
                     }
                 }
@@ -69,23 +69,23 @@ class AdvancedTableSchemeViewController: UITableViewController {
                 
                 firstFieldScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<InputFieldCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.label.text = "First Input:"
                         cell.input.text = self.firstFieldValue
-                        cell.input.keyboardType = .Default // Since the other input cell changes this value, this cell must define what it wants to avoid reuse issues.
-                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), forControlEvents: .EditingDidEnd)
+                        cell.input.keyboardType = .default // Since the other input cell changes this value, this cell must define what it wants to avoid reuse issues.
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), for: .editingDidEndOnExit)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), for: .editingDidEnd)
                     }
                 }
                 
                 secondFieldScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<InputFieldCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.label.text = "Email:"
                         cell.input.text = self.secondFieldValue
-                        cell.input.keyboardType = .EmailAddress
-                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), forControlEvents: .EditingDidEndOnExit)
-                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), forControlEvents: .EditingDidEnd)
+                        cell.input.keyboardType = .emailAddress
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.controlResigned(_:)), for: .editingDidEndOnExit)
+                        cell.input.addTarget(self, action: #selector(AdvancedTableSchemeViewController.textFieldUpdated(_:)), for: .editingDidEnd)
                     }
                 }
             }
@@ -97,10 +97,10 @@ class AdvancedTableSchemeViewController: UITableViewController {
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
                     
                     scheme.configurationHandler = { [unowned self] cell, object in
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = object
-                        let button = UIButton(type: .InfoDark)
-                        button.addTarget(self, action: #selector(AdvancedTableSchemeViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
+                        let button = UIButton(type: .infoDark)
+                        button.addTarget(self, action: #selector(AdvancedTableSchemeViewController.buttonPressed(_:)), for: .touchUpInside)
                         cell.accessoryView = button
                     }
                 }
@@ -110,7 +110,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
 
     // MARK: Target-Action
     func switcherUpdated(_ switcher: UISwitch) {
-        if let scheme = tableScheme.schemeContainingView(switcher) {
+        if let scheme = tableScheme.scheme(containing: switcher) {
             if scheme === self.firstSwitchScheme {
                 print("Toggle some feature, like allowing wifi!")
                 self.wifiEnabled = switcher.isOn
@@ -122,7 +122,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func textFieldUpdated(_ textField: UITextField) {
-        if let scheme = tableScheme.schemeContainingView(textField) {
+        if let scheme = tableScheme.scheme(containing: textField) {
             if scheme === self.firstFieldScheme {
                 print("Storing \"\(textField.text)\" for first text field!")
                 self.firstFieldValue = textField.text ?? ""
@@ -134,7 +134,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
     
     func buttonPressed(_ button: UIButton) {
-        if let tuple = tableScheme.schemeWithIndexContainingView(button) {
+        if let tuple = tableScheme.schemeWithIndex(containing: button) {
             if tuple.scheme === buttonsScheme {
                 let object = buttonsScheme.objects[tuple.index]
                 print("You pressed the button with object: \(object)")
@@ -166,10 +166,10 @@ class InputFieldCell: SchemeCell {
 
     override func updateConstraints() {
         let views = ["label": label, "input": input]
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[label]-5-|", options: [], metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-5-[input]-5-|", options: [], metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("|-20-[label]", options: [], metrics: nil, views: views))
-        contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("[input(150)]-20-|", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[label]-5-|", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[input]-5-|", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "|-20-[label]", options: [], metrics: nil, views: views))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "[input(150)]-20-|", options: [], metrics: nil, views: views))
         
         super.updateConstraints()
     }

@@ -14,26 +14,26 @@ import UIKit
     at the end of the TableScheme's batch operation method.
 */
 public final class TableSchemeBatchAnimator {
-    fileprivate struct Row {
+    private struct Row {
         let animation: UITableViewRowAnimation
         let attributedSchemeSetIndex: Array<AttributedSchemeSet>.Index
         let attributedSchemeIndex: Array<AttributedScheme>.Index
     }
     
-    fileprivate struct Section {
+    private struct Section {
         let animation: UITableViewRowAnimation
         let attributedSchemeSetIndex: Array<AttributedSchemeSet>.Index
     }
     
-    fileprivate var rowInsertions = [Row]()
-    fileprivate var rowDeletions = [Row]()
-    fileprivate var rowReloads = [Row]()
-    fileprivate var sectionInsertions = [Section]()
-    fileprivate var sectionDeletions = [Section]()
-    fileprivate var sectionReloads = [Section]()
+    private var rowInsertions = [Row]()
+    private var rowDeletions = [Row]()
+    private var rowReloads = [Row]()
+    private var sectionInsertions = [Section]()
+    private var sectionDeletions = [Section]()
+    private var sectionReloads = [Section]()
     
-    fileprivate let tableScheme: TableScheme
-    fileprivate let tableView: UITableView
+    private let tableScheme: TableScheme
+    private let tableView: UITableView
     
     init(tableScheme: TableScheme, withTableView tableView: UITableView) {
         self.tableScheme = tableScheme

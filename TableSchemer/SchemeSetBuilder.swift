@@ -43,6 +43,7 @@ public final class SchemeSetBuilder {
         - parameter     handler:    The closure to configure the scheme.
         - returns:                  The created Scheme instance.
      */
+    @discardableResult
     public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType, _ hidden: inout Bool) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
         var hidden = false
@@ -53,6 +54,7 @@ public final class SchemeSetBuilder {
         return scheme
     }
 
+    @discardableResult
     public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
         handler(builder)

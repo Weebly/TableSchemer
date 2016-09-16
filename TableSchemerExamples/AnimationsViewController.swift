@@ -38,13 +38,13 @@ class AnimationsViewController: UITableViewController {
                 randomNumberScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<SchemeCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         let randomNumber = arc4random() % 100
                         cell.textLabel?.text = "Random number: \(randomNumber)"
                     }
                     
                     scheme.selectionHandler = { [unowned(unsafe) self] cell, scheme in
-                        self.tableScheme.reloadScheme(self.randomNumberScheme, inTableView: self.tableView, withRowAnimation: .Fade)
+                        self.tableScheme.reloadScheme(self.randomNumberScheme, in: self.tableView, with: .fade)
                     }
                 }
                 
@@ -52,11 +52,11 @@ class AnimationsViewController: UITableViewController {
                     scheme.configurationHandler = { [unowned(unsafe) self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
-                        button.setTitle("Tap to toggle hidden scheme set", forState: .Normal)
-                        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
+                        button.setTitle("Tap to toggle hidden scheme set", for: .normal)
+                        button.setTitleColor(UIColor.black, for: .normal)
+                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), for: .touchUpInside)
                         cell.contentView.addSubview(button)
                     }
                 }
@@ -71,11 +71,11 @@ class AnimationsViewController: UITableViewController {
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         let button = UIButton(frame: CGRect(x: 10, y: 0, width: 300, height: 44))
-                        button.setTitle("Tap to toggle other schemes visibility", forState: .Normal)
-                        button.setTitleColor(UIColor.blackColor(), forState: .Normal)
-                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), forControlEvents: .TouchUpInside)
+                        button.setTitle("Tap to toggle other schemes visibility", for: .normal)
+                        button.setTitleColor(UIColor.black, for: .normal)
+                        button.addTarget(self, action: #selector(AnimationsViewController.buttonPressed(_:)), for: .touchUpInside)
                         cell.contentView.addSubview(button)
                     }
                 }
@@ -86,7 +86,7 @@ class AnimationsViewController: UITableViewController {
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
                         cell.textLabel?.text = nil
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "First"
                         cell.accessoryView = nil
                     }
@@ -97,7 +97,7 @@ class AnimationsViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "Second"
                         cell.accessoryView = nil
                     }
@@ -120,33 +120,33 @@ class AnimationsViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "Tap to toggle preset array"
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, scheme in
                         if !self.toggledArrayToggled {
                             self.tableScheme.animateChangesToScheme(self.toggledArrayScheme, inTableView: self.tableView) { animator in
-                                animator.deleteObjectAtIndex(1, withRowAnimation: .Left)
-                                animator.deleteObjectAtIndex(3, withRowAnimation: .Right)
-                                animator.deleteObjectAtIndex(5, withRowAnimation: .Left)
-                                animator.deleteObjectAtIndex(7, withRowAnimation: .Right)
-                                animator.deleteObjectAtIndex(8, withRowAnimation: .Top)
-                                animator.moveObjectAtIndex(4, toIndex: 3)
-                                animator.moveObjectAtIndex(6, toIndex: 2)
-                                animator.insertObjectAtIndex(4, withRowAnimation: .Top)
+                                animator.deleteObject(at: 1, with: .left)
+                                animator.deleteObject(at: 3, with: .right)
+                                animator.deleteObject(at: 5, with: .left)
+                                animator.deleteObject(at: 7, with: .right)
+                                animator.deleteObject(at: 8, with: .top)
+                                animator.moveObject(at: 4, to: 3)
+                                animator.moveObject(at: 6, to: 2)
+                                animator.insertObject(at: 4, with: .top)
                                 self.toggledArrayScheme.objects = [1,3,7,5,11]
                             }
                         } else {
                             self.tableScheme.animateChangesToScheme(self.toggledArrayScheme, inTableView: self.tableView) { animator in
-                                animator.insertObjectAtIndex(1, withRowAnimation: .Left)
-                                animator.insertObjectAtIndex(3, withRowAnimation: .Right)
-                                animator.insertObjectAtIndex(5, withRowAnimation: .Left)
-                                animator.insertObjectAtIndex(7, withRowAnimation: .Right)
-                                animator.insertObjectAtIndex(8, withRowAnimation: .Top)
-                                animator.moveObjectAtIndex(2, toIndex: 6)
-                                animator.moveObjectAtIndex(3, toIndex: 4)
-                                animator.deleteObjectAtIndex(4, withRowAnimation: .Top)
+                                animator.insertObject(at: 1, with: .left)
+                                animator.insertObject(at: 3, with: .right)
+                                animator.insertObject(at: 5, with: .left)
+                                animator.insertObject(at: 7, with: .right)
+                                animator.insertObject(at: 8, with: .top)
+                                animator.moveObject(at: 2, to: 6)
+                                animator.moveObject(at: 3, to: 4)
+                                animator.deleteObject(at: 4, with: .top)
                                 self.toggledArrayScheme.objects = [1,2,3,4,5,6,7,8,9]
                             }
                         }
@@ -160,7 +160,7 @@ class AnimationsViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned self] cell, object in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "\(object)"
                     }
                 }
@@ -177,12 +177,12 @@ class AnimationsViewController: UITableViewController {
 
                     scheme.configurationHandler = { [unowned self] cell in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "Tap to toggle random inferred array"
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, object in
-                        self.tableScheme.animateChangesToScheme(self.randomizedArrayScheme, inTableView: self.tableView, withAnimation: .Fade) {
+                        self.tableScheme.animateChangesToScheme(self.randomizedArrayScheme, inTableView: self.tableView, withAnimation: .fade) {
                             self.randomizedArrayScheme.objects = self.generateRandomizedArray()
                         }
                     }
@@ -193,7 +193,7 @@ class AnimationsViewController: UITableViewController {
                     
                     scheme.configurationHandler = { [unowned self] cell, object in
                         self.removeSubviewsInView(cell.contentView)
-                        cell.selectionStyle = .None
+                        cell.selectionStyle = .none
                         cell.textLabel?.text = "\(object)"
                     }
                 }
@@ -201,13 +201,13 @@ class AnimationsViewController: UITableViewController {
         }
     }
     
-    fileprivate func removeSubviewsInView(_ view: UIView) {
+    private func removeSubviewsInView(_ view: UIView) {
         for v in view.subviews {
             v.removeFromSuperview()
         }
     }
     
-    fileprivate func generateRandomizedArray() -> [Int] {
+    private func generateRandomizedArray() -> [Int] {
         let itemCount = Int(arc4random() % 20)
         var items = [Int]()
         
@@ -223,25 +223,25 @@ class AnimationsViewController: UITableViewController {
     }
     
     func buttonPressed(_ button: UIButton) {
-        if let tuple = tableScheme.schemeWithIndexContainingView(button) {
+        if let tuple = tableScheme.schemeWithIndex(containing: button) {
             if tuple.scheme === toggleHiddenSchemeSetScheme {
-                guard let index = tableScheme.attributedSchemeSets.indexOf({ $0.schemeSet === self.hiddenSchemeSet }) else {
+                guard let index = tableScheme.attributedSchemeSets.index(where: { $0.schemeSet === self.hiddenSchemeSet }) else {
                     return
                 }
 
                 if tableScheme.attributedSchemeSets[index].hidden {
-                    tableScheme.showSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Bottom)
+                    tableScheme.showSchemeSet(hiddenSchemeSet, in: tableView, with: .bottom)
                 } else {
-                    tableScheme.hideSchemeSet(hiddenSchemeSet, inTableView: tableView, withRowAnimation: .Top)
+                    tableScheme.hideSchemeSet(hiddenSchemeSet, in: tableView, with: .top)
                 }
             } else if tuple.scheme === toggleHiddenSchemesScheme {
-                tableScheme.batchSchemeVisibilityChangesInTableView(tableView) { animator in
+                tableScheme.batchSchemeVisibilityChanges(in: tableView) { animator in
                     if schemesHidden {
-                        animator.showScheme(hiddenScheme1, withRowAnimation: .Left)
-                        animator.showScheme(hiddenScheme2, withRowAnimation: .Right)
+                        animator.showScheme(hiddenScheme1, with: .left)
+                        animator.showScheme(hiddenScheme2, with: .right)
                     } else {
-                        animator.hideScheme(hiddenScheme2, withRowAnimation: .Left)
-                        animator.hideScheme(hiddenScheme1, withRowAnimation: .Right)
+                        animator.hideScheme(hiddenScheme2, with: .left)
+                        animator.hideScheme(hiddenScheme1, with: .right)
                     }
                 }
                 

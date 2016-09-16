@@ -65,8 +65,8 @@ open class TableScheme: NSObject {
      *    @return The scheme at the index path.
      */
     public func schemeAtIndexPath(_ indexPath: IndexPath) -> Scheme? {
-        guard let schemeSet = schemeSet(forSection: (indexPath as NSIndexPath).section) else { return nil }
-        let row = (indexPath as NSIndexPath).row
+        guard let schemeSet = schemeSet(forSection: indexPath.section) else { return nil }
+        let row = indexPath.row
         var offset = 0
         var priorHiddenSchemes = 0
         
@@ -163,7 +163,7 @@ open class TableScheme: NSObject {
             let indexPath = tableView.indexPath(for: cell),
             let scheme = schemeAtIndexPath(indexPath) {
                 let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
-                let offset = (indexPath as NSIndexPath).row - numberOfRowsBeforeScheme
+                let offset = indexPath.row - numberOfRowsBeforeScheme
                 return (scheme: scheme, index: offset)
         }
         
@@ -546,7 +546,7 @@ extension TableScheme: UITableViewDataSource {
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let scheme = schemeAtIndexPath(indexPath)!
-        let configurationIndex = (indexPath as NSIndexPath).row - rowsBeforeScheme(scheme)
+        let configurationIndex = indexPath.row - rowsBeforeScheme(scheme)
         let cell = scheme.tableView(tableView, cellForRowAt: indexPath, relativeIndex: configurationIndex)
 
         (cell as? SchemeCell)?.scheme = scheme
@@ -572,14 +572,14 @@ extension TableScheme: UITableViewDelegate {
         guard let scheme = schemeAtIndexPath(indexPath), let cell = tableView.cellForRow(at: indexPath) else { return }
 
         let numberOfRowsBeforeScheme = rowsBeforeScheme(scheme)
-        let newSelectedIndex = (indexPath as NSIndexPath).row - numberOfRowsBeforeScheme
-        scheme.selectCell(cell, inTableView: tableView, inSection: (indexPath as NSIndexPath).section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
+        let newSelectedIndex = indexPath.row - numberOfRowsBeforeScheme
+        scheme.selectCell(cell, inTableView: tableView, inSection: indexPath.section, havingRowsBeforeScheme: numberOfRowsBeforeScheme, withRelativeIndex: newSelectedIndex)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let scheme = schemeAtIndexPath(indexPath)!
-        let relativeIndex = (indexPath as NSIndexPath).row - rowsBeforeScheme(scheme)
+        let relativeIndex = indexPath.row - rowsBeforeScheme(scheme)
         let rowHeight = scheme.height(forRelativeIndex: relativeIndex)
 
         switch rowHeight {

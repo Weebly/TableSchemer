@@ -102,7 +102,7 @@ public protocol Scheme: class {
         yourself.
  
         - parameter     tableView:      The `UITableView` that contains the created `UITableViewCell`
-        - parameter     indexPath:      The `NSIndexPath` that the cell belongs at
+        - parameter     indexPath:      The `IndexPath` that the cell belongs at
         - parameter     relativeIndex:  The relative index this cell has within the `Scheme`s cells
         - returns:                      The `UITableViewCell` to be used in the `UITableView`
      */

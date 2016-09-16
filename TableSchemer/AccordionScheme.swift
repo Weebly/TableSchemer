@@ -45,7 +45,7 @@ open class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellType:
         return expanded ? numberOfItems : 1
     }
     
-    open var numberOfItems: Int {
+    public var numberOfItems: Int {
         return expandedCellTypes.count
     }
 

@@ -901,7 +901,7 @@ class TableScheme_Tests: XCTestCase {
         XCTAssertEqual(tableView.callsToInsertRows.count, 0)
         XCTAssertEqual(tableView.callsToMoveRow.count, 2)
         
-        let orderedMoves = tableView.callsToMoveRow.sorted { ($0.fromIndexPath as NSIndexPath).row < ($1.fromIndexPath as NSIndexPath).row }
+        let orderedMoves = tableView.callsToMoveRow.sorted { $0.fromIndexPath.row < $1.fromIndexPath.row }
         
         let move1 = orderedMoves[0]
         let move2 = orderedMoves[1]
