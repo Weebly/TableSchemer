@@ -55,7 +55,7 @@ open class StaticScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdent
     }
 
     /// Overriding the default implementation to return our specific cell
-    open func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell {
         return cell
     }
     
