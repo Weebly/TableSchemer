@@ -100,7 +100,7 @@ class RadioScheme_Tests: XCTestCase {
         let mockTableView = OCMockObject.niceMock(for: UITableView.self) as AnyObject
         let oldCell = UITableViewCell()
         oldCell.accessoryType = .checkmark
-        ((mockTableView.stub() as AnyObject).andReturn(oldCell) as AnyObject).cellForRowAtIndexPath(IndexPath(forRow: 3, inSection: 0))
+        _ = ((mockTableView.stub() as AnyObject).andReturn(oldCell) as AnyObject).cellForRow(at: IndexPath(row: 3, section: 0))
         
         let cell = UITableViewCell()
         

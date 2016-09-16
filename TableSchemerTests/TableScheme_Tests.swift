@@ -187,8 +187,8 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         let indexPath = IndexPath(row: 0, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
 
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet3Scheme1.lastSelectCall
@@ -204,8 +204,8 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         let indexPath = IndexPath(row: 3, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
         
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme2.lastSelectCall
@@ -221,8 +221,8 @@ class TableScheme_Tests: XCTestCase {
         let tableView = configuredTableView()
         let indexPath = IndexPath(row: 2, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(cell).cellForRowAt(indexPath)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
         
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme1.lastSelectCall
@@ -240,8 +240,8 @@ class TableScheme_Tests: XCTestCase {
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         let indexPath = IndexPath(row: 3, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(cell).cellForRowAtIndexPath(indexPath)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
         
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet4Scheme3.lastSelectCall
@@ -294,8 +294,8 @@ class TableScheme_Tests: XCTestCase {
         let subview = UIView()
         let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 0, section: 2))
         cell.contentView.addSubview(subview)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(IndexPath(row: 0, section: 2)).indexPathForCell(cell)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 0, section: 2)) as AnyObject).indexPath(for: cell)
         XCTAssert(subject.scheme(containing: subview) ===  schemeSet3Scheme1)
     }
     
@@ -304,8 +304,8 @@ class TableScheme_Tests: XCTestCase {
         let subview = UIView()
         let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 2, section: 1))
         cell.contentView.addSubview(subview)
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.stub().andReturn(IndexPath(row: 2, section: 1)).indexPathForCell(cell)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 2, section: 1)) as AnyObject).indexPath(for: cell)
         let tuple = subject.schemeWithIndex(containing: subview)!
         XCTAssert(tuple.scheme ===  schemeSet2Scheme1)
         XCTAssertEqual(tuple.index, 2)
@@ -350,42 +350,42 @@ class TableScheme_Tests: XCTestCase {
     
     func testHideScheme_performsHideAnimationForEachCellInScheme() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteRows([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .automatic)
         
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testHideScheme_performsHideAnimationForEachCellInScheme_withSpecifiedAnimation() {
         let tableView = configuredTableView()
-        let tableMock : AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
         
         subject.hideScheme(schemeSet1Scheme1, in: tableView, with: .fade)
 
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testHideScheme_performsHideAnimationInCorrectSection() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteRows(at: [IndexPath(row: 0, section: 2)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
         
         subject.hideScheme(schemeSet3Scheme1, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testHideScheme_forOffsettedScheme_performsHideAnimationInRows() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteRows(at: [IndexPath(row: 3, section: 0)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
         
         subject.hideScheme(schemeSet1Scheme2, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowScheme_marksSchemeVisible() {
@@ -400,45 +400,45 @@ class TableScheme_Tests: XCTestCase {
     func testShowScheme_performsShowAnimationForEachCellInScheme() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .automatic)
         
         subject.showScheme(schemeSet1Scheme1, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowScheme_performsHideAnimationForEachCellInScheme_withSpecifiedAnimation() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .Fade)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
         
         subject.showScheme(schemeSet1Scheme1, in: tableView, with: .fade)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowScheme_performsShowAnimationInCorrectSection() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet3Scheme1, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertRows(at: [IndexPath(row: 0, section: 2)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
 
         subject.showScheme(schemeSet3Scheme1, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowScheme_forOffsettedScheme_performsShowAnimationInRows() {
         let tableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme2, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertRows(at: [IndexPath(row: 3, section: 0)], with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
         
         subject.showScheme(schemeSet1Scheme2, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testReloadScheme_reloadsEachCellInScheme() {
@@ -481,32 +481,32 @@ class TableScheme_Tests: XCTestCase {
     
     func testHideSchemeSet_performsHideAnimationForSchemeSet() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteSections(IndexSet(index: 0), with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 0), with: .automatic)
         
         subject.hideSchemeSet(schemeSet1, in: tableView)
 
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testHideSchemeSet_performsHideAnimationForSchemeSet_withSpecifiedAnimation() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteSections(IndexSet(index: 0), with: .Fade)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 0), with: .fade)
         
         subject.hideSchemeSet(schemeSet1, in: tableView, with: .fade)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testHideSchemeSet_forOffsettedSchemeSet_performsHideAnimationOnCorrectSection() {
         let tableView = configuredTableView()
-        let tableMock: AnyObject = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().deleteSections(IndexSet(index: 2), with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 2), with: .automatic)
         
         subject.hideSchemeSet(schemeSet3, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowSchemeSet_marksSchemeSetVisible() {
@@ -519,34 +519,34 @@ class TableScheme_Tests: XCTestCase {
     func testShowSchemeSet_performsShowAnimationForSchemeSet() {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertSections(IndexSet(index: 0), with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 0), with: .automatic)
         
         subject.showSchemeSet(schemeSet1, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowSchemeSet_performsShowAnimationForSchemeSet_withSpecifiedAnimation() {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView, with: .fade)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertSections(IndexSet(index: 0), with: .Fade)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 0), with: .fade)
         
         subject.showSchemeSet(schemeSet1, in: tableView, with: .fade)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testShowSchemeSet_forOffsettedSchemeSet_performsShowAnimationOnCorrectSection() {
         let tableView = configuredTableView()
         subject.hideSchemeSet(schemeSet3, in: tableView)
-        let tableMock: AnyObject! = OCMockObject.partialMock(for: tableView)
-        tableMock.expect().insertSections(IndexSet(index: 2), with: .Automatic)
+        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
+        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 2), with: .automatic)
         
         subject.showSchemeSet(schemeSet3, in: tableView)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testReloadSchemeSet_reloadsSection() {
@@ -729,7 +729,7 @@ class TableScheme_Tests: XCTestCase {
         tableView.clearCounters()
         
         subject.batchSchemeVisibilityChanges(in: tableView) { animator in
-            animator.reloadScheme(self.schemeSet4Scheme3, with: .Top)
+            animator.reloadScheme(self.schemeSet4Scheme3, with: .top)
             animator.hideScheme(self.schemeSet4Scheme2)
         }
         
