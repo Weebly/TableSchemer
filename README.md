@@ -23,7 +23,7 @@ You can easily create your own Schemes and add them into your tables. With a few
 
 ## Requirements
 
-TableSchemer is built using Swift. It's also taking advantage of advanced features, so it requires that you use Xcode 6 and build them using Swift. It supports iOS 7.0+.
+TableSchemer is built using Swift 3, so it requires that you use Xcode 8. It supports iOS 7.0+.
 
 ## Usage
 
@@ -31,29 +31,32 @@ TableSchemer works by creating a TableScheme object and setting it as your UITab
 
 ```swift
 class MasterViewController: UITableViewController {
+
+    var tableScheme: TableScheme!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         createTableScheme()
-        
         tableView.rowHeight = 44.0
     }
-    
+
     func createTableScheme() {
         tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
-                builder.buildScheme { (scheme: BasicScheme) in
-                    
+                builder.buildScheme { (scheme: BasicSchemeBuilder<UITableViewCell>) in
+
                     scheme.configurationHandler = { cell in
-                        cell.textLabel.text = "Tap here for an advanced example."
-                        cell.accessoryType = .DisclosureIndicator
+                        cell.textLabel?.text = "Tap here for an advanced example."
+                        cell.accessoryType = .disclosureIndicator
                     }
 
-		    // We're specifying unowned self here because handlers are retained by the schemes. Without it, we'd have a retain cycle                    
-                    scheme.selectionHandler = { [unowned self] cell, scheme in
-                        let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
-                        self.navigationController.pushViewController(advancedController, animated: true)
+                    // We're specifying weak self here because handlers are retained by the schemes. Without it, we'd have a retain cycle.
+                    scheme.selectionHandler = { [weak self] cell, scheme in
+                        let advancedController = AdvancedTableSchemeViewController(style: .grouped)
+                        self?.navigationController?.pushViewController(advancedController, animated: true)
                     }
+
                 }
             }
         }
