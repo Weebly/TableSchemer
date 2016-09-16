@@ -27,11 +27,12 @@ open class BasicScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdenti
     /** The closure called to configure the cell the scheme is representing. */
     open var configurationHandler: ConfigurationHandler
     
-    /** The closure called when the cell is selected. 
+    /**
+     The closure called when the cell is selected.
 
-        NOTE: This is only called if the TableScheme is asked to handle selection
-        by the table view delegate.
-     */
+     NOTE: This is only called if the TableScheme is asked to handle selection 
+     by the table view delegate.
+    */
     open var selectionHandler: SelectionHandler?
 
     open var numberOfCells: Int { return 1 }

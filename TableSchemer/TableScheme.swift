@@ -9,16 +9,16 @@
 import UIKit
 
 /**
- *    This class can be used as the data source to a UITableView's dataSource. It
- *    is driven by scheme sets, which are mapped directly to a section in the table
- *    view's index paths. Inside each scheme set is an array of schemes. These
- *    schemes provide varying functionlity and allow you to encapsulate all
- *    information about a particular cell, such as a configuration block or row height, in an object.
+ This class can be used as the data source to a UITableView's dataSource. It
+ is driven by scheme sets, which are mapped directly to a section in the table
+ view's index paths. Inside each scheme set is an array of schemes. These
+ schemes provide varying functionlity and allow you to encapsulate all
+ information about a particular cell, such as a configuration block or row height, in an object.
  */
-open class TableScheme: NSObject {
+public class TableScheme: NSObject {
     
     public typealias BuildHandler = (_ builder: TableSchemeBuilder) -> Void
-    open internal(set) var attributedSchemeSets: [AttributedSchemeSet]
+    public internal(set) var attributedSchemeSets: [AttributedSchemeSet]
     
     #if DEBUG
     private var buildingBatchAnimations = false
@@ -57,12 +57,12 @@ open class TableScheme: NSObject {
     // MARK: Public Instance Methods
     
     /**
-     *    This method returns the scheme at a given index path. Use this method
-     *    in table view delegate methods to find the scheme the cell belongs to.
-     *
-     *    @param indexPath The index path that will be used to find the scheme
-     *
-     *    @return The scheme at the index path.
+     This method returns the scheme at a given index path. Use this method
+     in table view delegate methods to find the scheme the cell belongs to.
+
+     - parameter    indexPath:  The index path that will be used to find the scheme
+
+     - returns:                 The scheme at the index path.
      */
     public func schemeAtIndexPath(_ indexPath: IndexPath) -> Scheme? {
         guard let schemeSet = schemeSet(forSection: indexPath.section) else { return nil }
@@ -120,16 +120,16 @@ open class TableScheme: NSObject {
     }
     
     /**
-     *      This method returns the scheme contained in a particular view. You would typically use
-     *      this method when you have a UIControl sending an action for a view and you need to 
-     *      determine the scheme that contains the control.
-     *
-     *      This view must be contained in the view hierarchey for the UITableView that this
-     *      TableScheme is backing.
-     *
-     *      @param view The view that is contained in the view.
-     *     
-     *      @return The Scheme that contains the view, or nil if the view does not have a scheme.
+     This method returns the scheme contained in a particular view. You would typically use
+     this method when you have a UIControl sending an action for a view and you need to
+     determine the scheme that contains the control.
+
+     This view must be contained in the view hierarchey for the UITableView that this
+     TableScheme is backing.
+
+     - parameter    view:   The view that is contained in the view.
+
+     - returns:             The Scheme that contains the view, or nil if the view does not have a scheme.
      */
     public func scheme(containing view: UIView) -> Scheme? {
         if let cell = view.TSR_containingTableViewCell(),
@@ -143,19 +143,19 @@ open class TableScheme: NSObject {
     }
     
     /**
-    *      This method returns the scheme contained in a particular view along with the offset within
-    *      the scheme the chosen cell is at. Its similar to schemeContainingView(view:) -> Scheme?. 
-    *
-    *      You would typically use this method when you have a UIControl sending an action for a view
-    *      that is part of a collection of cells within a scheme.
-    *
-    *      This view must be contained in the view hierarchey for the UITableView that this
-    *      TableScheme is backing.
-    *
-    *      @param view The view that is contained in the view.
-    *
-    *      @return A tuple with the Scheme and Index of the cell within the scheme, or nil if 
-    *              the view does not have a scheme.
+     This method returns the scheme contained in a particular view along with the offset within
+     the scheme the chosen cell is at. Its similar to schemeContainingView(view:) -> Scheme?.
+
+     You would typically use this method when you have a UIControl sending an action for a view
+     that is part of a collection of cells within a scheme.
+
+     This view must be contained in the view hierarchey for the UITableView that this
+     TableScheme is backing.
+
+     - parameter    view:   The view that is contained in the view.
+
+     - returns:     A tuple with the Scheme and Index of the cell within the scheme, or nil if 
+     the view does not have a scheme.
     */
     public func schemeWithIndex(containing view: UIView) -> (scheme: Scheme, index: Int)? {
         if let cell = view.TSR_containingTableViewCell(),

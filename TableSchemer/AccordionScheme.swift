@@ -24,10 +24,10 @@ open class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellType:
     /** The closure called to handle accordion cells when the accordion is expanded. */
     open var accordionConfigurationHandler: AccordionConfigurationHandler
     
-    /** The closure called when an accordion cell is selected.
-     *
-     *  NOTE: This is only called if the TableScheme is asked to handle selection
-     *  by the table view delegate.
+    /** 
+     The closure called when an accordion cell is selected.  
+     
+     NOTE: This is only called if the TableScheme is asked to handle selection by the table view delegate.
      */
     open var accordionSelectionHandler: AccordionSelectionHandler?
     

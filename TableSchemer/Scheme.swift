@@ -40,8 +40,9 @@ public func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
     configurationHandler to allow setup of the cell based on the scheme of the cell.
  */
 public protocol Scheme: class {
-    /** This property determines how many cells should be represented by this `Scheme`.
-     *  This is used to determine the size of the table view.
+    /**
+     This property determines how many cells should be represented by this `Scheme`.
+     This is used to determine the size of the table view.
      */
     var numberOfCells: Int { get }
 

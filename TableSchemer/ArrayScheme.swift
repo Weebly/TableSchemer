@@ -26,26 +26,28 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
     /** The objects this scheme is representing */
     open var objects: [ElementType]
     
-    /** The closure called to determine the height of this cell.
-     *
-     *  Unlike other `Scheme` implementations that take predefined
-     *  values this scheme uses a closure because the height may change
-     *  due to the underlying objects state, and this felt like a better
-     *  API to accomodate that.
-     *
-     *  This closure is only used if the table view delegate asks its
-     *  `TableScheme` for the height with heightInTableView(tableView:forIndexPath:)
-     */
+    /**
+     The closure called to determine the height of this cell.
+
+     Unlike other `Scheme` implementations that take predefined
+     values this scheme uses a closure because the height may change
+     due to the underlying objects state, and this felt like a better
+     API to accomodate that.
+
+     This closure is only used if the table view delegate asks its
+     `TableScheme` for the height with `    height(tableView:forIndexPath:)
+    */
     open var heightHandler: HeightHandler?
     
     /** The closure called for configuring the cell the scheme is representing. */
     open var configurationHandler: ConfigurationHandler
     
-    /** The closure called when a cell representing this scheme is selected.
-     *
-     *  NOTE: This is only called if the `TableScheme` is asked to handle selection
-     *  by the table view delegate.
-    */
+    /**
+     The closure called when the cell is selected.
+
+     NOTE: This is only called if the TableScheme is asked to handle selection
+     by the table view delegate.
+     */
     open var selectionHandler: SelectionHandler?
     
     // MARK: Property Overrides

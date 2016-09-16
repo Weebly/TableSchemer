@@ -18,10 +18,11 @@ open class StaticScheme<CellType: UITableViewCell>: Scheme, InferrableReuseIdent
     /// The height the cell should be if asked.
     open var height: RowHeight = .useTable
 
-    /** The closure called when the cell is selected.
-
-        NOTE: This is only called if the TableScheme is asked to handle selection
-        by the table view delegate.
+    /** 
+     The closure called when the cell is selected.
+     
+     NOTE: This is only called if the TableScheme is asked to handle selection
+     by the table view delegate.
      */
     open var selectionHandler: SelectionHandler?
 

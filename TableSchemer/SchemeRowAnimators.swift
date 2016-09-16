@@ -12,7 +12,7 @@ import UIKit
     An instance of this class is passed into the closure for explicitly animating rows of a scheme. It records the animation methods
     called and then batches them to the passed in UITableView.
 */
-open class SchemeRowAnimator {
+public class SchemeRowAnimator {
     fileprivate struct AddRemove {
         let animation: UITableViewRowAnimation
         let index: Int
