@@ -141,107 +141,107 @@ class AccordionScheme_Tests: XCTestCase {
     func testSelectCell_whenUnexpanded_whenFirstRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().insertRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testSelectCell_whenUnexpanded_whenLastRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
         subject.selectedIndex = 2
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testSelectCell_whenUnexpanded_whenMiddleRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
         subject.selectedIndex = 1
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().insertRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().insertRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Automatic)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 3, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
         
         let cell = UITableViewCell()
-        
+
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testSelectCell_whenExpanded_whenFirstRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Automatic)
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
 
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testSelectCell_whenExpanded_whenLastRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 2, section: 0)], with: .automatic)
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 2)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     func testSelectCell_whenExpanded_whenMiddleRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
         
-        let tableMock : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
+        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
         
-        tableMock.expect().beginUpdates()
-        tableMock.expect().endUpdates()
-        tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().deleteRowsAtIndexPaths([NSIndexPath(forRow: 3, inSection: 0)], withRowAnimation: .Fade)
-        tableMock.expect().reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .Automatic)
+        (tableMock.expect() as AnyObject).beginUpdates()
+        (tableMock.expect() as AnyObject).endUpdates()
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 3, section: 0)], with: .fade)
+        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 2, section: 0)], with: .automatic)
 
         subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 1)
         
-        tableMock.verify()
+        _ = tableMock.verify()
     }
     
     // MARK: Number of Cells
@@ -264,7 +264,7 @@ class AccordionScheme_Tests: XCTestCase {
     // MARK: Reuse Identifier For Relative Index
     func testReuseIdentifierForRelativeIndex_whenUnexpanded_isUnexpandedReuseIdentifier() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), ReuseIdentifier)
+        XCTAssertEqual(subject.reuseIdentifier(forRelativeIndex:0), ReuseIdentifier)
     }
     
     func testReuseIdentifierForRelativeIndex_whenExpanded_isCorrectExpandedReuseIdentifier() {
@@ -275,37 +275,37 @@ class AccordionScheme_Tests: XCTestCase {
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), "TestCell")
+        XCTAssertEqual(subject.reuseIdentifier(forRelativeIndex:1), "TestCell")
     }
     
     // MARK: Height For Relative Index
     func testHeightForRelativeIndex_usesDefinedHeight() {
         configureSubjectWithConfigurationHandler()
-        subject.height = .Custom(83.0)
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(83.0))
+        subject.height = .custom(83.0)
+        XCTAssertEqual(subject.height(forRelativeIndex:0), RowHeight.custom(83.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithConfigurationHandler()
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
+        XCTAssertEqual(subject.height(forRelativeIndex:0), RowHeight.useTable)
     }
     
     func testHeightForRelativeIndex_whenExpanded_equalsAccordionHeights() {
         configureSubjectWithConfigurationHandler()
-        subject.accordionHeights = [.Custom(25.0), .Custom(29.0)]
+        subject.accordionHeights = [.custom(25.0), .custom(29.0)]
         
         let tableView = UITableView()
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(25.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(29.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(2), RowHeight.UseTable)
+        XCTAssertEqual(subject.height(forRelativeIndex: 0), RowHeight.custom(25.0))
+        XCTAssertEqual(subject.height(forRelativeIndex: 1), RowHeight.custom(29.0))
+        XCTAssertEqual(subject.height(forRelativeIndex: 2), RowHeight.useTable)
     }
     
     // MARK: Test Configuration
-    func configureSubjectWithConfigurationHandler(configurationHandler: BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
+    func configureSubjectWithConfigurationHandler(_ configurationHandler: @escaping BasicScheme<UITableViewCell>.ConfigurationHandler = {(cell) in }, accordionConfigurationHandler: @escaping AccordionScheme<UITableViewCell, UITableViewCell>.AccordionConfigurationHandler = {(cell, index) in }) {
         let expandedCells = [UITableViewCell.self, TestCell.self, UITableViewCell.self]
         subject = AccordionScheme(expandedCellTypes: expandedCells, collapsedCellConfigurationHandler: configurationHandler, expandedCellConfigurationHandler: accordionConfigurationHandler)
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2015 Weebly. All rights reserved.
 //
 
-public class StaticSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
+open class StaticSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public typealias SchemeType = StaticScheme<CellType>
 
@@ -14,7 +14,7 @@ public class StaticSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public func createScheme() throws -> SchemeType {
         guard let cell = cell else {
-            throw SchemeBuilderError.MissingRequiredAttribute("cell")
+            throw SchemeBuilderError.missingRequiredAttribute("cell")
         }
 
         let scheme = SchemeType(cell: cell)
@@ -23,8 +23,8 @@ public class StaticSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
         return scheme
     }
 
-    public var cell: CellType?
-    public var selectionHandler: SchemeType.SelectionHandler?
-    public var height: RowHeight = .UseTable
+    open var cell: CellType?
+    open var selectionHandler: SchemeType.SelectionHandler?
+    open var height: RowHeight = .useTable
     
 }

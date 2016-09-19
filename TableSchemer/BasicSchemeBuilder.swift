@@ -6,7 +6,7 @@
 //  Copyright © 2015 Weebly. All rights reserved.
 //
 
-public class BasicSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
+open class BasicSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public typealias SchemeType = BasicScheme<CellType>
 
@@ -14,7 +14,7 @@ public class BasicSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     public func createScheme() throws -> SchemeType {
         guard let configurationHandler = configurationHandler else {
-            throw SchemeBuilderError.MissingRequiredAttribute("configurationHandler")
+            throw SchemeBuilderError.missingRequiredAttribute("configurationHandler")
         }
 
         let scheme = BasicScheme<CellType>(configurationHandler: configurationHandler)
@@ -23,8 +23,8 @@ public class BasicSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
         return scheme
     }
 
-    public var height: RowHeight = .UseTable
-    public var configurationHandler: SchemeType.ConfigurationHandler?
-    public var selectionHandler: SchemeType.SelectionHandler?
+    open var height: RowHeight = .useTable
+    open var configurationHandler: SchemeType.ConfigurationHandler?
+    open var selectionHandler: SchemeType.SelectionHandler?
     
 }

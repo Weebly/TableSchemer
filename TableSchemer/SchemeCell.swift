@@ -8,6 +8,6 @@
 
 import UIKit
 
-public class SchemeCell: UITableViewCell {
-    public var scheme: Scheme?
+open class SchemeCell: UITableViewCell {
+    open var scheme: Scheme?
 }

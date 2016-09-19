@@ -30,12 +30,12 @@ public class SchemeSet {
     }
     
     /** The number of schemes within the SchemeSet */
-    public final var count: Int {
+    public var count: Int {
         return schemes.count
     }
     
     /// Schemes that are currently visible
-    public final var visibleSchemes: [Scheme] {
+    public var visibleSchemes: [Scheme] {
         return attributedSchemes.flatMap { $0.hidden ? nil : $0.scheme }
     }
     

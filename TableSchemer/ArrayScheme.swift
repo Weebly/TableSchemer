@@ -17,67 +17,69 @@ import UIKit
     `SchemeSetBuilder.buildScheme(handler:)` method generate them
     for you.
  */
-public class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Scheme {
+open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Scheme {
     
-    public typealias ConfigurationHandler = (cell: CellType, object: ElementType) -> Void
-    public typealias SelectionHandler = (cell: CellType, scheme: ArrayScheme<ElementType, CellType>, object: ElementType) -> Void
-    public typealias HeightHandler = (object: ElementType) -> RowHeight
+    public typealias ConfigurationHandler = (_ cell: CellType, _ object: ElementType) -> Void
+    public typealias SelectionHandler = (_ cell: CellType, _ scheme: ArrayScheme<ElementType, CellType>, _ object: ElementType) -> Void
+    public typealias HeightHandler = (_ object: ElementType) -> RowHeight
 
     /** The objects this scheme is representing */
-    public var objects: [ElementType]
+    open var objects: [ElementType]
     
-    /** The closure called to determine the height of this cell.
-     *
-     *  Unlike other `Scheme` implementations that take predefined
-     *  values this scheme uses a closure because the height may change
-     *  due to the underlying objects state, and this felt like a better
-     *  API to accomodate that.
-     *
-     *  This closure is only used if the table view delegate asks its
-     *  `TableScheme` for the height with heightInTableView(tableView:forIndexPath:)
-     */
-    public var heightHandler: HeightHandler?
+    /**
+     The closure called to determine the height of this cell.
+
+     Unlike other `Scheme` implementations that take predefined
+     values this scheme uses a closure because the height may change
+     due to the underlying objects state, and this felt like a better
+     API to accomodate that.
+
+     This closure is only used if the table view delegate asks its
+     `TableScheme` for the height with `    height(tableView:forIndexPath:)
+    */
+    open var heightHandler: HeightHandler?
     
     /** The closure called for configuring the cell the scheme is representing. */
-    public var configurationHandler: ConfigurationHandler
+    open var configurationHandler: ConfigurationHandler
     
-    /** The closure called when a cell representing this scheme is selected.
-     *
-     *  NOTE: This is only called if the `TableScheme` is asked to handle selection
-     *  by the table view delegate.
-    */
-    public var selectionHandler: SelectionHandler?
+    /**
+     The closure called when the cell is selected.
+
+     NOTE: This is only called if the TableScheme is asked to handle selection
+     by the table view delegate.
+     */
+    open var selectionHandler: SelectionHandler?
     
     // MARK: Property Overrides
-    public var numberOfCells: Int {
+    open var numberOfCells: Int {
         return objects.count
     }
     
-    public init(objects: [ElementType], configurationHandler: ConfigurationHandler) {
+    public init(objects: [ElementType], configurationHandler: @escaping ConfigurationHandler) {
         self.objects = objects
         self.configurationHandler = configurationHandler
     }
     
     // MARK: Public Instance Methods
-    public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
-        configurationHandler(cell: cell as! CellType, object: objects[relativeIndex])
+    open func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int) {
+        configurationHandler(cell as! CellType, objects[relativeIndex])
     }
     
-    public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
+    open func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
         if let sh = selectionHandler {
-            sh(cell: cell as! CellType, scheme: self, object: objects[relativeIndex])
+            sh(cell as! CellType, self, objects[relativeIndex])
         }
     }
     
-    public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String {
-        return String(CellType.self)
+    open func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String {
+        return String(describing: CellType.self)
     }
     
-    public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    open func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
         if let hh = heightHandler {
-            return hh(object: objects[relativeIndex])
+            return hh(objects[relativeIndex])
         } else {
-            return .UseTable
+            return .useTable
         }
     }
 
@@ -96,7 +98,7 @@ extension ArrayScheme: InferrableRowAnimatableScheme {
 extension ArrayScheme: InferrableReuseIdentifierScheme {
 
     public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(CellType.self), cellType: CellType.self)]
+        return [(identifier: String(describing: CellType.self), cellType: CellType.self)]
     }
 
 }

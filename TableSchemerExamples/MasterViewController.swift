@@ -33,11 +33,11 @@ class MasterViewController: UITableViewController {
 
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for animation examples."
-                        cell.accessoryType = .DisclosureIndicator
+                        cell.accessoryType = .disclosureIndicator
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, scheme in
-                        let animationController = AnimationsViewController(style: .Grouped)
+                        let animationController = AnimationsViewController(style: .grouped)
                         self.navigationController!.pushViewController(animationController, animated: true)
                     }
                 }
@@ -45,13 +45,13 @@ class MasterViewController: UITableViewController {
                 builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { cell in
                         cell.textLabel?.text = "Tap here for an advanced example."
-                        cell.accessoryType = .DisclosureIndicator
+                        cell.accessoryType = .disclosureIndicator
                     }
                     
                     scheme.selectionHandler = { [unowned self] cell, scheme in
-                        let advancedController = AdvancedTableSchemeViewController(style: .Grouped)
+                        let advancedController = AdvancedTableSchemeViewController(style: .grouped)
                         self.navigationController!.pushViewController(advancedController, animated: true)
-                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
+                        self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }
@@ -60,8 +60,8 @@ class MasterViewController: UITableViewController {
                 builder.headerText = "Accordion Sample"
                 
                 builder.buildScheme { (scheme: AccordionSchemeBuilder) in
-                    scheme.expandedCellTypes = [UITableViewCell.Type](count: 3, repeatedValue: UITableViewCell.self)
-                    scheme.accordionHeights = [.UseTable, .Custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
+                    scheme.expandedCellTypes = [UITableViewCell.Type](repeating: UITableViewCell.self, count: 3)
+                    scheme.accordionHeights = [.useTable, .custom(88.0)] // Demonstrating that if we don't have enough heights to cover all items, it defaults to .UseTable
                     scheme.collapsedCellConfigurationHandler = { [unowned(unsafe) self] (cell) in // Be sure to use unowned(unsafe) references for the config/selection handlers
                         _ = cell.textLabel?.text = "Selected Index: \(self.accordionSelection)"
                     }
@@ -73,9 +73,9 @@ class MasterViewController: UITableViewController {
                     scheme.expandedCellConfigurationHandler = { [unowned self] cell, index in
                         cell.textLabel?.text = "Accordion Expanded Cell \(index + 1)"
                         if index == self.accordionSelection {
-                            cell.accessoryType = .Checkmark
+                            cell.accessoryType = .checkmark
                         } else {
-                            cell.accessoryType = .None
+                            cell.accessoryType = .none
                         }
                     }
                     
@@ -92,22 +92,22 @@ class MasterViewController: UITableViewController {
                     scheme.objects = arrayObjects
                     
                     scheme.heightHandler = { object in
-                        let rect = object.boundingRectWithSize(CGSize(width: 300, height: CGFloat.max), options: .UsesLineFragmentOrigin, attributes: nil, context: nil)
+                        let rect = object.boundingRect(with: CGSize(width: 300, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: nil, context: nil)
                         let height = CGFloat(ceilf(Float(rect.size.height)) + 28.0)
-                        return .Custom(height)
+                        return .custom(height)
                     }
                     
                     scheme.configurationHandler = { cell, object in
                         cell.textLabel?.text = object
                         cell.textLabel?.numberOfLines = 0
                         cell.textLabel?.preferredMaxLayoutWidth = 300
-                        cell.textLabel?.lineBreakMode = .ByWordWrapping
+                        cell.textLabel?.lineBreakMode = .byWordWrapping
                         cell.textLabel?.invalidateIntrinsicContentSize() // For when this cell gets reused
                     }
                     
                     scheme.selectionHandler = { cell, scheme, object in
                         print("Selected object in ArrayScheme: \(object)")
-                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
+                        self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }
@@ -116,7 +116,7 @@ class MasterViewController: UITableViewController {
                 builder.headerText = "Radio Sample"
                 
                 builder.buildScheme { (scheme: RadioSchemeBuilder) in
-                    scheme.expandedCellTypes = [UITableViewCell.Type](count: 5, repeatedValue: UITableViewCell.self)
+                    scheme.expandedCellTypes = [UITableViewCell.Type](repeating: UITableViewCell.self, count: 5)
                     
                     scheme.configurationHandler = { cell, index in
                         cell.textLabel?.text = "Radio Button \(index + 1)"
@@ -125,7 +125,7 @@ class MasterViewController: UITableViewController {
                     scheme.selectionHandler = { [unowned self] cell, scheme, index in
                         print("You selected \(index)!")
                         self.radioSelection = index
-                        self.tableView.deselectRowAtIndexPath(self.tableView.indexPathForSelectedRow!, animated: true)
+                        self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
                     }
                 }
             }

@@ -30,32 +30,33 @@ public final class SchemeSetBuilder {
     /// This is used to identify if the scheme is initially hidden or not
     public var hidden = false
     
-    /** Build a scheme within the closure.
+    /**  
+     Build a scheme within the closure.
+        
+     This method will instantiate a `Scheme` object, and then pass it into handler. The type of Scheme object that is instantiated will be inferred from the type passed into the handler.
 
-        This method will instantiate a `Scheme` object, and then pass it into handler. The type of Scheme object
-        that is instantiated will be inferred from the type passed into the handler.
+     The created `Scheme` object will be validated before being added to the list of schemes to be created.
 
-        The created `Scheme` object will be validated before being added to the list of schemes to be created.
+     The created `Scheme` object will be returned if you need a reference to it, but it will be added to the `TableScheme` automatically.
 
-        The created `Scheme` object will be returned if you need a reference to it, but it will be added
-        to the `TableScheme` automatically.
-
-        - parameter     handler:    The closure to configure the scheme.
-        - returns:                  The created Scheme instance.
+    - parameter     handler:    The closure to configure the scheme.
+    - returns:                  The created Scheme instance.
      */
-    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType, inout hidden: Bool) -> Void) -> BuilderType.SchemeType {
+    @discardableResult
+    public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType, _ hidden: inout Bool) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
         var hidden = false
-        handler(builder: builder, hidden: &hidden)
+        handler(builder, &hidden)
 
         let scheme = try! builder.createScheme()
         attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: hidden))
         return scheme
     }
 
-    public func buildScheme<BuilderType: SchemeBuilder>(@noescape handler: (builder: BuilderType) -> Void) -> BuilderType.SchemeType {
+    @discardableResult
+    public func buildScheme<BuilderType: SchemeBuilder>(_ handler: (_ builder: BuilderType) -> Void) -> BuilderType.SchemeType {
         let builder = BuilderType()
-        handler(builder: builder)
+        handler(builder)
 
         let scheme = try! builder.createScheme()
         attributedSchemes.append(AttributedScheme(scheme: scheme, hidden: false))

@@ -44,7 +44,7 @@ class RadioScheme_Tests: XCTestCase {
         let cell = UITableViewCell()
         subject.configureCell(cell, withRelativeIndex: 1)
         
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.Checkmark)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.checkmark)
     }
     
     func testConfigureCell_whenNotSelected_setsAccessoryToNone() {
@@ -52,10 +52,10 @@ class RadioScheme_Tests: XCTestCase {
         subject.selectedIndex = 1
         
         let cell = UITableViewCell()
-        cell.accessoryType = .Checkmark
+        cell.accessoryType = .checkmark
         subject.configureCell(cell, withRelativeIndex: 0)
         
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.None)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.none)
     }
     
     // MARK: Selecing Cell
@@ -97,17 +97,17 @@ class RadioScheme_Tests: XCTestCase {
     func testSelectCell_updatesPreviouslySelectedCellAccessoryType() {
         configureSubjectWithConfigurationHandler()
         
-        let mockTableView : AnyObject! = OCMockObject.niceMockForClass(UITableView.self)
+        let mockTableView = OCMockObject.niceMock(for: UITableView.self) as AnyObject
         let oldCell = UITableViewCell()
-        oldCell.accessoryType = .Checkmark
-        mockTableView.stub().andReturn(oldCell).cellForRowAtIndexPath(NSIndexPath(forRow: 3, inSection: 0))
+        oldCell.accessoryType = .checkmark
+        _ = ((mockTableView.stub() as AnyObject).andReturn(oldCell) as AnyObject).cellForRow(at: IndexPath(row: 3, section: 0))
         
         let cell = UITableViewCell()
         
         subject.selectCell(cell, inTableView: mockTableView as! UITableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
         
-        XCTAssertEqual(oldCell.accessoryType, UITableViewCellAccessoryType.None)
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.Checkmark)
+        XCTAssertEqual(oldCell.accessoryType, UITableViewCellAccessoryType.none)
+        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.checkmark)
     }
     
     // MARK: Number of Cells
@@ -121,27 +121,27 @@ class RadioScheme_Tests: XCTestCase {
     func testReuseIdentifierForRelativeIndex_matchesReuseIdentifiers() {
         configureSubjectWithConfigurationHandler()
         
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(0), "UITableViewCell")
-        XCTAssertEqual(subject.reuseIdentifierForRelativeIndex(1), "UITableViewCell")
+        XCTAssertEqual(subject.reuseIdentifier(forRelativeIndex: 0), "UITableViewCell")
+        XCTAssertEqual(subject.reuseIdentifier(forRelativeIndex: 1), "UITableViewCell")
     }
     
     // MARK: Height For Relative Index
     func testReuseIdentifiersForRelativeIndex_matchesReuseIdentifiers() {
         configureSubjectWithConfigurationHandler()
-        subject.heights = [.Custom(22.0), .Custom(44.0)]
+        subject.heights = [.custom(22.0), .custom(44.0)]
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.Custom(22.0))
-        XCTAssertEqual(subject.heightForRelativeIndex(1), RowHeight.Custom(44.0))
+        XCTAssertEqual(subject.height(forRelativeIndex: 0), RowHeight.custom(22.0))
+        XCTAssertEqual(subject.height(forRelativeIndex: 1), RowHeight.custom(44.0))
     }
     
     func testHeightForRelativeIndex_defaultsToUseTableHeight() {
         configureSubjectWithConfigurationHandler()
         
-        XCTAssertEqual(subject.heightForRelativeIndex(0), RowHeight.UseTable)
+        XCTAssertEqual(subject.height(forRelativeIndex: 0), RowHeight.useTable)
     }
         
     // MARK: Test Configuration
-    func configureSubjectWithConfigurationHandler(configurationHandler: RadioScheme<UITableViewCell>.ConfigurationHandler = {(cell, index) in }, selectionHandler: RadioScheme<UITableViewCell>.SelectionHandler = {(cell, scheme, index) in}) {
+    func configureSubjectWithConfigurationHandler(_ configurationHandler: @escaping RadioScheme<UITableViewCell>.ConfigurationHandler = {(cell, index) in }, selectionHandler: @escaping RadioScheme<UITableViewCell>.SelectionHandler = {(cell, scheme, index) in}) {
         subject = RadioScheme(expandedCellTypes: [UITableViewCell.self, UITableViewCell.self], configurationHandler: configurationHandler)
         subject.selectionHandler = selectionHandler
     }

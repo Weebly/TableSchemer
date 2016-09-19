@@ -13,12 +13,12 @@ import UIKit
     called and then batches them to the passed in UITableView.
 */
 public class SchemeRowAnimator {
-    private struct AddRemove {
+    fileprivate struct AddRemove {
         let animation: UITableViewRowAnimation
         let index: Int
     }
     
-    private struct Move {
+    fileprivate struct Move {
         let fromIndex: Int
         let toIndex: Int
     }
@@ -30,11 +30,11 @@ public class SchemeRowAnimator {
         return attributedScheme.scheme
     }
     
-    private var moves = [Move]()
-    private var insertions = [AddRemove]()
-    private var deletions = [AddRemove]()
+    fileprivate var moves = [Move]()
+    fileprivate var insertions = [AddRemove]()
+    fileprivate var deletions = [AddRemove]()
     
-    init(tableScheme: TableScheme, withAttributedScheme attributedScheme: AttributedScheme, inTableView tableView: UITableView) {
+    init(tableScheme: TableScheme, with attributedScheme: AttributedScheme, in tableView: UITableView) {
         self.tableScheme = tableScheme
         self.attributedScheme = attributedScheme
         self.tableView = tableView
@@ -49,7 +49,7 @@ public class SchemeRowAnimator {
         - parameter     index:       The index to move the row from.
         - parameter     toIndex:     The index to move the row to.
     */
-    public final func moveObjectAtIndex(index: Int, toIndex: Int) {
+    public final func moveObject(at index: Int, to toIndex: Int) {
         moves.append(Move(fromIndex: index, toIndex: toIndex))
     }
     
@@ -62,7 +62,7 @@ public class SchemeRowAnimator {
         - parameter     index:           The index to remove.
         - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func deleteObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func deleteObject(at index: Int, with rowAnimation: UITableViewRowAnimation = .automatic) {
         deletions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -75,7 +75,7 @@ public class SchemeRowAnimator {
         - parameter     index:               The index to insert.
         - parameter     rowAnimation:        The type of animation to perform.
     */
-    public final func insertObjectAtIndex(index: Int, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func insertObject(at index: Int, with rowAnimation: UITableViewRowAnimation = .automatic) {
         insertions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -86,9 +86,9 @@ public class SchemeRowAnimator {
         should not be considered when making calls to this method.
         
         - parameter     indexes:         The indexes to remove.
-        - parameter     rowAnimation:       The type of animation to perform.
+        - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func deleteObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func deleteObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableViewRowAnimation = .automatic) {
         for i in indexes {
             deletions.append(AddRemove(animation: rowAnimation, index: i))
         }
@@ -103,7 +103,7 @@ public class SchemeRowAnimator {
         - parameter     indexes:         The indexes to insert.
         - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func insertObjectsAtIndexes(indexes: Range<Int>, withRowAnimation rowAnimation: UITableViewRowAnimation = .Automatic) {
+    public final func insertObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableViewRowAnimation = .automatic) {
         for i in indexes {
             insertions.append(AddRemove(animation: rowAnimation, index: i))
         }
@@ -117,64 +117,64 @@ public class SchemeRowAnimator {
         tableView.beginUpdates()
         
         // Compact our insertions/deletions so we do as few table view animation calls as necessary
-        let insertRows = insertions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, animation in
+        let insertRows = insertions.reduce([UITableViewRowAnimation: [IndexPath]]()) { memo, animation in
             var memo = memo
             if memo[animation.animation] == nil {
-                memo[animation.animation] = [NSIndexPath]()
+                memo[animation.animation] = [IndexPath]()
             }
             
-            memo[animation.animation]!.append(NSIndexPath(forRow: rowsBeforeScheme + animation.index, inSection: section))
+            memo[animation.animation]!.append(IndexPath(row: rowsBeforeScheme + animation.index, section: section))
             
             return memo
         }
         
-        let deleteRows = deletions.reduce([UITableViewRowAnimation: [NSIndexPath]]()) { memo, animation in
+        let deleteRows = deletions.reduce([UITableViewRowAnimation: [IndexPath]]()) { memo, animation in
             var memo = memo
             if memo[animation.animation] == nil {
-                memo[animation.animation] = [NSIndexPath]()
+                memo[animation.animation] = [IndexPath]()
             }
             
-            memo[animation.animation]!.append(NSIndexPath(forRow: rowsBeforeScheme + animation.index, inSection: section))
+            memo[animation.animation]!.append(IndexPath(row: rowsBeforeScheme + animation.index, section: section))
             
             return memo
         }
         
         // Perform the animations
         for move in moves {
-            tableView.moveRowAtIndexPath(NSIndexPath(forRow: rowsBeforeScheme + move.fromIndex, inSection: section), toIndexPath: NSIndexPath(forRow: rowsBeforeScheme + move.toIndex, inSection: section))
+            tableView.moveRow(at: IndexPath(row: rowsBeforeScheme + move.fromIndex, section: section), to: IndexPath(row: rowsBeforeScheme + move.toIndex, section: section))
         }
         
         for (animation, insertions) in insertRows {
-            tableView.insertRowsAtIndexPaths(insertions, withRowAnimation: animation)
+            tableView.insertRows(at: insertions, with: animation)
         }
         
         for (animation, deletions) in deleteRows {
-            tableView.deleteRowsAtIndexPaths(deletions, withRowAnimation: animation)
+            tableView.deleteRows(at: deletions, with: animation)
         }
         
         tableView.endUpdates()
     }
 }
 
-final class InferringRowAnimator<AnimatableScheme: Scheme where AnimatableScheme: InferrableRowAnimatableScheme>: SchemeRowAnimator {
+final class InferringRowAnimator<AnimatableScheme: Scheme>: SchemeRowAnimator where AnimatableScheme: InferrableRowAnimatableScheme {
     private let originalRowIdentifiers: [AnimatableScheme.IdentifierType]
     private var animatableScheme: AnimatableScheme {
         return scheme as! AnimatableScheme
     }
 
-    init(tableScheme: TableScheme, withScheme scheme: AnimatableScheme, ownedByAttributedScheme attributedScheme: AttributedScheme, inTableView tableView: UITableView) {
+    init(tableScheme: TableScheme, with scheme: AnimatableScheme, ownedBy attributedScheme: AttributedScheme, in tableView: UITableView) {
         assert(scheme === attributedScheme.scheme)
         originalRowIdentifiers = scheme.rowIdentifiers
-        super.init(tableScheme: tableScheme, withAttributedScheme: attributedScheme, inTableView: tableView)
+        super.init(tableScheme: tableScheme, with: attributedScheme, in: tableView)
     }
     
-    func guessRowAnimationsWithAnimation(animation: UITableViewRowAnimation) {
+    func guessRowAnimations(with animation: UITableViewRowAnimation) {
         let updatedRowIdentifiers = animatableScheme.rowIdentifiers
         var addedIdentifiers = updatedRowIdentifiers // Will remove objects when they are found in the original identifiers
         var immovableIndexes = Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>() // To help with multiple equal objects
         
-        for (index, identifier) in originalRowIdentifiers.enumerate() {
-            if let newIndex = findIdentifier(identifier, inIdentifiers: updatedRowIdentifiers, excludingIndexes: immovableIndexes) {
+        for (index, identifier) in originalRowIdentifiers.enumerated() {
+            if let newIndex = findIdentifier(identifier, in: updatedRowIdentifiers, excluding: immovableIndexes) {
                 // Handle possibility of it moved
                 if index != newIndex {
                     // Object was moved
@@ -186,7 +186,7 @@ final class InferringRowAnimator<AnimatableScheme: Scheme where AnimatableScheme
                 immovableIndexes[newIndex] = ()
                 
                 // Object was in both original and updated, so we can remove it from our list of added identifiers
-                addedIdentifiers.removeAtIndex(addedIdentifiers.indexOf(updatedRowIdentifiers[newIndex])!)
+                addedIdentifiers.remove(at: addedIdentifiers.index(of: updatedRowIdentifiers[newIndex])!)
             } else {
                 // Object was deleted, so mark this row deleted
                 deletions.append(AddRemove(animation: animation, index: index))
@@ -194,14 +194,14 @@ final class InferringRowAnimator<AnimatableScheme: Scheme where AnimatableScheme
         }
         
         for added in addedIdentifiers {
-            insertions.append(AddRemove(animation: animation, index: updatedRowIdentifiers.indexOf(added)!))
+            insertions.append(AddRemove(animation: animation, index: updatedRowIdentifiers.index(of: added)!))
         }
     }
     
-    private func findIdentifier(identifier: AnimatableScheme.IdentifierType, inIdentifiers identifiers: [AnimatableScheme.IdentifierType], excludingIndexes excludedIndexes: Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>) -> Array<AnimatableScheme.IdentifierType>.Index? {
+    private func findIdentifier(_ identifier: AnimatableScheme.IdentifierType, in identifiers: [AnimatableScheme.IdentifierType], excluding excludedIndexes: Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>) -> Array<AnimatableScheme.IdentifierType>.Index? {
         var foundIndex: Array<AnimatableScheme.IdentifierType>.Index?
         
-        for (index, ident) in identifiers.enumerate() {
+        for (index, ident) in identifiers.enumerated() {
             if excludedIndexes[index] == nil && ident == identifier {
                 foundIndex = index
                 break

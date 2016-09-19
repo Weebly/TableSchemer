@@ -6,7 +6,7 @@
 //  Copyright © 2015 Weebly. All rights reserved.
 //
 
-public class AccordionSchemeBuilder<CollapsedCellType: UITableViewCell, ExpandedCellType: UITableViewCell>: SchemeBuilder {
+open class AccordionSchemeBuilder<CollapsedCellType: UITableViewCell, ExpandedCellType: UITableViewCell>: SchemeBuilder {
     public typealias SchemeType = AccordionScheme<CollapsedCellType, ExpandedCellType>
 
     public required init() {}
@@ -15,15 +15,15 @@ public class AccordionSchemeBuilder<CollapsedCellType: UITableViewCell, Expanded
 
 
         guard let collapsedConfigurationHandler = collapsedCellConfigurationHandler else {
-            throw SchemeBuilderError.MissingRequiredAttribute("collapsedCellConfigurationHandler")
+            throw SchemeBuilderError.missingRequiredAttribute("collapsedCellConfigurationHandler")
         }
 
         guard let expandedConfigurationHandler = expandedCellConfigurationHandler else {
-            throw SchemeBuilderError.MissingRequiredAttribute("expandedCellConfigurationHandler")
+            throw SchemeBuilderError.missingRequiredAttribute("expandedCellConfigurationHandler")
         }
 
         guard let expandedCellTypes = expandedCellTypes else {
-            throw SchemeBuilderError.MissingRequiredAttribute("expandedCellTypes")
+            throw SchemeBuilderError.missingRequiredAttribute("expandedCellTypes")
         }
 
         let scheme = AccordionScheme<CollapsedCellType, ExpandedCellType>(expandedCellTypes: expandedCellTypes, collapsedCellConfigurationHandler: collapsedConfigurationHandler, expandedCellConfigurationHandler: expandedConfigurationHandler)
@@ -37,14 +37,14 @@ public class AccordionSchemeBuilder<CollapsedCellType: UITableViewCell, Expanded
         return scheme
     }
 
-    public var expandedCellTypes: [UITableViewCell.Type]?
-    public var accordionHeights: [RowHeight]?
-    public var selectedIndex = 0
-    public var expanded = false
-    public var height: RowHeight = .UseTable
-    public var collapsedCellConfigurationHandler: SchemeType.ConfigurationHandler?
-    public var collapsedCellSelectionHandler: SchemeType.SelectionHandler?
-    public var expandedCellConfigurationHandler: SchemeType.AccordionConfigurationHandler!
-    public var expandedCellSelectionHandler: SchemeType.AccordionSelectionHandler?
+    open var expandedCellTypes: [UITableViewCell.Type]?
+    open var accordionHeights: [RowHeight]?
+    open var selectedIndex = 0
+    open var expanded = false
+    open var height: RowHeight = .useTable
+    open var collapsedCellConfigurationHandler: SchemeType.ConfigurationHandler?
+    open var collapsedCellSelectionHandler: SchemeType.SelectionHandler?
+    open var expandedCellConfigurationHandler: SchemeType.AccordionConfigurationHandler!
+    open var expandedCellSelectionHandler: SchemeType.AccordionSelectionHandler?
     
 }

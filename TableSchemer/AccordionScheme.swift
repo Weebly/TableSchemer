@@ -8,40 +8,40 @@
 
 import UIKit
 
-public class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellType: UITableViewCell>: BasicScheme<CollapsedCellType> {
+open class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellType: UITableViewCell>: BasicScheme<CollapsedCellType> {
     
-    public typealias AccordionConfigurationHandler = (cell: ExpandedCellType, index: Int) -> Void
-    public typealias AccordionSelectionHandler = (cell: ExpandedCellType, scheme: AccordionScheme, selectedIndex: Int) -> Void
+    public typealias AccordionConfigurationHandler = (_ cell: ExpandedCellType, _ index: Int) -> Void
+    public typealias AccordionSelectionHandler = (_ cell: ExpandedCellType, _ scheme: AccordionScheme, _ selectedIndex: Int) -> Void
 
-    public var expandedCellTypes: [UITableViewCell.Type]
+    open var expandedCellTypes: [UITableViewCell.Type]
 
     /** The height used for each accordion cell if asked. */
-    public var accordionHeights: [RowHeight]?
+    open var accordionHeights: [RowHeight]?
     
     /** The currently selected index. */
-    public var selectedIndex = 0
+    open var selectedIndex = 0
     
     /** The closure called to handle accordion cells when the accordion is expanded. */
-    public var accordionConfigurationHandler: AccordionConfigurationHandler
+    open var accordionConfigurationHandler: AccordionConfigurationHandler
     
-    /** The closure called when an accordion cell is selected.
-     *
-     *  NOTE: This is only called if the TableScheme is asked to handle selection
-     *  by the table view delegate.
+    /** 
+     The closure called when an accordion cell is selected.  
+     
+     NOTE: This is only called if the TableScheme is asked to handle selection by the table view delegate.
      */
-    public var accordionSelectionHandler: AccordionSelectionHandler?
+    open var accordionSelectionHandler: AccordionSelectionHandler?
     
     /** Whether the accordion is expanded or not. */
-    public var expanded = false
+    open var expanded = false
 
-    public init(expandedCellTypes: [UITableViewCell.Type], collapsedCellConfigurationHandler: ConfigurationHandler, expandedCellConfigurationHandler: AccordionConfigurationHandler) {
+    public init(expandedCellTypes: [UITableViewCell.Type], collapsedCellConfigurationHandler: @escaping ConfigurationHandler, expandedCellConfigurationHandler: @escaping AccordionConfigurationHandler) {
         accordionConfigurationHandler = expandedCellConfigurationHandler
         self.expandedCellTypes = expandedCellTypes
         super.init(configurationHandler: collapsedCellConfigurationHandler)
     }
     
     // MARK: Property Overrides
-    public override var numberOfCells: Int {
+    open override var numberOfCells: Int {
         return expanded ? numberOfItems : 1
     }
     
@@ -50,96 +50,96 @@ public class AccordionScheme<CollapsedCellType: UITableViewCell, ExpandedCellTyp
     }
 
     // MARK: Public Instance Methods
-    override public func configureCell(cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
+    override open func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         if expanded {
-            accordionConfigurationHandler(cell: cell as! ExpandedCellType, index: relativeIndex)
+            accordionConfigurationHandler(cell as! ExpandedCellType, relativeIndex)
         } else {
             super.configureCell(cell, withRelativeIndex: relativeIndex)
         }
     }
     
-    override public func selectCell(cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
-        var prependedIndexPaths = Array<NSIndexPath>()
-        var appendedIndexPaths = Array<NSIndexPath>()
+    override open func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int)  {
+        var prependedIndexPaths = Array<IndexPath>()
+        var appendedIndexPaths = Array<IndexPath>()
         
         tableView.beginUpdates()
         
         if expanded {
             if let ash = accordionSelectionHandler {
-                ash(cell: cell as! ExpandedCellType, scheme: self, selectedIndex: relativeIndex)
+                ash(cell as! ExpandedCellType, self, relativeIndex)
             }
             
             selectedIndex = relativeIndex
             
             for i in 0..<relativeIndex {
-                let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
+                let ip = IndexPath(row: i + rowsBeforeScheme, section: section)
                 prependedIndexPaths.append(ip)
             }
             
             for i in (relativeIndex + 1)..<numberOfItems {
-                let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
+                let ip = IndexPath(row: i + rowsBeforeScheme, section: section)
                 appendedIndexPaths.append(ip)
             }
             
             if prependedIndexPaths.count > 0 {
-                tableView.deleteRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
+                tableView.deleteRows(at: prependedIndexPaths, with: .fade)
             }
             
             if appendedIndexPaths.count > 0 {
-                tableView.deleteRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
+                tableView.deleteRows(at: appendedIndexPaths, with: .fade)
             }
         } else {
             super.selectCell(cell, inTableView: tableView, inSection: section, havingRowsBeforeScheme: rowsBeforeScheme, withRelativeIndex: relativeIndex)
             
             for i in 0..<selectedIndex {
-                let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
+                let ip = IndexPath(row: i + rowsBeforeScheme, section: section)
                 prependedIndexPaths.append(ip)
             }
             
             for i in (selectedIndex + 1)..<numberOfItems {
-                let ip = NSIndexPath(forRow: i + rowsBeforeScheme, inSection: section)
+                let ip = IndexPath(row: i + rowsBeforeScheme, section: section)
                 appendedIndexPaths.append(ip)
             }
             
             if prependedIndexPaths.count > 0 {
-                tableView.insertRowsAtIndexPaths(prependedIndexPaths, withRowAnimation: .Fade)
+                tableView.insertRows(at: prependedIndexPaths, with: .fade)
             }
             
             if appendedIndexPaths.count > 0 {
-                tableView.insertRowsAtIndexPaths(appendedIndexPaths, withRowAnimation: .Fade)
+                tableView.insertRows(at: appendedIndexPaths, with: .fade)
             }
         }
         
-        let reloadRow = NSIndexPath(forRow: rowsBeforeScheme + relativeIndex, inSection: section)
-        tableView.reloadRowsAtIndexPaths([reloadRow], withRowAnimation: .Automatic)
+        let reloadRow = IndexPath(row: rowsBeforeScheme + relativeIndex, section: section)
+        tableView.reloadRows(at: [reloadRow], with: .automatic)
         
         expanded = !expanded
         
         tableView.endUpdates()
     }
     
-    override public func reuseIdentifierForRelativeIndex(relativeIndex: Int) -> String  {
+    override open func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String  {
         if expanded {
-            return String(expandedCellTypes[relativeIndex])
+            return String(describing: expandedCellTypes[relativeIndex])
         } else {
-            return super.reuseIdentifierForRelativeIndex(relativeIndex)
+            return super.reuseIdentifier(forRelativeIndex: relativeIndex)
         }
     }
     
-    override public func heightForRelativeIndex(relativeIndex: Int) -> RowHeight {
+    override open func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
         if expanded {
             if accordionHeights != nil && accordionHeights!.count > relativeIndex {
                 return accordionHeights![relativeIndex]
             } else {
-                return .UseTable
+                return .useTable
             }
         } else {
-            return super.heightForRelativeIndex(relativeIndex)
+            return super.height(forRelativeIndex: relativeIndex)
         }
     }
 
-    override public var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
-        return [(identifier: String(CollapsedCellType.self), cellType: CollapsedCellType.self)] + expandedCellTypes.map { (identifier: String($0), cellType: $0) }
+    override open var reusePairs: [(identifier: String, cellType: UITableViewCell.Type)] {
+        return [(identifier: String(describing: CollapsedCellType.self), cellType: CollapsedCellType.self)] + expandedCellTypes.map { (identifier: String(describing: $0), cellType: $0) }
     }
 
 }
@@ -149,7 +149,7 @@ extension AccordionScheme: InferrableRowAnimatableScheme {
     public typealias IdentifierType = String
 
     public var rowIdentifiers: [IdentifierType] {
-        return expanded ? expandedCellTypes.map { String($0) } : [super.reuseIdentifierForRelativeIndex(0)]
+        return expanded ? expandedCellTypes.map(String.init(describing:)) : [super.reuseIdentifier(forRelativeIndex: 0)]
     }
 
 }
