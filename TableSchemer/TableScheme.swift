@@ -19,7 +19,10 @@ public class TableScheme: NSObject {
     
     public typealias BuildHandler = (_ builder: TableSchemeBuilder) -> Void
     public internal(set) var attributedSchemeSets: [AttributedSchemeSet]
-    
+
+    /**
+     A block that gets forwarded from the `scrollViewDidScroll(_:)` delegate method. Make sure to avoid retain cycles by specifing `[weak self]` if necessary.
+    */
     public var scrollViewDidScrollHandler: ((_ scrollView: UIScrollView) -> Void)?
     
     #if DEBUG
