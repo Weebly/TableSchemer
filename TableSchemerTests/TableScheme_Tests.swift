@@ -49,6 +49,7 @@ class TableScheme_Tests: XCTestCase {
         schemeSet3 = SchemeSet(schemes: [schemeSet3Scheme1])
         schemeSet4 = SchemeSet(schemes: [schemeSet4Scheme1, schemeSet4Scheme2, schemeSet4Scheme3], headerText: "Second Test Scheme Set", footerText: "Foo Bar")
         
+        
         tableView = UITableView()
         subject = TableScheme(tableView: tableView, schemeSets: [schemeSet1, schemeSet2, schemeSet3, schemeSet4])
     }
@@ -306,9 +307,9 @@ class TableScheme_Tests: XCTestCase {
         cell.contentView.addSubview(subview)
         let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
         _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 2, section: 1)) as AnyObject).indexPath(for: cell)
-        let tuple = subject.schemeWithIndex(containing: subview)!
-        XCTAssert(tuple.scheme ===  schemeSet2Scheme1)
-        XCTAssertEqual(tuple.index, 2)
+        let tuple = subject.schemeWithIndex(containing: subview)
+        XCTAssert(tuple?.scheme === schemeSet2Scheme1)
+        XCTAssertEqual(tuple?.index, 2)
     }
     
     // MARK: Scheme Visibility
@@ -933,6 +934,19 @@ class TableScheme_Tests: XCTestCase {
         XCTAssert(insertion.animation == .automatic)
         XCTAssert(move.fromIndexPath == IndexPath(row: 3, section: 3))
         XCTAssert(move.toIndexPath == IndexPath(row: 5, section: 3))
+    }
+    
+    // MARK: Handlers
+    
+    func testScrollViewDidScrollHandler() {
+        let expectation = self.expectation(description: "scroll view handler called")
+        subject.scrollViewDidScrollHandler = { scrollView in
+            XCTAssert(scrollView === self.tableView)
+            expectation.fulfill()
+        }
+        
+        subject.scrollViewDidScroll(tableView)
+        waitForExpectations(timeout: 1.0, handler: nil)
     }
     
     // MARK: Test Helpers

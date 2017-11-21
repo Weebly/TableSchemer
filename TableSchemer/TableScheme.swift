@@ -19,6 +19,11 @@ public class TableScheme: NSObject {
     
     public typealias BuildHandler = (_ builder: TableSchemeBuilder) -> Void
     public internal(set) var attributedSchemeSets: [AttributedSchemeSet]
+
+    /**
+     A block that gets forwarded from the `scrollViewDidScroll(_:)` delegate method. Make sure to avoid retain cycles by specifing `[weak self]` if necessary.
+    */
+    public var scrollViewDidScrollHandler: ((_ scrollView: UIScrollView) -> Void)?
     
     #if DEBUG
     private var buildingBatchAnimations = false
@@ -585,9 +590,47 @@ extension TableScheme: UITableViewDelegate {
         switch rowHeight {
         case .useTable:
             return tableView.rowHeight
-        case .custom(let h):
-            return CGFloat(h)
+        case .custom(let height):
+            return height
         }
     }
-
+    
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return schemeSet(forSection: section)?.headerView
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard let schemeSet = schemeSet(forSection: section) else {
+            return UITableViewAutomaticDimension
+        }
+        
+        switch schemeSet.headerViewHeight {
+        case .useTable:
+            return tableView.sectionHeaderHeight
+        case .custom(let height):
+            return height
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return schemeSet(forSection: section)?.footerView
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        guard let schemeSet = schemeSet(forSection: section) else {
+            return UITableViewAutomaticDimension
+        }
+        
+        switch schemeSet.footerViewHeight {
+        case .useTable:
+            return tableView.sectionFooterHeight
+        case .custom(let height):
+            return height
+        }
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollViewDidScrollHandler?(scrollView)
+    }
+    
 }
