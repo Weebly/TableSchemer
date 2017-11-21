@@ -14,11 +14,24 @@ import UIKit
     It's used to set a section title and to add schemes to the scheme set.
  */
 public final class SchemeSetBuilder {
+    
     /** This will be used as the SchemeSet's header text. If left nil, the SchemeSet will not have a title. */
     public var headerText: String?
     
     /** This will be used as the SchemeSet's footer text. If left nil, it will not have a footer label */
     public var footerText: String?
+    
+    /** This will be used as the SchemeSet's header view. If left nil, it will not have a custom section header view */
+    public var headerView: UIView?
+    
+    /** This will be used as the SchemeSet's header view height. Default is `.useTable`, which means the height will be calculated automatically based on the content. */
+    public var headerViewHeight: RowHeight = .useTable
+    
+    /** This will be used as the SchemeSet's footer view. If left nil, it will not have a custom section header view */
+    public var footerView: UIView?
+    
+    /** This will be used as the SchemeSet's footer view height. Default is `.useTable`, which means the height will be calculated automatically based on the content. */
+    public var footerViewHeight: RowHeight = .useTable
     
     /** These are the Scheme objects that the SchemeSet will be instantiated with. */
     public var schemes: [Scheme] {
@@ -65,6 +78,6 @@ public final class SchemeSetBuilder {
     
     /** Create the `SchemeSet` with the currently added `Scheme`s. This method should not be called except from `TableSchemeBuilder` */
     internal func createSchemeSet() -> AttributedSchemeSet {
-        return AttributedSchemeSet(schemeSet: SchemeSet(attributedSchemes: attributedSchemes, headerText: headerText, footerText: footerText), hidden: hidden)
+        return AttributedSchemeSet(schemeSet: SchemeSet(attributedSchemes: attributedSchemes, headerText: headerText, footerText: footerText, headerView: headerView, headerViewHeight: headerViewHeight, footerView: footerView, footerViewHeight: footerViewHeight), hidden: hidden)
     }
 }

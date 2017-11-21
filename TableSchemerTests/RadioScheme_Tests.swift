@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-import TableSchemer
+@testable import TableSchemer
 
 class RadioScheme_Tests: XCTestCase {
     var subject: RadioScheme<UITableViewCell>!

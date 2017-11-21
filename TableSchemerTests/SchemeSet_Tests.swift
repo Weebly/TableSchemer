@@ -37,6 +37,28 @@ class SchemeSet_Tests: XCTestCase {
         let subject: SchemeSet = SchemeSet(schemes: [TestableScheme()], footerText: "Buzz")
         XCTAssert(subject.footerText == "Buzz")
     }
+    
+    func testInitWithHeaderViewAndSchemes_setsHeaderView() {
+        let view = UIView()
+        let subject = SchemeSet(schemes: [TestableScheme()], headerView: view)
+        XCTAssert(subject.headerView === view)
+    }
+    
+    func testInitWithHeaderViewHeightAndSchemes_setsHeaderViewHeight() {
+        let subject = SchemeSet(schemes: [TestableScheme()], headerViewHeight: .custom(54))
+        XCTAssertEqual(subject.headerViewHeight, .custom(54))
+    }
+    
+    func testInitWithFooterViewAndSchemes_setsFooterView() {
+        let view = UIView()
+        let subject = SchemeSet(schemes: [TestableScheme()], footerView: view)
+        XCTAssert(subject.footerView === view)
+    }
+    
+    func testInitWithFooterViewHeightAndSchemes_setsFooterViewHeight() {
+        let subject = SchemeSet(schemes: [TestableScheme()], footerViewHeight: .custom(54))
+        XCTAssertEqual(subject.footerViewHeight, .custom(54))
+    }
 
     // MARK: Subscript Support
     func testSubscript_accessesSchemes() {

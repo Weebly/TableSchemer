@@ -10,9 +10,9 @@ import TableSchemer
 import UIKit
 
 class AdvancedTableSchemeViewController: UITableViewController {
-    let SwitchReuseIdentifier = "SwitchCell"
-    let InputReuseIdentifier = "InputCell"
-    let BasicReuseIdentifier = "BasicCell"
+    let switchReuseIdentifier = "SwitchCell"
+    let inputReuseIdentifier = "InputCell"
+    let basicReuseIdentifier = "BasicCell"
     var tableScheme: TableScheme!
     var firstSwitchScheme: Scheme!
     var secondSwitchScheme: Scheme!
@@ -38,6 +38,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         tableScheme = TableScheme(tableView: tableView) { builder in
             builder.buildSchemeSet { builder in
                 builder.headerText = "Switches"
+                builder.footerText = "Section footer text"
                 
                 firstSwitchScheme = builder.buildScheme { (scheme: BasicSchemeBuilder) in
                     scheme.configurationHandler = { [unowned self] cell in
@@ -64,8 +65,14 @@ class AdvancedTableSchemeViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.headerText = "Text Input"
-                builder.footerText = "Section footer text"
+                
+                let headerView = HeaderFooterView()
+                headerView.label.text = "Text Input; Actually this is also a test for custom section header views"
+                builder.headerView = headerView
+                
+                let footerView = HeaderFooterView()
+                footerView.label.text = "Let's also test out the footer view to make sure it works with dynamic sizing"
+                builder.footerView = footerView
                 
                 firstFieldScheme = builder.buildScheme { (scheme: BasicSchemeBuilder<InputFieldCell>) in
                     scheme.configurationHandler = { [unowned self] cell in
@@ -91,7 +98,15 @@ class AdvancedTableSchemeViewController: UITableViewController {
             }
             
             builder.buildSchemeSet { builder in
-                builder.headerText = "Buttons!"
+                let headerView = HeaderFooterView()
+                headerView.label.text = "Buttons! header view with a custom height"
+                builder.headerView = headerView
+                builder.headerViewHeight = .custom(100)
+                
+                let footerView = HeaderFooterView()
+                footerView.label.text = "Footer view with custom height"
+                builder.footerView = footerView
+                builder.footerViewHeight = .custom(100)
                 
                 buttonsScheme = builder.buildScheme { (scheme: ArraySchemeBuilder<String, SchemeCell>) in
                     scheme.objects = ["First", "Second", "Third", "Fourth"]
@@ -109,7 +124,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
     }
 
     // MARK: Target-Action
-    func switcherUpdated(_ switcher: UISwitch) {
+    @objc func switcherUpdated(_ switcher: UISwitch) {
         if let scheme = tableScheme.scheme(containing: switcher) {
             if scheme === self.firstSwitchScheme {
                 print("Toggle some feature, like allowing wifi!")
@@ -121,19 +136,19 @@ class AdvancedTableSchemeViewController: UITableViewController {
         }
     }
     
-    func textFieldUpdated(_ textField: UITextField) {
+    @objc func textFieldUpdated(_ textField: UITextField) {
         if let scheme = tableScheme.scheme(containing: textField) {
             if scheme === self.firstFieldScheme {
-                print("Storing \"\(textField.text)\" for first text field!")
+                print("Storing \"\(textField.text ?? "")\" for first text field!")
                 self.firstFieldValue = textField.text ?? ""
             } else if scheme === self.secondFieldScheme {
-                print("Storing \"\(textField.text)\" for the email!")
+                print("Storing \"\(textField.text ?? "")\" for the email!")
                 self.secondFieldValue = textField.text ?? ""
             }
         }
     }
     
-    func buttonPressed(_ button: UIButton) {
+    @objc func buttonPressed(_ button: UIButton) {
         if let tuple = tableScheme.schemeWithIndex(containing: button) {
             if tuple.scheme === buttonsScheme {
                 let object = buttonsScheme.objects[tuple.index]
@@ -142,7 +157,7 @@ class AdvancedTableSchemeViewController: UITableViewController {
         }
     }
     
-    func controlResigned(_ control: UIResponder) {
+    @objc func controlResigned(_ control: UIResponder) {
         control.resignFirstResponder()
     }
 }
@@ -175,3 +190,30 @@ class InputFieldCell: SchemeCell {
     }
     
 }
+
+class HeaderFooterView: UIView {
+    
+    lazy var label: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    init() {
+        super.init(frame: .zero)
+
+        addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let views = ["label": label]
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label]-10-|", options: [], metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[label]-10-|", options: [], metrics: nil, views: views))
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+

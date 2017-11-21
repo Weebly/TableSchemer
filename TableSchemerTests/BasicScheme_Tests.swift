@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-import TableSchemer
+@testable import TableSchemer
 
 class BasicScheme_Tests: XCTestCase {
     let ReuseIdentifier = "UITableViewCell"

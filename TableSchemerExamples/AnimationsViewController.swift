@@ -222,7 +222,7 @@ class AnimationsViewController: UITableViewController {
         return items
     }
     
-    func buttonPressed(_ button: UIButton) {
+    @objc func buttonPressed(_ button: UIButton) {
         if let tuple = tableScheme.schemeWithIndex(containing: button) {
             if tuple.scheme === toggleHiddenSchemeSetScheme {
                 guard let index = tableScheme.attributedSchemeSets.index(where: { $0.schemeSet === self.hiddenSchemeSet }) else {
