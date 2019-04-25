@@ -462,7 +462,7 @@ class TableScheme_Tests: XCTestCase {
         let expectedIndexPaths = [IndexPath(row: 1, section: 2), IndexPath(row: 2, section: 2), IndexPath(row: 3, section: 2), IndexPath(row: 4, section: 2)]
         
         for expectedIndexPath in expectedIndexPaths {
-            XCTAssert((tableView.callsToReloadRows[0].indexPaths).index(of: expectedIndexPath) != nil)
+            XCTAssert((tableView.callsToReloadRows[0].indexPaths).firstIndex(of: expectedIndexPath) != nil)
         }
     }
     
@@ -601,11 +601,11 @@ class TableScheme_Tests: XCTestCase {
         let expectedInsertedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 2)]
 
         for expectedDeletedIndexPath in expectedDeletedIndexPaths {
-            XCTAssert((tableView.callsToDeleteRows[0].indexPaths).index(of: expectedDeletedIndexPath) != nil)
+            XCTAssert((tableView.callsToDeleteRows[0].indexPaths).firstIndex(of: expectedDeletedIndexPath) != nil)
         }
         
         for expectedInsertedIndexPath in expectedInsertedIndexPaths {
-            XCTAssert((tableView.callsToInsertRows[0].indexPaths).index(of: expectedInsertedIndexPath) != nil)
+            XCTAssert((tableView.callsToInsertRows[0].indexPaths).firstIndex(of: expectedInsertedIndexPath) != nil)
         }
         
         XCTAssertTrue(tableView.callsToDeleteSections[0].indexSet.contains(1))
@@ -670,9 +670,9 @@ class TableScheme_Tests: XCTestCase {
         for insert in tableView.callsToInsertRows {
             if insert.animation == .fade {
                 // Check for all three cells in indexPaths, any order
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 0, section: 0)) != nil)
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 1, section: 0)) != nil)
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 2, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 0, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 1, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 2, section: 0)) != nil)
             } else if insert.animation == .top {
                 XCTAssertEqual(insert.indexPaths[0], IndexPath(row: 0, section: 3))
             } else {
@@ -685,10 +685,10 @@ class TableScheme_Tests: XCTestCase {
                 XCTAssertEqual(delete.indexPaths[0], IndexPath(row: 0, section: 3))
             } else if delete.animation == .left {
                 // Check for all 4 cells in indexPaths, any order
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 1, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 1, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation in deletions")
             }
@@ -747,7 +747,7 @@ class TableScheme_Tests: XCTestCase {
         let expectedIndexPaths = [IndexPath(row: 1, section: 2), IndexPath(row: 2, section: 2), IndexPath(row: 3, section: 2), IndexPath(row: 4, section: 2)]
         
         for ip in expectedIndexPaths {
-            XCTAssert((reload.indexPaths).index(of: ip) != nil)
+            XCTAssert((reload.indexPaths).firstIndex(of: ip) != nil)
         }
     }
     
@@ -765,10 +765,10 @@ class TableScheme_Tests: XCTestCase {
         
         for deletions in tableView.callsToDeleteRows {
             if deletions.animation == .fade {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
             } else if deletions.animation == .automatic {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -786,10 +786,10 @@ class TableScheme_Tests: XCTestCase {
         
         for deletions in tableView.callsToDeleteRows {
             if deletions.animation == .fade {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
             } else if deletions.animation == .automatic {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -810,10 +810,10 @@ class TableScheme_Tests: XCTestCase {
         
         for insertions in tableView.callsToInsertRows {
             if insertions.animation == .fade {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
             } else if insertions.animation == .automatic {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -831,10 +831,10 @@ class TableScheme_Tests: XCTestCase {
         
         for insertions in tableView.callsToInsertRows {
             if insertions.animation == .fade {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
             } else if insertions.animation == .automatic {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -1010,30 +1010,30 @@ extension TestableScheme: InferrableRowAnimatableScheme {
 class AnimationRecordingTableView: UITableView {
     var callsToBeginUpdates = 0
     var callsToEndUpdates = 0
-    var callsToInsertRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToDeleteRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToInsertSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
-    var callsToDeleteSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
+    var callsToInsertRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToDeleteRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToInsertSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
+    var callsToDeleteSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
     var callsToMoveRow = Array<(fromIndexPath: IndexPath, toIndexPath: IndexPath)>()
-    var callsToReloadRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToReloadSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
+    var callsToReloadRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToReloadSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
     
-    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToInsertRows.append((indexPaths: indexPaths, animation: animation))
         super.insertRows(at: indexPaths, with: animation)
     }
     
-    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToDeleteRows.append((indexPaths: indexPaths, animation: animation))
         super.deleteRows(at: indexPaths, with: animation)
     }
     
-    override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func insertSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToInsertSections.append((indexSet: sections, animation: animation))
         super.insertSections(sections, with: animation)
     }
     
-    override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func deleteSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToDeleteSections.append((indexSet: sections, animation: animation))
         super.deleteSections(sections, with: animation)
     }
@@ -1043,12 +1043,12 @@ class AnimationRecordingTableView: UITableView {
         super.moveRow(at: indexPath, to: newIndexPath)
     }
     
-    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToReloadRows.append((indexPaths: indexPaths, animation: animation))
         super.reloadRows(at: indexPaths, with: animation)
     }
     
-    override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func reloadSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToReloadSections.append((indexSet: sections, animation: animation))
         super.reloadSections(sections, with: animation)
     }

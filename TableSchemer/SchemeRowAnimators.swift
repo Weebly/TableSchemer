@@ -14,7 +14,7 @@ import UIKit
 */
 public class SchemeRowAnimator {
     fileprivate struct AddRemove {
-        let animation: UITableViewRowAnimation
+        let animation: UITableView.RowAnimation
         let index: Int
     }
     
@@ -62,7 +62,7 @@ public class SchemeRowAnimator {
         - parameter     index:           The index to remove.
         - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func deleteObject(at index: Int, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public final func deleteObject(at index: Int, with rowAnimation: UITableView.RowAnimation = .automatic) {
         deletions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -75,7 +75,7 @@ public class SchemeRowAnimator {
         - parameter     index:               The index to insert.
         - parameter     rowAnimation:        The type of animation to perform.
     */
-    public final func insertObject(at index: Int, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public final func insertObject(at index: Int, with rowAnimation: UITableView.RowAnimation = .automatic) {
         insertions.append(AddRemove(animation: rowAnimation, index: index))
     }
     
@@ -88,7 +88,7 @@ public class SchemeRowAnimator {
         - parameter     indexes:         The indexes to remove.
         - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func deleteObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public final func deleteObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableView.RowAnimation = .automatic) {
         for i in indexes {
             deletions.append(AddRemove(animation: rowAnimation, index: i))
         }
@@ -103,7 +103,7 @@ public class SchemeRowAnimator {
         - parameter     indexes:         The indexes to insert.
         - parameter     rowAnimation:    The type of animation to perform.
     */
-    public final func insertObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public final func insertObjects(at indexes: CountableClosedRange<Int>, with rowAnimation: UITableView.RowAnimation = .automatic) {
         for i in indexes {
             insertions.append(AddRemove(animation: rowAnimation, index: i))
         }
@@ -117,7 +117,7 @@ public class SchemeRowAnimator {
         tableView.beginUpdates()
         
         // Compact our insertions/deletions so we do as few table view animation calls as necessary
-        let insertRows = insertions.reduce([UITableViewRowAnimation: [IndexPath]]()) { memo, animation in
+        let insertRows = insertions.reduce([UITableView.RowAnimation: [IndexPath]]()) { memo, animation in
             var memo = memo
             if memo[animation.animation] == nil {
                 memo[animation.animation] = [IndexPath]()
@@ -128,7 +128,7 @@ public class SchemeRowAnimator {
             return memo
         }
         
-        let deleteRows = deletions.reduce([UITableViewRowAnimation: [IndexPath]]()) { memo, animation in
+        let deleteRows = deletions.reduce([UITableView.RowAnimation: [IndexPath]]()) { memo, animation in
             var memo = memo
             if memo[animation.animation] == nil {
                 memo[animation.animation] = [IndexPath]()
@@ -168,7 +168,7 @@ final class InferringRowAnimator<AnimatableScheme: Scheme>: SchemeRowAnimator wh
         super.init(tableScheme: tableScheme, with: attributedScheme, in: tableView)
     }
     
-    func guessRowAnimations(with animation: UITableViewRowAnimation) {
+    func guessRowAnimations(with animation: UITableView.RowAnimation) {
         let updatedRowIdentifiers = animatableScheme.rowIdentifiers
         var addedIdentifiers = updatedRowIdentifiers // Will remove objects when they are found in the original identifiers
         var immovableIndexes = Dictionary<Array<AnimatableScheme.IdentifierType>.Index, Void>() // To help with multiple equal objects
@@ -186,7 +186,7 @@ final class InferringRowAnimator<AnimatableScheme: Scheme>: SchemeRowAnimator wh
                 immovableIndexes[newIndex] = ()
                 
                 // Object was in both original and updated, so we can remove it from our list of added identifiers
-                addedIdentifiers.remove(at: addedIdentifiers.index(of: updatedRowIdentifiers[newIndex])!)
+                addedIdentifiers.remove(at: addedIdentifiers.firstIndex(of: updatedRowIdentifiers[newIndex])!)
             } else {
                 // Object was deleted, so mark this row deleted
                 deletions.append(AddRemove(animation: animation, index: index))
@@ -194,7 +194,7 @@ final class InferringRowAnimator<AnimatableScheme: Scheme>: SchemeRowAnimator wh
         }
         
         for added in addedIdentifiers {
-            insertions.append(AddRemove(animation: animation, index: updatedRowIdentifiers.index(of: added)!))
+            insertions.append(AddRemove(animation: animation, index: updatedRowIdentifiers.firstIndex(of: added)!))
         }
     }
     

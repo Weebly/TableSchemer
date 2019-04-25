@@ -222,7 +222,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func hideScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func hideScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -245,7 +245,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func showScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func showScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -268,7 +268,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func reloadScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func reloadScheme(_ scheme: Scheme, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
@@ -293,12 +293,12 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func hideSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func hideSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.firstIndex(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
@@ -317,12 +317,12 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func showSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func showSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.firstIndex(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
@@ -341,12 +341,12 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView to perform the animations on.
         - parameter     rowAnimation:    The type of animation that should be performed.
     */
-    public func reloadSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableViewRowAnimation = .automatic) {
+    public func reloadSchemeSet(_ schemeSet: SchemeSet, in tableView: UITableView, with rowAnimation: UITableView.RowAnimation = .automatic) {
         #if DEBUG
         assert(!buildingBatchAnimations, "You should not use this method within a batch update block")
         #endif
 
-        guard let index = attributedSchemeSets.index(where: { $0.schemeSet === schemeSet }) else {
+        guard let index = attributedSchemeSets.firstIndex(where: { $0.schemeSet === schemeSet }) else {
             NSLog("ERROR: Could not locate \(schemeSet) within \(self)")
             return
         }
@@ -427,7 +427,7 @@ public class TableScheme: NSObject {
         - parameter     tableView:       The UITableView that the animations should be performed on.
         - parameter     changeHandler:   A closure that you perform the changes to your scheme in.
     */
-    public func animateChangesToScheme<T: Scheme>(_ scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableViewRowAnimation = .automatic, withChangeHandler changeHandler: () -> Void) where T: InferrableRowAnimatableScheme {
+    public func animateChangesToScheme<T: Scheme>(_ scheme: T, inTableView tableView: UITableView, withAnimation animation: UITableView.RowAnimation = .automatic, withChangeHandler changeHandler: () -> Void) where T: InferrableRowAnimatableScheme {
         guard let indexes = attributedSchemeIndexesWithScheme(scheme) else {
             NSLog("ERROR: Could not locate \(scheme) within \(self)")
             return
@@ -448,7 +448,7 @@ public class TableScheme: NSObject {
      -  returns:                The index of the scheme set, or nil if it doesn't exist
     */
     public func attributedSchemeSetIndexForSchemeSet(_ schemeSet: SchemeSet) -> Array<AttributedSchemeSet>.Index? {
-        return attributedSchemeSets.index(where: { $0.schemeSet === schemeSet })
+        return attributedSchemeSets.firstIndex(where: { $0.schemeSet === schemeSet })
     }
 
     /**
@@ -601,7 +601,7 @@ extension TableScheme: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let schemeSet = schemeSet(forSection: section) else {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         }
         
         switch schemeSet.headerViewHeight {
@@ -618,7 +618,7 @@ extension TableScheme: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         guard let schemeSet = schemeSet(forSection: section) else {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         }
         
         switch schemeSet.footerViewHeight {
