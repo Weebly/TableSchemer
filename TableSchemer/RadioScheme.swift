@@ -24,6 +24,7 @@ open class RadioScheme<CellType: UITableViewCell>: Scheme {
     
     public typealias ConfigurationHandler = (_ cell: CellType, _ index: Int) -> Void
     public typealias SelectionHandler = (_ cell: CellType, _ scheme: RadioScheme, _ index: Int) -> Void
+    public typealias AppearanceHandler = (_ cell: CellType, _ scheme: RadioScheme, _ index: Int, _ selected: Bool) -> Void
     
     /** The currently selected index. */
     open var selectedIndex = 0
@@ -45,6 +46,18 @@ open class RadioScheme<CellType: UITableViewCell>: Scheme {
      */
     open var selectionHandler: SelectionHandler?
 
+    /**
+     The closure called when a cells selection appearance should be updated. By
+     default, this will update the accessory type to `.checkmark` for the selected
+     cell, and `.none` for the deselected cell.
+
+     Do not use this closure as a way to handle selection; assign a selectionHandler
+     instead as this closure is called during configuration as well.
+     */
+    open var appearanceHandler: AppearanceHandler = { cell, _, _, selected in
+        cell.accessoryType = selected ? .checkmark : .none
+    }
+
     public init(expandedCellTypes: [UITableViewCell.Type], configurationHandler: @escaping ConfigurationHandler) {
         self.expandedCellTypes = expandedCellTypes
         self.configurationHandler = configurationHandler
@@ -59,12 +72,7 @@ open class RadioScheme<CellType: UITableViewCell>: Scheme {
     
     open func configureCell(_ cell: UITableViewCell, withRelativeIndex relativeIndex: Int)  {
         configurationHandler(cell as! CellType, relativeIndex)
-        
-        if selectedIndex == relativeIndex {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+        appearanceHandler(cell as! CellType, self, relativeIndex, selectedIndex == relativeIndex)
     }
     
     open func selectCell(_ cell: UITableViewCell, inTableView tableView: UITableView, inSection section: Int, havingRowsBeforeScheme rowsBeforeScheme: Int, withRelativeIndex relativeIndex: Int) {
@@ -81,10 +89,10 @@ open class RadioScheme<CellType: UITableViewCell>: Scheme {
         selectedIndex = relativeIndex
         
         if let previouslySelectedCell = tableView.cellForRow(at: IndexPath(row: rowsBeforeScheme + oldSelectedIndex, section: section)) {
-            previouslySelectedCell.accessoryType = .none
+            appearanceHandler(previouslySelectedCell as! CellType, self, oldSelectedIndex, false)
         }
-        
-        cell.accessoryType = .checkmark
+
+        appearanceHandler(cell as! CellType, self, relativeIndex, true)
     }
     
     open func reuseIdentifier(forRelativeIndex relativeIndex: Int) -> String {

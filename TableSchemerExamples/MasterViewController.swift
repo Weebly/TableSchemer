@@ -130,7 +130,39 @@ class MasterViewController: UITableViewController {
                 }
             }
 
+            builder.buildSchemeSet { builder in
+                builder.headerText = "Custom Appearance Radio Sample"
+
+                builder.buildScheme { (scheme: RadioSchemeBuilder) in
+                    scheme.expandedCellTypes = [ColorizedTableViewCell.Type](repeating: ColorizedTableViewCell.self, count: 5)
+
+                    scheme.configurationHandler = { cell, index in
+                        cell.textLabel?.text = "Radio Button \(index + 1)"
+                    }
+
+                    scheme.selectionHandler = { [unowned self] cell, scheme, index in
+                        print("You selected \(index)!")
+                        self.radioSelection = index
+                    }
+
+                    scheme.appearanceHandler = { cell, _, _, selected in
+                        cell.backgroundColor = selected ? .green : .red
+                    }
+                }
+            }
+
         }
     }
 }
 
+fileprivate class ColorizedTableViewCell: UITableViewCell {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        textLabel?.backgroundColor = .clear
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        textLabel?.backgroundColor = .clear
+    }
+}
