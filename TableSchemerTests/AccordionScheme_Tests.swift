@@ -140,108 +140,166 @@ class AccordionScheme_Tests: XCTestCase {
     
     func testSelectCell_whenUnexpanded_whenFirstRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
-        
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        
+
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        _ = tableMock.verify()
+        XCTAssertEqual(1, tableView.callsToBeginUpdates)
+        XCTAssertEqual(1, tableView.callsToEndUpdates)
+
+        XCTAssertEqual(1, tableView.callsToInsertRows.count)
+        if tableView.callsToInsertRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], tableView.callsToInsertRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToInsertRows[0].animation)
+        }
+
+        XCTAssertEqual(1, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+        }
     }
     
     func testSelectCell_whenUnexpanded_whenLastRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
         subject.selectedIndex = 2
-        
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-        
+
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        _ = tableMock.verify()
+        XCTAssertEqual(1, tableView.callsToBeginUpdates)
+        XCTAssertEqual(1, tableView.callsToEndUpdates)
+
+        XCTAssertEqual(1, tableView.callsToInsertRows.count)
+        if tableView.callsToInsertRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], tableView.callsToInsertRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToInsertRows[0].animation)
+        }
+
+        XCTAssertEqual(1, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+        }
     }
     
     func testSelectCell_whenUnexpanded_whenMiddleRowIsSelected_animatesNewCellsIn() {
         configureSubjectWithConfigurationHandler()
         subject.selectedIndex = 1
-        
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 3, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
-        
+
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
 
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
-        
-        _ = tableMock.verify()
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
+
+        XCTAssertEqual(1, tableView.callsToBeginUpdates)
+        XCTAssertEqual(1, tableView.callsToEndUpdates)
+
+        XCTAssertEqual(2, tableView.callsToInsertRows.count)
+        if tableView.callsToInsertRows.count > 1 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0)], tableView.callsToInsertRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToInsertRows[0].animation)
+
+            XCTAssertEqual([IndexPath(row: 3, section: 0)], tableView.callsToInsertRows[1].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToInsertRows[1].animation)
+        }
+
+        XCTAssertEqual(1, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+        }
     }
     
     func testSelectCell_whenExpanded_whenFirstRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
-        
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
         
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        XCTAssertEqual(2, tableView.callsToBeginUpdates)
+        XCTAssertEqual(2, tableView.callsToEndUpdates)
 
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
-        
-        _ = tableMock.verify()
+        XCTAssertEqual(1, tableView.callsToDeleteRows.count)
+        if tableView.callsToDeleteRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], tableView.callsToDeleteRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToDeleteRows[0].animation)
+        }
+
+        XCTAssertEqual(2, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 1 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+
+            XCTAssertEqual([IndexPath(row: 0, section: 0)], tableView.callsToReloadRows[1].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[1].animation)
+        }
     }
     
     func testSelectCell_whenExpanded_whenLastRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
         
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
-        
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 2, section: 0)], with: .automatic)
-        
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 2)
-        
-        _ = tableMock.verify()
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 0, withRelativeIndex: 2)
+
+        XCTAssertEqual(2, tableView.callsToBeginUpdates)
+        XCTAssertEqual(2, tableView.callsToEndUpdates)
+
+        XCTAssertEqual(1, tableView.callsToDeleteRows.count)
+        if tableView.callsToDeleteRows.count > 0 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0)], tableView.callsToDeleteRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToDeleteRows[0].animation)
+        }
+
+        XCTAssertEqual(2, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 1 {
+            XCTAssertEqual([IndexPath(row: 0, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+
+            XCTAssertEqual([IndexPath(row: 2, section: 0)], tableView.callsToReloadRows[1].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[1].animation)
+        }
     }
     
     func testSelectCell_whenExpanded_whenMiddleRowIsSelected_animatesOldCellsOut() {
         configureSubjectWithConfigurationHandler()
-        
-        let tableMock = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+
+        let tableView = RecordingTableView()
         let cell = UITableViewCell()
         
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 0)
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 1)
         
-        (tableMock.expect() as AnyObject).beginUpdates()
-        (tableMock.expect() as AnyObject).endUpdates()
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 3, section: 0)], with: .fade)
-        (tableMock.expect() as AnyObject).reloadRows(at: [IndexPath(row: 2, section: 0)], with: .automatic)
+        XCTAssertEqual(2, tableView.callsToBeginUpdates)
+        XCTAssertEqual(2, tableView.callsToEndUpdates)
 
-        subject.selectCell(cell, inTableView: tableMock as! UITableView, inSection: 0, havingRowsBeforeScheme: 1, withRelativeIndex: 1)
-        
-        _ = tableMock.verify()
+        XCTAssertEqual(2, tableView.callsToDeleteRows.count)
+        if tableView.callsToDeleteRows.count > 1 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0)], tableView.callsToDeleteRows[0].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToDeleteRows[0].animation)
+
+            XCTAssertEqual([IndexPath(row: 3, section: 0)], tableView.callsToDeleteRows[1].indexPaths)
+            XCTAssertEqual(.fade, tableView.callsToDeleteRows[1].animation)
+        }
+
+        XCTAssertEqual(2, tableView.callsToReloadRows.count)
+        if tableView.callsToReloadRows.count > 1 {
+            XCTAssertEqual([IndexPath(row: 1, section: 0)], tableView.callsToReloadRows[0].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[0].animation)
+
+            XCTAssertEqual([IndexPath(row: 2, section: 0)], tableView.callsToReloadRows[1].indexPaths)
+            XCTAssertEqual(.automatic, tableView.callsToReloadRows[1].animation)
+        }
     }
     
     // MARK: Number of Cells
