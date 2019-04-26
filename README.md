@@ -23,7 +23,7 @@ You can easily create your own Schemes and add them into your tables. With a few
 
 ## Requirements
 
-TableSchemer is built using Swift 3, so it requires that you use Xcode 8. It supports iOS 7.0+.
+TableSchemer is built using Swift 5, so it requires that you use Xcode 10.2. It supports iOS 8.0+.
 
 ## Usage
 
@@ -69,7 +69,7 @@ TableSchemer will set itself as the data source and delegate of the table view. 
 
 ## Sample Project
 
-The sample project makes use of CocoaPods. Be sure you have the latest installed. After downloading the project, run ```pod install``` from the root directory. After the command completes be sure to open the **workspace** file, and not the project file.
+There is a sample project that demonstrates a number of ways to make use of TableSchemer. To run them, clone the repo and run the TableSchemerExamples target.
 
 ## Contact
 
@@ -87,7 +87,7 @@ We love to have your help to make TableSchemer better. Feel free to
 
 ## License
 
-Copyright (c) 2014, Weebly
+Copyright (c) 2019, Square
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
