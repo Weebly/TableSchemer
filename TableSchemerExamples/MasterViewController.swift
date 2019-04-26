@@ -145,7 +145,7 @@ class MasterViewController: UITableViewController {
                         self.radioSelection = index
                     }
 
-                    scheme.appearanceHandler = { cell, _, _, selected in
+                    scheme.stateHandler = { cell, _, _, selected in
                         cell.backgroundColor = selected ? .green : .red
                     }
                 }

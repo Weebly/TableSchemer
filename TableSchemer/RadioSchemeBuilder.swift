@@ -14,7 +14,7 @@ open class RadioSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
 
     open var configurationHandler: SchemeType.ConfigurationHandler?
     open var selectionHandler: SchemeType.SelectionHandler?
-    open var appearanceHandler: SchemeType.AppearanceHandler?
+    open var stateHandler: SchemeType.StateHandler?
     open var expandedCellTypes: [UITableViewCell.Type]?
     open var selectedIndex = 0
     open var heights: [RowHeight]?
@@ -33,8 +33,8 @@ open class RadioSchemeBuilder<CellType: UITableViewCell>: SchemeBuilder {
         scheme.selectedIndex = selectedIndex
         scheme.selectionHandler = selectionHandler
 
-        if let appearanceHandler = appearanceHandler {
-            scheme.appearanceHandler = appearanceHandler
+        if let stateHandler = stateHandler {
+            scheme.stateHandler = stateHandler
         }
 
         return scheme
