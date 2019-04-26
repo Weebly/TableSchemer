@@ -48,7 +48,7 @@ public class SchemeSet {
     
     /// Schemes that are currently visible
     public var visibleSchemes: [Scheme] {
-        return attributedSchemes.flatMap { $0.hidden ? nil : $0.scheme }
+        return attributedSchemes.compactMap { $0.hidden ? nil : $0.scheme }
     }
     
     public init(attributedSchemes: [AttributedScheme],

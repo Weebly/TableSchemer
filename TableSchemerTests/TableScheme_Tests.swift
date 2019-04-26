@@ -185,11 +185,10 @@ class TableScheme_Tests: XCTestCase {
 
     // MARK: Handling Selection
     func testHandleSelectionInTableView_sendsCorrectSelection_forBasicScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 0, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
+        tableView.cellOverrides[indexPath] = cell
 
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet3Scheme1.lastSelectCall
@@ -202,12 +201,11 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_sendsCorrectSelection_forSchemeBelowLargeScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 3, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme2.lastSelectCall
         
@@ -219,12 +217,11 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_sendsCorrectSelection_forLargeScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 2, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme1.lastSelectCall
         
@@ -236,14 +233,13 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_accoutsForHiddenSchemesAndSchemeSets() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet2, in: tableView)
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         let indexPath = IndexPath(row: 3, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet4Scheme3.lastSelectCall
         
@@ -291,22 +287,24 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Finding a Scheme within a View
     func testSchemeContainingView_returnsCorrectScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
+        let indexPath = IndexPath(row: 0, section: 2)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
+        tableView.addSubview(cell)
         let subview = UIView()
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 0, section: 2))
         cell.contentView.addSubview(subview)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 0, section: 2)) as AnyObject).indexPath(for: cell)
+        tableView.cellOverrides[indexPath] = cell
         XCTAssert(subject.scheme(containing: subview) ===  schemeSet3Scheme1)
     }
     
     func testSchemeWithIndexContainingView_returnsCorrectTuple() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
+        let indexPath = IndexPath(row: 2, section: 1)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
+        tableView.addSubview(cell)
         let subview = UIView()
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 2, section: 1))
         cell.contentView.addSubview(subview)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 2, section: 1)) as AnyObject).indexPath(for: cell)
+        tableView.cellOverrides[indexPath] = cell
         let tuple = subject.schemeWithIndex(containing: subview)
         XCTAssert(tuple?.scheme === schemeSet2Scheme1)
         XCTAssertEqual(tuple?.index, 2)
@@ -350,43 +348,51 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHideScheme_performsHideAnimationForEachCellInScheme() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .automatic)
-        
+        let tableView: RecordingTableView = configuredTableView()
+
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testHideScheme_performsHideAnimationForEachCellInScheme_withSpecifiedAnimation() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideScheme(schemeSet1Scheme1, in: tableView, with: .fade)
 
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.fade, calls[0].animation)
     }
     
     func testHideScheme_performsHideAnimationInCorrectSection() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideScheme(schemeSet3Scheme1, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 2)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testHideScheme_forOffsettedScheme_performsHideAnimationInRows() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideScheme(schemeSet1Scheme2, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 3, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testShowScheme_marksSchemeVisible() {
@@ -399,51 +405,55 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testShowScheme_performsShowAnimationForEachCellInScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .automatic)
-        
         subject.showScheme(schemeSet1Scheme1, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testShowScheme_performsHideAnimationForEachCellInScheme_withSpecifiedAnimation() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], with: .fade)
-        
         subject.showScheme(schemeSet1Scheme1, in: tableView, with: .fade)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.fade, calls[0].animation)
     }
     
     func testShowScheme_performsShowAnimationInCorrectSection() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet3Scheme1, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
-
         subject.showScheme(schemeSet3Scheme1, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 0, section: 2)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testShowScheme_forOffsettedScheme_performsShowAnimationInRows() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme2, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertRows(at: [IndexPath(row: 3, section: 0)], with: .automatic)
-        
         subject.showScheme(schemeSet1Scheme2, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertRows
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual([IndexPath(row: 3, section: 0)], calls[0].indexPaths)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testReloadScheme_reloadsEachCellInScheme() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         // Hide a scheme set and scheme to test that it handles hidden objects
         subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden = true
 
@@ -462,12 +472,12 @@ class TableScheme_Tests: XCTestCase {
         let expectedIndexPaths = [IndexPath(row: 1, section: 2), IndexPath(row: 2, section: 2), IndexPath(row: 3, section: 2), IndexPath(row: 4, section: 2)]
         
         for expectedIndexPath in expectedIndexPaths {
-            XCTAssert((tableView.callsToReloadRows[0].indexPaths).index(of: expectedIndexPath) != nil)
+            XCTAssert((tableView.callsToReloadRows[0].indexPaths).firstIndex(of: expectedIndexPath) != nil)
         }
     }
     
     func testReloadScheme_ifSchemeIsHidden_doesntReloadScheme() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexes = subject.attributedSchemeIndexesWithScheme(schemeSet4Scheme3)!
         subject.attributedSchemeSets[indexes.schemeSetIndex].schemeSet.attributedSchemes[indexes.schemeIndex].hidden = true
         subject.reloadScheme(schemeSet4Scheme3, in: tableView, with: .fade)
@@ -481,33 +491,42 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHideSchemeSet_performsHideAnimationForSchemeSet() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 0), with: .automatic)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideSchemeSet(schemeSet1, in: tableView)
 
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteSections
+
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 0), calls[0].indexSet)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testHideSchemeSet_performsHideAnimationForSchemeSet_withSpecifiedAnimation() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 0), with: .fade)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideSchemeSet(schemeSet1, in: tableView, with: .fade)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToDeleteSections
+
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 0), calls[0].indexSet)
+        XCTAssertEqual(.fade, calls[0].animation)
     }
     
     func testHideSchemeSet_forOffsettedSchemeSet_performsHideAnimationOnCorrectSection() {
-        let tableView = configuredTableView()
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).deleteSections(IndexSet(integer: 2), with: .automatic)
+        let tableView: RecordingTableView = configuredTableView()
         
         subject.hideSchemeSet(schemeSet3, in: tableView)
+
+        let calls = tableView.callsToDeleteSections
         
-        _ = tableMock.verify()
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 2), calls[0].indexSet)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testShowSchemeSet_marksSchemeSetVisible() {
@@ -518,40 +537,46 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testShowSchemeSet_performsShowAnimationForSchemeSet() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 0), with: .automatic)
-        
         subject.showSchemeSet(schemeSet1, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertSections
+
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 0), calls[0].indexSet)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testShowSchemeSet_performsShowAnimationForSchemeSet_withSpecifiedAnimation() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView, with: .fade)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 0), with: .fade)
-        
         subject.showSchemeSet(schemeSet1, in: tableView, with: .fade)
+
+        let calls = tableView.callsToInsertSections
         
-        _ = tableMock.verify()
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 0), calls[0].indexSet)
+        XCTAssertEqual(.fade, calls[0].animation)
     }
     
     func testShowSchemeSet_forOffsettedSchemeSet_performsShowAnimationOnCorrectSection() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet3, in: tableView)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        (tableMock.expect() as AnyObject).insertSections(IndexSet(integer: 2), with: .automatic)
-        
         subject.showSchemeSet(schemeSet3, in: tableView)
         
-        _ = tableMock.verify()
+        let calls = tableView.callsToInsertSections
+
+        XCTAssertEqual(1, calls.count)
+        guard calls.count > 0 else { return }
+        XCTAssertEqual(IndexSet(integer: 2), calls[0].indexSet)
+        XCTAssertEqual(.automatic, calls[0].animation)
     }
     
     func testReloadSchemeSet_reloadsSection() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet1)!].hidden = true // Hide a scheme set to test that it handles hidden scheme sets
         subject.reloadSchemeSet(schemeSet4, in: tableView, with: .fade)
         
@@ -567,14 +592,14 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testReloadSchemeSet_ifSchemeSetIsHidden_doesntReloadSchemeSet() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.attributedSchemeSets[subject.attributedSchemeSetIndexForSchemeSet(schemeSet4)!].hidden = true
         subject.reloadSchemeSet(schemeSet4, in: tableView, with: .fade)
         XCTAssert(tableView.callsToReloadSections.count == 0)
     }
     
     func testBatchSchemeVisibility_updatesSchemesAccordingly() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet3, in: tableView)
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
@@ -601,11 +626,11 @@ class TableScheme_Tests: XCTestCase {
         let expectedInsertedIndexPaths = [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0), IndexPath(row: 0, section: 2)]
 
         for expectedDeletedIndexPath in expectedDeletedIndexPaths {
-            XCTAssert((tableView.callsToDeleteRows[0].indexPaths).index(of: expectedDeletedIndexPath) != nil)
+            XCTAssert((tableView.callsToDeleteRows[0].indexPaths).firstIndex(of: expectedDeletedIndexPath) != nil)
         }
         
         for expectedInsertedIndexPath in expectedInsertedIndexPaths {
-            XCTAssert((tableView.callsToInsertRows[0].indexPaths).index(of: expectedInsertedIndexPath) != nil)
+            XCTAssert((tableView.callsToInsertRows[0].indexPaths).firstIndex(of: expectedInsertedIndexPath) != nil)
         }
         
         XCTAssertTrue(tableView.callsToDeleteSections[0].indexSet.contains(1))
@@ -613,7 +638,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testBatchSchemeVisibility_updatesSchemeSets_usingCorrectAnimation() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView)
         subject.hideSchemeSet(schemeSet2, in: tableView)
         tableView.clearCounters()
@@ -651,7 +676,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testBatchSchemeVisibility_updatesSchemes_usingCorrectAnimation() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideScheme(schemeSet1Scheme1, in: tableView)
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         tableView.clearCounters()
@@ -670,9 +695,9 @@ class TableScheme_Tests: XCTestCase {
         for insert in tableView.callsToInsertRows {
             if insert.animation == .fade {
                 // Check for all three cells in indexPaths, any order
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 0, section: 0)) != nil)
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 1, section: 0)) != nil)
-                XCTAssert((insert.indexPaths).index(of: IndexPath(row: 2, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 0, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 1, section: 0)) != nil)
+                XCTAssert((insert.indexPaths).firstIndex(of: IndexPath(row: 2, section: 0)) != nil)
             } else if insert.animation == .top {
                 XCTAssertEqual(insert.indexPaths[0], IndexPath(row: 0, section: 3))
             } else {
@@ -685,10 +710,10 @@ class TableScheme_Tests: XCTestCase {
                 XCTAssertEqual(delete.indexPaths[0], IndexPath(row: 0, section: 3))
             } else if delete.animation == .left {
                 // Check for all 4 cells in indexPaths, any order
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 1, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((delete.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 1, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((delete.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation in deletions")
             }
@@ -696,7 +721,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testBatchSchemeVisibility_reloadSchemeSet_reloadsUsingCorrectAnimation() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView)
         tableView.clearCounters()
         
@@ -724,7 +749,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testBatchSchemeVisibility_reloadScheme_reloadsUsingCorrectAnimation() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet1, in: tableView)
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         tableView.clearCounters()
@@ -747,14 +772,14 @@ class TableScheme_Tests: XCTestCase {
         let expectedIndexPaths = [IndexPath(row: 1, section: 2), IndexPath(row: 2, section: 2), IndexPath(row: 3, section: 2), IndexPath(row: 4, section: 2)]
         
         for ip in expectedIndexPaths {
-            XCTAssert((reload.indexPaths).index(of: ip) != nil)
+            XCTAssert((reload.indexPaths).firstIndex(of: ip) != nil)
         }
     }
     
     // MARK: - Scheme Animatability
     // MARK: Explicitly removing rows
     func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
             animator.deleteObject(at: 0, with: .fade)
             animator.deleteObject(at: 1, with: .automatic)
@@ -765,10 +790,10 @@ class TableScheme_Tests: XCTestCase {
         
         for deletions in tableView.callsToDeleteRows {
             if deletions.animation == .fade {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
             } else if deletions.animation == .automatic {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -776,7 +801,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testAnimateChangesToScheme_withExplicitAnimations_whenRemovingRows_byRange_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
             animator.deleteObjects(at: 0...1, with: .fade)
             animator.deleteObjects(at: 2...2, with: .automatic)
@@ -786,10 +811,10 @@ class TableScheme_Tests: XCTestCase {
         
         for deletions in tableView.callsToDeleteRows {
             if deletions.animation == .fade {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
             } else if deletions.animation == .automatic {
-                XCTAssert((deletions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((deletions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -799,7 +824,7 @@ class TableScheme_Tests: XCTestCase {
     // MARK: Explicitly adding rows
     
     func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
             animator.insertObject(at: 0, with: .fade)
             animator.insertObject(at: 1, with: .automatic)
@@ -810,10 +835,10 @@ class TableScheme_Tests: XCTestCase {
         
         for insertions in tableView.callsToInsertRows {
             if insertions.animation == .fade {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
             } else if insertions.animation == .automatic {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -821,7 +846,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testAnimateChangesToScheme_withExplicitAnimations_whenInsertingRows_byRange_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
             animator.insertObjects(at: 0...1, with: .fade)
             animator.insertObjects(at: 2...2, with: .automatic)
@@ -831,10 +856,10 @@ class TableScheme_Tests: XCTestCase {
         
         for insertions in tableView.callsToInsertRows {
             if insertions.animation == .fade {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 2, section: 3)) != nil)
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 3, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 2, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 3, section: 3)) != nil)
             } else if insertions.animation == .automatic {
-                XCTAssert((insertions.indexPaths).index(of: IndexPath(row: 4, section: 3)) != nil)
+                XCTAssert((insertions.indexPaths).firstIndex(of: IndexPath(row: 4, section: 3)) != nil)
             } else {
                 XCTFail("Unexpected animation")
             }
@@ -843,7 +868,7 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Explicitly moving rows
     func testAnimateChangesToScheme_withExplicitAnimations_whenMovingRows_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) { animator in
             animator.moveObject(at: 0, to: 2)
             animator.moveObject(at: 1, to: 3)
@@ -860,7 +885,7 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK Inferred animations
     func testAnimateChangesToScheme_withInferredAnimations_whenRemovingAnObject_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView, withAnimation: .fade) {
             _ = self.schemeSet4Scheme3.definedNumberOfCells = 3
         }
@@ -876,7 +901,7 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testAnimateChangesToScheme_withInferredAnimations_whenAddingAnObject_performsCorrectAnimations() {
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView, withAnimation: .fade) {
             _ = self.schemeSet4Scheme3.definedNumberOfCells = 5
         }
@@ -893,7 +918,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testAnimateChangesToScheme_withInferredAnimations_whenMovingAnObject_performsCorrectAnimations() {
         schemeSet4Scheme3.identifiers = [0,1,2,3]
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) {
             _ = self.schemeSet4Scheme3.identifiers = [1,0,2,3]
         }
@@ -915,7 +940,7 @@ class TableScheme_Tests: XCTestCase {
     
     func testAnimateChangesToScheme_withInferredAnimations_withEqualObjects_performsCorrectAnimations() {
         schemeSet4Scheme3.identifiers = [1,1,2,3]
-        let tableView: AnimationRecordingTableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.animateChangesToScheme(schemeSet4Scheme3, inTableView: tableView) {
             _ = self.schemeSet4Scheme3.identifiers = [1,0,2,1]
         }
@@ -1007,33 +1032,51 @@ extension TestableScheme: InferrableRowAnimatableScheme {
     }
 }
 
-class AnimationRecordingTableView: UITableView {
+class RecordingTableView: UITableView {
     var callsToBeginUpdates = 0
     var callsToEndUpdates = 0
-    var callsToInsertRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToDeleteRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToInsertSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
-    var callsToDeleteSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
+    var callsToInsertRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToDeleteRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToInsertSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
+    var callsToDeleteSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
     var callsToMoveRow = Array<(fromIndexPath: IndexPath, toIndexPath: IndexPath)>()
-    var callsToReloadRows = Array<(indexPaths: [IndexPath], animation: UITableViewRowAnimation)>()
-    var callsToReloadSections = Array<(indexSet: IndexSet, animation: UITableViewRowAnimation)>()
+    var callsToReloadRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
+    var callsToReloadSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
+
+    var cellOverrides = [IndexPath: UITableViewCell]()
+
+    override func cellForRow(at indexPath: IndexPath) -> UITableViewCell? {
+        if let cell = cellOverrides[indexPath] {
+            return cell
+        }
+
+        return super.cellForRow(at: indexPath)
+    }
+
+    override func indexPath(for cell: UITableViewCell) -> IndexPath? {
+        if let entry = cellOverrides.first(where: { $1 === cell }) {
+            return entry.key
+        }
+
+        return super.indexPath(for: cell)
+    }
     
-    override func insertRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToInsertRows.append((indexPaths: indexPaths, animation: animation))
         super.insertRows(at: indexPaths, with: animation)
     }
     
-    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func deleteRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToDeleteRows.append((indexPaths: indexPaths, animation: animation))
         super.deleteRows(at: indexPaths, with: animation)
     }
     
-    override func insertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func insertSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToInsertSections.append((indexSet: sections, animation: animation))
         super.insertSections(sections, with: animation)
     }
     
-    override func deleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func deleteSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToDeleteSections.append((indexSet: sections, animation: animation))
         super.deleteSections(sections, with: animation)
     }
@@ -1043,12 +1086,12 @@ class AnimationRecordingTableView: UITableView {
         super.moveRow(at: indexPath, to: newIndexPath)
     }
     
-    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableViewRowAnimation) {
+    override func reloadRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToReloadRows.append((indexPaths: indexPaths, animation: animation))
         super.reloadRows(at: indexPaths, with: animation)
     }
     
-    override func reloadSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    override func reloadSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         callsToReloadSections.append((indexSet: sections, animation: animation))
         super.reloadSections(sections, with: animation)
     }

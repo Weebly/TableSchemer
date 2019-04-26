@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1A84FFE91B5DCD5B00F187B6"
-               BuildableName = "TableSchemer.framework"
-               BlueprintName = "TableSchemer"
+               BlueprintIdentifier = "1AB445B0194A66C4001BEDFF"
+               BuildableName = "TableSchemerExamples.app"
+               BlueprintName = "TableSchemerExamples"
                ReferencedContainer = "container:TableSchemer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,23 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1AB445C4194A66C4001BEDFF"
-               BuildableName = "TableSchemerTests.xctest"
-               BlueprintName = "TableSchemerTests"
-               ReferencedContainer = "container:TableSchemer.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1A84FFE91B5DCD5B00F187B6"
-            BuildableName = "TableSchemer.framework"
-            BlueprintName = "TableSchemer"
+            BlueprintIdentifier = "1AB445B0194A66C4001BEDFF"
+            BuildableName = "TableSchemerExamples.app"
+            BlueprintName = "TableSchemerExamples"
             ReferencedContainer = "container:TableSchemer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -61,15 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1A84FFE91B5DCD5B00F187B6"
-            BuildableName = "TableSchemer.framework"
-            BlueprintName = "TableSchemer"
+            BlueprintIdentifier = "1AB445B0194A66C4001BEDFF"
+            BuildableName = "TableSchemerExamples.app"
+            BlueprintName = "TableSchemerExamples"
             ReferencedContainer = "container:TableSchemer.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -79,15 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1A84FFE91B5DCD5B00F187B6"
-            BuildableName = "TableSchemer.framework"
-            BlueprintName = "TableSchemer"
+            BlueprintIdentifier = "1AB445B0194A66C4001BEDFF"
+            BuildableName = "TableSchemerExamples.app"
+            BlueprintName = "TableSchemerExamples"
             ReferencedContainer = "container:TableSchemer.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

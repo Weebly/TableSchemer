@@ -44,7 +44,7 @@ class RadioScheme_Tests: XCTestCase {
         let cell = UITableViewCell()
         subject.configureCell(cell, withRelativeIndex: 1)
         
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.checkmark)
+        XCTAssertEqual(cell.accessoryType, UITableViewCell.AccessoryType.checkmark)
     }
     
     func testConfigureCell_whenNotSelected_setsAccessoryToNone() {
@@ -55,7 +55,7 @@ class RadioScheme_Tests: XCTestCase {
         cell.accessoryType = .checkmark
         subject.configureCell(cell, withRelativeIndex: 0)
         
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.none)
+        XCTAssertEqual(cell.accessoryType, UITableViewCell.AccessoryType.none)
     }
     
     // MARK: Selecing Cell
@@ -96,18 +96,20 @@ class RadioScheme_Tests: XCTestCase {
     
     func testSelectCell_updatesPreviouslySelectedCellAccessoryType() {
         configureSubjectWithConfigurationHandler()
-        
-        let mockTableView = OCMockObject.niceMock(for: UITableView.self) as AnyObject
+
+        let tableView = RecordingTableView()
         let oldCell = UITableViewCell()
         oldCell.accessoryType = .checkmark
-        _ = ((mockTableView.stub() as AnyObject).andReturn(oldCell) as AnyObject).cellForRow(at: IndexPath(row: 3, section: 0))
-        
+
+        let indexPath = IndexPath(row: 3, section: 0)
+        tableView.cellOverrides[indexPath] = oldCell
+
         let cell = UITableViewCell()
+
+        subject.selectCell(cell, inTableView: tableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
         
-        subject.selectCell(cell, inTableView: mockTableView as! UITableView, inSection: 0, havingRowsBeforeScheme: 3, withRelativeIndex: 1)
-        
-        XCTAssertEqual(oldCell.accessoryType, UITableViewCellAccessoryType.none)
-        XCTAssertEqual(cell.accessoryType, UITableViewCellAccessoryType.checkmark)
+        XCTAssertEqual(oldCell.accessoryType, UITableViewCell.AccessoryType.none)
+        XCTAssertEqual(cell.accessoryType, UITableViewCell.AccessoryType.checkmark)
     }
     
     // MARK: Number of Cells
