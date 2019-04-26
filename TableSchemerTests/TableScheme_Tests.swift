@@ -185,11 +185,10 @@ class TableScheme_Tests: XCTestCase {
 
     // MARK: Handling Selection
     func testHandleSelectionInTableView_sendsCorrectSelection_forBasicScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 0, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
+        tableView.cellOverrides[indexPath] = cell
 
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet3Scheme1.lastSelectCall
@@ -202,12 +201,11 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_sendsCorrectSelection_forSchemeBelowLargeScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 3, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme2.lastSelectCall
         
@@ -219,12 +217,11 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_sendsCorrectSelection_forLargeScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 2, section: 0)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet1Scheme1.lastSelectCall
         
@@ -236,14 +233,13 @@ class TableScheme_Tests: XCTestCase {
     }
     
     func testHandleSelectionInTableView_accoutsForHiddenSchemesAndSchemeSets() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
         subject.hideSchemeSet(schemeSet2, in: tableView)
         subject.hideScheme(schemeSet4Scheme1, in: tableView)
         let indexPath = IndexPath(row: 3, section: 2)
         let cell = subject.tableView(tableView, cellForRowAt: indexPath)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(cell) as AnyObject).cellForRow(at: indexPath)
-        
+        tableView.cellOverrides[indexPath] = cell
+
         subject.tableView(tableView, didSelectRowAt: indexPath)
         let selectCall = schemeSet4Scheme3.lastSelectCall
         
@@ -291,22 +287,22 @@ class TableScheme_Tests: XCTestCase {
     
     // MARK: Finding a Scheme within a View
     func testSchemeContainingView_returnsCorrectScheme() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
+        let indexPath = IndexPath(row: 0, section: 2)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
         let subview = UIView()
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 0, section: 2))
         cell.contentView.addSubview(subview)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 0, section: 2)) as AnyObject).indexPath(for: cell)
+        tableView.cellOverrides[indexPath] = cell
         XCTAssert(subject.scheme(containing: subview) ===  schemeSet3Scheme1)
     }
     
     func testSchemeWithIndexContainingView_returnsCorrectTuple() {
-        let tableView = configuredTableView()
+        let tableView: RecordingTableView = configuredTableView()
+        let indexPath = IndexPath(row: 2, section: 1)
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
         let subview = UIView()
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: IndexPath(row: 2, section: 1))
         cell.contentView.addSubview(subview)
-        let tableMock = OCMockObject.partialMock(for: tableView) as AnyObject
-        _  = ((tableMock.stub() as AnyObject).andReturn(IndexPath(row: 2, section: 1)) as AnyObject).indexPath(for: cell)
+        tableView.cellOverrides[indexPath] = cell
         let tuple = subject.schemeWithIndex(containing: subview)
         XCTAssert(tuple?.scheme === schemeSet2Scheme1)
         XCTAssertEqual(tuple?.index, 2)
@@ -1044,6 +1040,16 @@ class RecordingTableView: UITableView {
     var callsToMoveRow = Array<(fromIndexPath: IndexPath, toIndexPath: IndexPath)>()
     var callsToReloadRows = Array<(indexPaths: [IndexPath], animation: UITableView.RowAnimation)>()
     var callsToReloadSections = Array<(indexSet: IndexSet, animation: UITableView.RowAnimation)>()
+
+    var cellOverrides = [IndexPath: UITableViewCell]()
+
+    override func cellForRow(at indexPath: IndexPath) -> UITableViewCell? {
+        if let cell = cellOverrides[indexPath] {
+            return cell
+        }
+
+        return super.cellForRow(at: indexPath)
+    }
     
     override func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
         callsToInsertRows.append((indexPaths: indexPaths, animation: animation))
