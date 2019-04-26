@@ -290,6 +290,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 0, section: 2)
         let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
+        tableView.addSubview(cell)
         let subview = UIView()
         cell.contentView.addSubview(subview)
         tableView.cellOverrides[indexPath] = cell
@@ -300,6 +301,7 @@ class TableScheme_Tests: XCTestCase {
         let tableView: RecordingTableView = configuredTableView()
         let indexPath = IndexPath(row: 2, section: 1)
         let cell = tableView.dequeueReusableCell(withIdentifier: TableSchemeTestsReuseIdentifier, for: indexPath)
+        tableView.addSubview(cell)
         let subview = UIView()
         cell.contentView.addSubview(subview)
         tableView.cellOverrides[indexPath] = cell
@@ -1049,6 +1051,14 @@ class RecordingTableView: UITableView {
         }
 
         return super.cellForRow(at: indexPath)
+    }
+
+    override func indexPath(for cell: UITableViewCell) -> IndexPath? {
+        if let entry = cellOverrides.first(where: { $1 === cell }) {
+            return entry.key
+        }
+
+        return super.indexPath(for: cell)
     }
     
     override func insertRows(at indexPaths: [IndexPath], with animation: UITableView.RowAnimation) {
