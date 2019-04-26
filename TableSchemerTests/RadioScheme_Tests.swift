@@ -57,6 +57,38 @@ class RadioScheme_Tests: XCTestCase {
         
         XCTAssertEqual(cell.accessoryType, UITableViewCell.AccessoryType.none)
     }
+
+    func testConfigureCell_whenSelected_withCustomStateHandler_usesCustomStateHandler() {
+        configureSubjectWithConfigurationHandler()
+        subject.selectedIndex = 1
+
+        let testColor = UIColor.red
+        subject.stateHandler = { cell, _, _, selected in
+            XCTAssertTrue(selected)
+            cell.backgroundColor = testColor
+        }
+
+        let cell = UITableViewCell()
+        subject.configureCell(cell, withRelativeIndex: 1)
+
+        XCTAssertEqual(testColor, cell.backgroundColor)
+    }
+
+    func testConfigureCell_whenNotSelected_withCustomStateHandler_usesCustomStateHandler() {
+        configureSubjectWithConfigurationHandler()
+        subject.selectedIndex = 1
+
+        let testColor = UIColor.red
+        subject.stateHandler = { cell, _, _, selected in
+            XCTAssertFalse(selected)
+            cell.backgroundColor = testColor
+        }
+
+        let cell = UITableViewCell()
+        subject.configureCell(cell, withRelativeIndex: 0)
+
+        XCTAssertEqual(testColor, cell.backgroundColor)
+    }
     
     // MARK: Selecing Cell
     func testSelectCell_updatesSelectedIndex() {
