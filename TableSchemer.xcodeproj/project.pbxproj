@@ -93,7 +93,7 @@
 		1AAF4720194D127700BC2F17 /* ArrayScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayScheme_Tests.swift; sourceTree = "<group>"; };
 		1AAF4722194D2CBB00BC2F17 /* RadioScheme_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioScheme_Tests.swift; sourceTree = "<group>"; };
 		1AB445B1194A66C4001BEDFF /* TableSchemerExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TableSchemerExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1AB445B5194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AB445B5194A66C4001BEDFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../TableSchemerExamples/Info.plist; sourceTree = "<group>"; };
 		1AB445B6194A66C4001BEDFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../TableSchemerExamples/AppDelegate.swift; sourceTree = "<group>"; };
 		1AB445B8194A66C4001BEDFF /* AdvancedTableSchemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdvancedTableSchemeViewController.swift; path = TableSchemerExamples/AdvancedTableSchemeViewController.swift; sourceTree = SOURCE_ROOT; };
 		1AB445BF194A66C4001BEDFF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../TableSchemerExamples/Images.xcassets; sourceTree = "<group>"; };
@@ -711,7 +711,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				INFOPLIST_FILE = TableSchemer/Info.plist;
+				INFOPLIST_FILE = TableSchemerExamples/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weebly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -725,7 +725,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				INFOPLIST_FILE = TableSchemer/Info.plist;
+				INFOPLIST_FILE = TableSchemerExamples/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weebly.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
