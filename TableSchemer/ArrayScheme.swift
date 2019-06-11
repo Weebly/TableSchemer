@@ -22,6 +22,7 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
     public typealias ConfigurationHandler = (_ cell: CellType, _ object: ElementType) -> Void
     public typealias SelectionHandler = (_ cell: CellType, _ scheme: ArrayScheme<ElementType, CellType>, _ object: ElementType) -> Void
     public typealias HeightHandler = (_ object: ElementType) -> RowHeight
+    public typealias ReorderingHandler = (_ objects: [ElementType]) -> Void
 
     /** The objects this scheme is representing */
     open var objects: [ElementType]
@@ -49,6 +50,16 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
      by the table view delegate.
      */
     open var selectionHandler: SelectionHandler?
+
+    /** Enables the reordering of cells within the table. */
+    open var isReorderable = false
+
+    /**
+     The closure called when objects have been reordered by a drag-and-drop operation.
+
+     This closure is only used if `isReorderable` is set to `true`.
+     */
+    open var reorderingHandler: ReorderingHandler?
     
     // MARK: Property Overrides
     open var numberOfCells: Int {
@@ -81,6 +92,57 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
         } else {
             return .useTable
         }
+    }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard isReorderable else { return [] }
+        let dragItem = UIDragItem(itemProvider: NSItemProvider())
+        dragItem.localObject = objects[indexPath.row]
+        return [dragItem]
+    }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        guard isReorderable, session.localDragSession != nil else {
+            return UITableViewDropProposal(operation: .cancel)
+        }
+        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+        guard isReorderable,
+            coordinator.proposal.operation == .move,
+            coordinator.items.count == 1,
+            let item = coordinator.items.first,
+            let sourceIndexPath = item.sourceIndexPath,
+            let localObject = item.dragItem.localObject as? ElementType else {
+                return
+        }
+
+        let destinationIndexPath: IndexPath
+
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            // Get last index path of table view.
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+
+        tableView.performBatchUpdates({
+            objects.remove(at: sourceIndexPath.row)
+            objects.insert(localObject, at: destinationIndexPath.row)
+
+            tableView.insertRows(at: [destinationIndexPath], with: .none)
+            tableView.deleteRows(at: [sourceIndexPath], with: .fade)
+
+        }, completion: { _ in
+            self.reorderingHandler?(self.objects)
+        })
     }
 
 }

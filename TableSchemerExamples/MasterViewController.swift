@@ -11,7 +11,7 @@ import UIKit
 
 class MasterViewController: UITableViewController {
     let ReuseIdentifier = "cell"
-    let arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at it's finest"]
+    let arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at its finest"]
     var tableScheme: TableScheme!
     var accordionSelection = 0
     var radioSelection = 0

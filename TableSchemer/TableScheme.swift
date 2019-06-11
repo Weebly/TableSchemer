@@ -51,6 +51,11 @@ public class TableScheme: NSObject {
 
         tableView.dataSource = self
         tableView.delegate = self
+        if #available(iOS 11.0, *) {
+            tableView.dragDelegate = self
+            tableView.dropDelegate = self
+            tableView.dragInteractionEnabled = true
+        }
     }
     
     public convenience init(tableView: UITableView, buildHandler: BuildHandler) {
@@ -633,4 +638,39 @@ extension TableScheme: UITableViewDelegate {
         scrollViewDidScrollHandler?(scrollView)
     }
     
+}
+
+@available(iOS 11.0, *)
+extension TableScheme: UITableViewDragDelegate {
+
+    public func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return schemeAtIndexPath(indexPath)!.tableView(tableView, itemsForBeginning: session, at: indexPath)
+    }
+
+}
+
+@available(iOS 11.0, *)
+extension TableScheme: UITableViewDropDelegate {
+
+    public func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        guard let destinationIndexPath = destinationIndexPath, let scheme = schemeAtIndexPath(destinationIndexPath) else { return UITableViewDropProposal(operation: .cancel) }
+        return scheme.tableView(tableView, dropSessionDidUpdate: session, withDestinationIndexPath: destinationIndexPath)
+    }
+
+    public func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+        let destinationIndexPath: IndexPath
+
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            // Get last index path of table view.
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+
+        schemeAtIndexPath(destinationIndexPath)!.tableView(tableView, performDropWith: coordinator)
+    }
+
 }
