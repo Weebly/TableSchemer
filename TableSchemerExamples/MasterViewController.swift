@@ -112,6 +112,7 @@ class MasterViewController: UITableViewController {
 
                     scheme.reorderingHandler = { objects in
                         print("Reordered objects in ArrayScheme: \(objects)")
+                        scheme.objects = objects
                     }
                 }
             }
