@@ -11,7 +11,7 @@ import UIKit
 
 class MasterViewController: UITableViewController {
     let ReuseIdentifier = "cell"
-    let arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at it's finest"]
+    var arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at its finest"]
     var tableScheme: TableScheme!
     var accordionSelection = 0
     var radioSelection = 0
@@ -27,7 +27,7 @@ class MasterViewController: UITableViewController {
     }
 
     func createTableScheme() {
-        tableScheme = TableScheme(tableView: tableView) { builder in
+        tableScheme = TableScheme(tableView: tableView, allowReordering: true) { builder in
             builder.buildSchemeSet { builder in
                 builder.buildScheme { (scheme: BasicSchemeBuilder) in
 
@@ -108,6 +108,11 @@ class MasterViewController: UITableViewController {
                     scheme.selectionHandler = { cell, scheme, object in
                         print("Selected object in ArrayScheme: \(object)")
                         self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
+                    }
+
+                    scheme.reorderingHandler = { [unowned self] objects in
+                        print("Reordered objects in ArrayScheme: \(objects)")
+                        self.arrayObjects = objects
                     }
                 }
             }

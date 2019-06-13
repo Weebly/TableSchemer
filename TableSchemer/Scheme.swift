@@ -108,6 +108,38 @@ public protocol Scheme: class {
         - returns:                      The `UITableViewCell` to be used in the `UITableView`
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath, relativeIndex: Int) -> UITableViewCell
+
+    /**
+     This method is called by `TableScheme` when we want to start a drag.
+
+     - parameter     tableView:      The `UITableView` that contains the dragged cell
+     - parameter     session:        The `UIDragSession` that will hold the dragged item
+     - parameter     indexPath:      The index path of the dragged cell
+     - returns:                      An array of `UIDragItem` which represents the dragged row
+     */
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem]
+
+    /**
+     This method is called by `TableScheme` when a dragged cell hovers over
+     an index path.
+
+     - parameter     tableView:             The `UITableView` under the hovering dragged cell
+     - parameter     session:               The `UIDropSession` that holds the dragged item
+     - parameter     destinationIndexPath:  The index path over which the dragged cell is hovering
+     - returns:                             An array of `UIDragItem` which represents the dragged row
+     */
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal
+
+    /**
+     This method is called by `TableScheme` when a dragged cell is dropped.
+
+     - parameter     tableView:     The `UITableView` under the hovering dragged cell
+     - parameter     coordinator:   The coordinator object that handles the drop
+     */
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator)
 }
 
 extension Scheme {
@@ -120,5 +152,18 @@ extension Scheme {
     public func height(forRelativeIndex relativeIndex: Int) -> RowHeight {
         return .useTable
     }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return []
+    }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        return UITableViewDropProposal(operation: .cancel)
+    }
+
+    @available(iOS 11.0, *)
+    public func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) { }
 
 }

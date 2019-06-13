@@ -24,6 +24,7 @@ open class ArraySchemeBuilder<ElementType: Equatable, CellType: UITableViewCell>
         let scheme = SchemeType(objects: objects, configurationHandler: configurationHandler)
         scheme.selectionHandler = selectionHandler
         scheme.heightHandler = heightHandler
+        scheme.reorderingHandler = reorderingHandler
 
         return scheme
     }
@@ -32,5 +33,6 @@ open class ArraySchemeBuilder<ElementType: Equatable, CellType: UITableViewCell>
     open var heightHandler: SchemeType.HeightHandler?
     open var configurationHandler: SchemeType.ConfigurationHandler?
     open var selectionHandler: SchemeType.SelectionHandler?
+    open var reorderingHandler: SchemeType.ReorderingHandler?
     
 }

@@ -29,11 +29,11 @@ public class TableScheme: NSObject {
     private var buildingBatchAnimations = false
     #endif
     
-    public convenience init(tableView: UITableView, schemeSets: [SchemeSet]) {
-        self.init(tableView: tableView, attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
+    public convenience init(tableView: UITableView, allowReordering: Bool = false, schemeSets: [SchemeSet]) {
+        self.init(tableView: tableView, allowReordering: allowReordering, attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
     }
 
-    public init(tableView: UITableView, attributedSchemeSets: [AttributedSchemeSet]) {
+    public init(tableView: UITableView, allowReordering: Bool = false, attributedSchemeSets: [AttributedSchemeSet]) {
         self.attributedSchemeSets = attributedSchemeSets
         super.init()
 
@@ -51,12 +51,17 @@ public class TableScheme: NSObject {
 
         tableView.dataSource = self
         tableView.delegate = self
+        if #available(iOS 11.0, *), allowReordering {
+            tableView.dragDelegate = self
+            tableView.dropDelegate = self
+            tableView.dragInteractionEnabled = true
+        }
     }
     
-    public convenience init(tableView: UITableView, buildHandler: BuildHandler) {
+    public convenience init(tableView: UITableView, allowReordering: Bool = false, buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder)
-        self.init(tableView: tableView, attributedSchemeSets: builder.schemeSets)
+        self.init(tableView: tableView, allowReordering: allowReordering, attributedSchemeSets: builder.schemeSets)
     }
     
     // MARK: Public Instance Methods
@@ -633,4 +638,39 @@ extension TableScheme: UITableViewDelegate {
         scrollViewDidScrollHandler?(scrollView)
     }
     
+}
+
+@available(iOS 11.0, *)
+extension TableScheme: UITableViewDragDelegate {
+
+    public func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return schemeAtIndexPath(indexPath)!.tableView(tableView, itemsForBeginning: session, at: indexPath)
+    }
+
+}
+
+@available(iOS 11.0, *)
+extension TableScheme: UITableViewDropDelegate {
+
+    public func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        guard let destinationIndexPath = destinationIndexPath, let scheme = schemeAtIndexPath(destinationIndexPath) else { return UITableViewDropProposal(operation: .cancel) }
+        return scheme.tableView(tableView, dropSessionDidUpdate: session, withDestinationIndexPath: destinationIndexPath)
+    }
+
+    public func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+        let destinationIndexPath: IndexPath
+
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            // Get last index path of table view.
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: section)
+            destinationIndexPath = IndexPath(row: row, section: section)
+        }
+
+        schemeAtIndexPath(destinationIndexPath)!.tableView(tableView, performDropWith: coordinator)
+    }
+
 }
