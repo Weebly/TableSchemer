@@ -11,7 +11,7 @@ import UIKit
 
 class MasterViewController: UITableViewController {
     let ReuseIdentifier = "cell"
-    let arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at its finest"]
+    var arrayObjects = ["Item 1", "Item 2", "A really long item to demonstrate height handling at its finest"]
     var tableScheme: TableScheme!
     var accordionSelection = 0
     var radioSelection = 0
@@ -110,9 +110,9 @@ class MasterViewController: UITableViewController {
                         self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
                     }
 
-                    scheme.reorderingHandler = { objects in
+                    scheme.reorderingHandler = { [unowned self] objects in
                         print("Reordered objects in ArrayScheme: \(objects)")
-                        scheme.objects = objects
+                        self.arrayObjects = objects
                     }
                 }
             }
