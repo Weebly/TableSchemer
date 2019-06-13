@@ -51,13 +51,10 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
      */
     open var selectionHandler: SelectionHandler?
 
-    /** Enables the reordering of cells within the table. */
-    open var isReorderable = false
-
     /**
      The closure called when objects have been reordered by a drag-and-drop operation.
 
-     This closure is only used if `isReorderable` is set to `true`.
+     If the value is `nil` the cells will not be reorderable.
      */
     open var reorderingHandler: ReorderingHandler?
     
@@ -96,7 +93,7 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
 
     @available(iOS 11.0, *)
     public func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        guard isReorderable else { return [] }
+        guard reorderingHandler != nil else { return [] }
         let dragItem = UIDragItem(itemProvider: NSItemProvider())
         dragItem.localObject = objects[indexPath.row]
         return [dragItem]
@@ -104,7 +101,7 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
 
     @available(iOS 11.0, *)
     public func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-        guard isReorderable, session.localDragSession != nil else {
+        guard reorderingHandler != nil, session.localDragSession != nil else {
             return UITableViewDropProposal(operation: .cancel)
         }
         return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
@@ -113,7 +110,7 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
     @available(iOS 11.0, *)
     public func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
 
-        guard isReorderable,
+        guard let reorderingHandler = reorderingHandler,
             coordinator.proposal.operation == .move,
             coordinator.items.count == 1,
             let item = coordinator.items.first,
@@ -141,7 +138,7 @@ open class ArrayScheme<ElementType: Equatable, CellType: UITableViewCell>: Schem
             tableView.deleteRows(at: [sourceIndexPath], with: .fade)
 
         }, completion: { _ in
-            self.reorderingHandler?(self.objects)
+            reorderingHandler(self.objects)
         })
     }
 

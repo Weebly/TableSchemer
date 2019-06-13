@@ -29,11 +29,11 @@ public class TableScheme: NSObject {
     private var buildingBatchAnimations = false
     #endif
     
-    public convenience init(tableView: UITableView, schemeSets: [SchemeSet]) {
-        self.init(tableView: tableView, attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
+    public convenience init(tableView: UITableView, allowReordering: Bool = false, schemeSets: [SchemeSet]) {
+        self.init(tableView: tableView, allowReordering: allowReordering, attributedSchemeSets: schemeSets.map { AttributedSchemeSet(schemeSet: $0, hidden: false) })
     }
 
-    public init(tableView: UITableView, attributedSchemeSets: [AttributedSchemeSet]) {
+    public init(tableView: UITableView, allowReordering: Bool = false, attributedSchemeSets: [AttributedSchemeSet]) {
         self.attributedSchemeSets = attributedSchemeSets
         super.init()
 
@@ -51,17 +51,17 @@ public class TableScheme: NSObject {
 
         tableView.dataSource = self
         tableView.delegate = self
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *), allowReordering {
             tableView.dragDelegate = self
             tableView.dropDelegate = self
             tableView.dragInteractionEnabled = true
         }
     }
     
-    public convenience init(tableView: UITableView, buildHandler: BuildHandler) {
+    public convenience init(tableView: UITableView, allowReordering: Bool = false, buildHandler: BuildHandler) {
         let builder = TableSchemeBuilder()
         buildHandler(builder)
-        self.init(tableView: tableView, attributedSchemeSets: builder.schemeSets)
+        self.init(tableView: tableView, allowReordering: allowReordering, attributedSchemeSets: builder.schemeSets)
     }
     
     // MARK: Public Instance Methods

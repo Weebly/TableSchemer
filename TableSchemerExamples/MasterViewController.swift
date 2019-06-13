@@ -27,7 +27,7 @@ class MasterViewController: UITableViewController {
     }
 
     func createTableScheme() {
-        tableScheme = TableScheme(tableView: tableView) { builder in
+        tableScheme = TableScheme(tableView: tableView, allowReordering: true) { builder in
             builder.buildSchemeSet { builder in
                 builder.buildScheme { (scheme: BasicSchemeBuilder) in
 
@@ -108,6 +108,10 @@ class MasterViewController: UITableViewController {
                     scheme.selectionHandler = { cell, scheme, object in
                         print("Selected object in ArrayScheme: \(object)")
                         self.tableView.deselectRow(at: self.tableView.indexPathForSelectedRow!, animated: true)
+                    }
+
+                    scheme.reorderingHandler = { objects in
+                        print("Reordered objects in ArrayScheme: \(objects)")
                     }
                 }
             }
