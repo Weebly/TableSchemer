@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C3E0D5922D3C9CF00D5E88D /* TableSchemer_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C3E0D5722D3C9CF00D5E88D /* TableSchemer_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A0482A8194E582D005EE547 /* SchemeSet_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
 		1A8400011B5DCD5C00F187B6 /* TableSchemer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */; };
@@ -80,6 +81,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C3E0D5522D3C9CF00D5E88D /* TableSchemer_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TableSchemer_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C3E0D5722D3C9CF00D5E88D /* TableSchemer_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableSchemer_macOS.h; sourceTree = "<group>"; };
+		0C3E0D5822D3C9CF00D5E88D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet_Tests.swift; sourceTree = "<group>"; };
 		1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder_Tests.swift; sourceTree = "<group>"; };
 		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
@@ -128,6 +132,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0C3E0D5222D3C9CF00D5E88D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A84FFE61B5DCD5B00F187B6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -153,6 +164,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C3E0D5622D3C9CF00D5E88D /* TableSchemer-macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0C3E0D5722D3C9CF00D5E88D /* TableSchemer_macOS.h */,
+				0C3E0D5822D3C9CF00D5E88D /* Info.plist */,
+			);
+			path = "TableSchemer-macOS";
+			sourceTree = "<group>";
+		};
 		1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +204,7 @@
 				1AB445B3194A66C4001BEDFF /* TableSchemerExamples */,
 				1AB445C8194A66C4001BEDFF /* TableSchemerTests */,
 				1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */,
+				0C3E0D5622D3C9CF00D5E88D /* TableSchemer-macOS */,
 				1AB445B2194A66C4001BEDFF /* Products */,
 				76F70EF991349A0C22E40697 /* Frameworks */,
 			);
@@ -195,6 +216,7 @@
 				1AB445B1194A66C4001BEDFF /* TableSchemerExamples.app */,
 				1AB445C5194A66C4001BEDFF /* TableSchemerTests.xctest */,
 				1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */,
+				0C3E0D5522D3C9CF00D5E88D /* TableSchemer_macOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -336,6 +358,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0C3E0D5022D3C9CF00D5E88D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C3E0D5922D3C9CF00D5E88D /* TableSchemer_macOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A84FFE71B5DCD5B00F187B6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,6 +377,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0C3E0D5422D3C9CF00D5E88D /* TableSchemer-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C3E0D5C22D3C9CF00D5E88D /* Build configuration list for PBXNativeTarget "TableSchemer-macOS" */;
+			buildPhases = (
+				0C3E0D5022D3C9CF00D5E88D /* Headers */,
+				0C3E0D5122D3C9CF00D5E88D /* Sources */,
+				0C3E0D5222D3C9CF00D5E88D /* Frameworks */,
+				0C3E0D5322D3C9CF00D5E88D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TableSchemer-macOS";
+			productName = "TableSchemer-macOS";
+			productReference = 0C3E0D5522D3C9CF00D5E88D /* TableSchemer_macOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		1A84FFE91B5DCD5B00F187B6 /* TableSchemer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A8400031B5DCD5C00F187B6 /* Build configuration list for PBXNativeTarget "TableSchemer" */;
@@ -412,6 +460,11 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Weebly;
 				TargetAttributes = {
+					0C3E0D5422D3C9CF00D5E88D = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = 5M378EFHK7;
+						ProvisioningStyle = Automatic;
+					};
 					1A84FFE91B5DCD5B00F187B6 = {
 						CreatedOnToolsVersion = 6.4;
 						LastSwiftMigration = 1020;
@@ -442,11 +495,19 @@
 				1AB445B0194A66C4001BEDFF /* TableSchemerExamples */,
 				1A84FFE91B5DCD5B00F187B6 /* TableSchemer */,
 				1AB445C4194A66C4001BEDFF /* TableSchemerTests */,
+				0C3E0D5422D3C9CF00D5E88D /* TableSchemer-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0C3E0D5322D3C9CF00D5E88D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A84FFE81B5DCD5B00F187B6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -472,6 +533,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0C3E0D5122D3C9CF00D5E88D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1A84FFE51B5DCD5B00F187B6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -544,6 +612,82 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0C3E0D5A22D3C9CF00D5E88D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5M378EFHK7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "TableSchemer-macOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "Weebly.TableSchemer-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0C3E0D5B22D3C9CF00D5E88D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5M378EFHK7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "TableSchemer-macOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "Weebly.TableSchemer-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		1A8400041B5DCD5C00F187B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -778,6 +922,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0C3E0D5C22D3C9CF00D5E88D /* Build configuration list for PBXNativeTarget "TableSchemer-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C3E0D5A22D3C9CF00D5E88D /* Debug */,
+				0C3E0D5B22D3C9CF00D5E88D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1A8400031B5DCD5C00F187B6 /* Build configuration list for PBXNativeTarget "TableSchemer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
