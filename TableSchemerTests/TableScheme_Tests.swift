@@ -964,13 +964,24 @@ class TableScheme_Tests: XCTestCase {
     // MARK: Handlers
     
     func testScrollViewDidScrollHandler() {
-        let expectation = self.expectation(description: "scroll view handler called")
+        let expectation = self.expectation(description: "scroll view did scroll handler called")
         subject.scrollViewDidScrollHandler = { scrollView in
             XCTAssert(scrollView === self.tableView)
             expectation.fulfill()
         }
         
         subject.scrollViewDidScroll(tableView)
+        waitForExpectations(timeout: 1.0, handler: nil)
+    }
+    
+    func testScrollViewDidEndDeceleratingHandler() {
+        let expectation = self.expectation(description: "scroll view did end decelerating handler called")
+        subject.scrollViewDidEndDeceleratingHandler = { scrollView in
+            XCTAssert(scrollView === self.tableView)
+            expectation.fulfill()
+        }
+        
+        subject.scrollViewDidEndDecelerating(tableView)
         waitForExpectations(timeout: 1.0, handler: nil)
     }
     
