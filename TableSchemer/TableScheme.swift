@@ -25,6 +25,11 @@ public class TableScheme: NSObject {
     */
     public var scrollViewDidScrollHandler: ((_ scrollView: UIScrollView) -> Void)?
     
+    /**
+     A block that gets forwarded from the `scrollViewDidEndDecelerating(_:)` delegate method. Make sure to avoid retain cycles by specifing `[weak self]` if necessary.
+    */
+    public var scrollViewDidEndDeceleratingHandler: ((_ scrollView: UIScrollView) -> Void)?
+    
     #if DEBUG
     private var buildingBatchAnimations = false
     #endif
@@ -636,6 +641,10 @@ extension TableScheme: UITableViewDelegate {
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollViewDidScrollHandler?(scrollView)
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollViewDidEndDeceleratingHandler?(scrollView)
     }
     
 }
