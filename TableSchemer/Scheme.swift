@@ -39,7 +39,7 @@ public func ==(lhs: RowHeight, rhs: RowHeight) -> Bool {
     row will ask the `Scheme` for its reuseIdentifier to dequeue a cell, and then call the
     configurationHandler to allow setup of the cell based on the scheme of the cell.
  */
-public protocol Scheme: class {
+public protocol Scheme: AnyObject {
     /**
      This property determines how many cells should be represented by this `Scheme`.
      This is used to determine the size of the table view.

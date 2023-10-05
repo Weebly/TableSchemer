@@ -6,7 +6,7 @@
 //  Copyright © 2015 Weebly. All rights reserved.
 //
 
-public protocol SchemeBuilder: class {
+public protocol SchemeBuilder: AnyObject {
 
     associatedtype SchemeType: Scheme
 
