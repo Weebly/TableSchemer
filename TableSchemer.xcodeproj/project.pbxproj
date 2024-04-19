@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0319D6692BD2CD5B009E47CE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0319D6682BD2CD5B009E47CE /* PrivacyInfo.xcprivacy */; };
 		1A0482A8194E582D005EE547 /* SchemeSet_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */; };
 		1A509C75196486FE00FFD7BC /* TableScheme_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A509C74196486FE00FFD7BC /* TableScheme_Tests.swift */; };
 		1A8400011B5DCD5C00F187B6 /* TableSchemer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A84FFEA1B5DCD5B00F187B6 /* TableSchemer.framework */; };
@@ -80,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0319D6682BD2CD5B009E47CE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1A0482A7194E582D005EE547 /* SchemeSet_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSet_Tests.swift; sourceTree = "<group>"; };
 		1A0482A9194E5A96005EE547 /* SchemeSetBuilder_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemeSetBuilder_Tests.swift; sourceTree = "<group>"; };
 		1A4743491A1C354C00B5AD13 /* TableSchemeBatchAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSchemeBatchAnimator.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		1A84FFEB1B5DCD5B00F187B6 /* TableSchemer */ = {
 			isa = PBXGroup;
 			children = (
+				0319D6682BD2CD5B009E47CE /* PrivacyInfo.xcprivacy */,
 				1AE06749194BB2C800873E8A /* Cells */,
 				1AF584F0194B7A5C0090529C /* Collections */,
 				1AE3EB271C04C53D00BA9D99 /* Models */,
@@ -452,6 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0319D6692BD2CD5B009E47CE /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
