@@ -14,6 +14,7 @@ TableSchemer is a framework for building static interactive table views. Interfa
   s.platform = :ios, "8.0"
   s.source       = { :git => "https://github.com/Weebly/TableSchemer.git", :tag => "v3.3.0" }
   s.source_files  = "TableSchemer/*.swift"
+  s.resource_bundles = {'TableSchemer_privacy' => ['TableSchemer/PrivacyInfo.xcprivacy']}
   s.requires_arc = true
   s.swift_version = "5.0"
 end
