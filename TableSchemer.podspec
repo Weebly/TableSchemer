@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TableSchemer"
-  s.version      = "3.3.0"
+  s.version      = "4.0.2"
   s.summary      = "Interactive static table views with ease"
 
   s.description  = <<-DESC
@@ -11,8 +11,8 @@ TableSchemer is a framework for building static interactive table views. Interfa
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "James Richard" => "jrichard@squareup.com" }
   s.social_media_url   = "http://twitter.com/ketzusaka"
-  s.platform = :ios, "8.0"
-  s.source       = { :git => "https://github.com/Weebly/TableSchemer.git", :tag => "v3.3.0" }
+  s.platform = :ios, "12.0"
+  s.source       = { :git => "https://github.com/Weebly/TableSchemer.git", :tag => "v4.0.2" }
   s.source_files  = "TableSchemer/*.swift"
   s.resource_bundles = {'TableSchemer_privacy' => ['TableSchemer/PrivacyInfo.xcprivacy']}
   s.requires_arc = true
