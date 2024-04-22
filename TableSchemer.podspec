@@ -9,7 +9,7 @@ TableSchemer is a framework for building static interactive table views. Interfa
 
   s.homepage     = "https://github.com/Weebly/TableSchemer"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "James Richard" => "jrichard@squareup.com" }
+  s.author             = { "Jace Conflenti" => "jace@squareup.com" }
   s.social_media_url   = "http://twitter.com/ketzusaka"
   s.platform = :ios, "12.0"
   s.source       = { :git => "https://github.com/Weebly/TableSchemer.git", :tag => "v4.0.3" }
